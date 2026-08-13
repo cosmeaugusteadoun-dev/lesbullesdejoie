@@ -106,10 +106,11 @@ async function loadBlogPosts(supabase) {
       const badge = CATEGORY_BADGE_CLASSES[post.category] || CATEGORY_BADGE_CLASSES["Pédagogie"];
       const gradient = CARD_GRADIENTS[i % CARD_GRADIENTS.length];
       return `
-      <article class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" data-category="${slug}">
+      <article class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full relative" data-category="${slug}" data-reveal>
+        <a class="absolute inset-0 z-10" href="article.html?id=${post.id}" aria-label="Lire l'article : ${escapeHtml(post.title)}"></a>
         <div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
           <div class="absolute inset-0 bg-gradient-to-tr ${gradient} opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
-          <span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-primary-container opacity-60 flex items-center justify-center text-4xl">${escapeHtml(post.icon || "auto_stories")}</span>
+          <span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-primary-container opacity-60 flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300">${escapeHtml(post.icon || "auto_stories")}</span>
         </div>
         <div class="p-6 flex flex-col flex-grow">
           <div class="flex items-center gap-3 mb-4">
@@ -123,4 +124,9 @@ async function loadBlogPosts(supabase) {
       </article>`;
     })
     .join("");
+
+  grid.querySelectorAll("[data-reveal]").forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 3) * 100}ms`;
+    window.__observeReveal ? window.__observeReveal(el) : el.classList.add("is-revealed");
+  });
 }

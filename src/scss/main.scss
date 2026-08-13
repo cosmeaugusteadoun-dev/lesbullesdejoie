@@ -326,6 +326,21 @@ textarea.form-field {
   }
 }
 
+// ---- Blog grid stagger ------------------------------------------------------
+// Cascading wave as the article cards enter the viewport (column-based
+// delay: col 1 first, col 2 +100ms, col 3 +200ms). Cards injected at runtime
+// by dynamic-content.js set the same delay inline instead (see there).
+#blog-grid [data-reveal] {
+  transition-delay: 0ms;
+
+  &:nth-child(3n + 2) {
+    transition-delay: 100ms;
+  }
+  &:nth-child(3n + 3) {
+    transition-delay: 200ms;
+  }
+}
+
 // ---- Motto cards (Amour / Travail / Discipline / Créativité) --------------
 .motto-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;

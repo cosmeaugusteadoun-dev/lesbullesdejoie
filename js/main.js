@@ -64,13 +64,14 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
-  // Fade/slide elements into view as the user scrolls
+  // Fade/slide elements into view as the user scrolls. Exposes
+  // window.__observeReveal(el) so content injected later (e.g. blog cards
+  // loaded from Supabase by dynamic-content.js) can join the same
+  // scroll-triggered reveal instead of always being instantly visible.
   function initReveal() {
-    const items = document.querySelectorAll("[data-reveal]");
-    if (!items.length) return;
-
     if (!("IntersectionObserver" in window)) {
-      items.forEach((el) => el.classList.add("is-revealed"));
+      document.querySelectorAll("[data-reveal]").forEach((el) => el.classList.add("is-revealed"));
+      window.__observeReveal = (el) => el.classList.add("is-revealed");
       return;
     }
 
@@ -86,7 +87,8 @@
       { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
     );
 
-    items.forEach((el) => observer.observe(el));
+    window.__observeReveal = (el) => observer.observe(el);
+    document.querySelectorAll("[data-reveal]").forEach((el) => observer.observe(el));
   }
 
   // Simple lightbox for the gallery pages

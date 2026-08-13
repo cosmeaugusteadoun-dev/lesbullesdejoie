@@ -256,6 +256,7 @@ async function loadBlogPosts() {
       document.getElementById("blog-id").value = p.id;
       document.getElementById("blog-title").value = p.title;
       document.getElementById("blog-excerpt").value = p.excerpt;
+      document.getElementById("blog-content").value = p.content || "";
       document.getElementById("blog-category").value = p.category;
       document.getElementById("blog-date").value = p.published_date;
       document.getElementById("blog-icon").value = p.icon || "";
@@ -284,6 +285,7 @@ blogForm.addEventListener("submit", async (e) => {
   const payload = {
     title: document.getElementById("blog-title").value.trim(),
     excerpt: document.getElementById("blog-excerpt").value.trim(),
+    content: document.getElementById("blog-content").value.trim() || null,
     category: document.getElementById("blog-category").value,
     published_date: document.getElementById("blog-date").value || new Date().toISOString().slice(0, 10),
     icon: document.getElementById("blog-icon").value.trim() || "auto_stories",

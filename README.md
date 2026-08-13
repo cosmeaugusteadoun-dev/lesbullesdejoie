@@ -12,6 +12,7 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 ├── contact.html               Formulaire de contact, adresse, téléphone, horaires
 ├── galerie.html                Galerie photo filtrable + lightbox
 ├── blog.html                   Actualités filtrables par catégorie
+├── article.html                 Page d'un article complet ("Lire la suite")
 ├── inscription.html            Pré-inscription avec détail des frais par classe
 ├── merci.html                   Page de remerciement après envoi d'un formulaire
 ├── 404.html                      Page d'erreur personnalisée
@@ -27,11 +28,13 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 ├── js/
 │   ├── main.js                    Menu mobile, scroll reveal, lightbox, formulaires, tarifs d'inscription
 │   ├── inscription.js              Envoi du formulaire de pré-inscription (Netlify + Supabase + contact enseignant)
+│   ├── article.js                  Charge et affiche un article complet (Supabase ou contenu statique)
 │   ├── dynamic-content.js          Charge témoignages/blog depuis Supabase (avec repli statique)
 │   └── supabase-config.js          Identifiants du projet Supabase (à compléter)
 ├── supabase/
 │   ├── schema.sql                  Script complet (installation depuis zéro)
-│   └── migration_02_inscriptions_teachers.sql   À exécuter si testimonials/blog_posts existent déjà
+│   ├── migration_02_inscriptions_teachers.sql   À exécuter si testimonials/blog_posts existent déjà
+│   └── migration_03_blog_content.sql            Ajoute le texte complet des articles (colonne "content")
 ├── tailwind.config.js
 ├── netlify.toml
 └── package.json
@@ -72,14 +75,14 @@ Pour recevoir un **email à chaque nouvelle pré-inscription** (en plus du dossi
 
 Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 - suivre et mettre à jour l'état des **dossiers de pré-inscription** (Nouveau → Contacté → Visite planifiée → Accepté/Refusé) ;
-- gérer les **témoignages** et les **articles de blog** affichés sur le site ;
+- gérer les **témoignages** et les **articles de blog** (extrait affiché sur la carte + texte complet affiché sur `article.html`) ;
 - renseigner le **contact de l'enseignant de chaque classe** — automatiquement montré au parent juste après l'envoi de sa pré-inscription.
 
 ### Mise en place (une seule fois, ~10 minutes)
 
 1. **Créer le projet** : sur [supabase.com](https://supabase.com), créez un compte puis un nouveau projet (gratuit).
 2. **Créer les tables** : dans le dashboard Supabase → *SQL Editor* → *New query*, collez tout le contenu de [`supabase/schema.sql`](supabase/schema.sql) et exécutez-le. Cela crée les 4 tables (`testimonials`, `blog_posts`, `teachers`, `inscriptions`), active la sécurité (RLS) et insère les contenus déjà présents sur le site en données de départ.
-   - *Si vous avez déjà exécuté une version précédente de ce script* (tables `testimonials`/`blog_posts` existantes) : exécutez seulement [`supabase/migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql) à la place, pour ajouter les tables `teachers` et `inscriptions` sans dupliquer vos données déjà en place.
+   - *Si vous avez déjà exécuté une version précédente de ce script* (tables `testimonials`/`blog_posts` existantes) : exécutez plutôt, dans l'ordre, [`supabase/migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql) puis [`supabase/migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql) — sans dupliquer vos données déjà en place. La migration 03 ajoute la colonne `content` (texte complet de l'article) et remplit automatiquement celle des 6 articles d'exemple si vous ne l'avez pas encore modifiée.
 3. **Créer votre compte admin** : *Authentication → Users → Add user*, renseignez l'email et le mot de passe qui serviront à vous connecter sur `/admin/login.html`. C'est la seule "porte" : sans compte créé ici, personne ne peut modifier le contenu, même en connaissant les clés du site.
 4. **Récupérer les identifiants** : *Project Settings → API*, copiez **Project URL** et la clé **anon / public**.
 5. **Configurer le site** : ouvrez [`js/supabase-config.js`](js/supabase-config.js) et remplacez les deux valeurs par celles de votre projet.
