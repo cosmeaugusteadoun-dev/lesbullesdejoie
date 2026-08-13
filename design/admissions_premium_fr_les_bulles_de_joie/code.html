@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admissions &amp; Contact - Les Bulles de Joie</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#c9a74d",
+                      "on-error": "#ffffff",
+                      "surface-container-low": "#f8f2fa",
+                      "outline-variant": "#cbc4d2",
+                      "on-surface": "#1d1b20",
+                      "surface-variant": "#e6e0e9",
+                      "error": "#ba1a1a",
+                      "primary": "#4f378a",
+                      "on-surface-variant": "#494551",
+                      "tertiary-fixed-dim": "#e7c365",
+                      "on-secondary": "#ffffff",
+                      "outline": "#7a7582",
+                      "on-primary-container": "#e0d2ff",
+                      "surface-tint": "#6750a4",
+                      "tertiary-fixed": "#ffdf93",
+                      "on-secondary-container": "#645a7d",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-container": "#503d00",
+                      "on-tertiary-fixed": "#241a00",
+                      "primary-fixed": "#e9ddff",
+                      "on-secondary-fixed-variant": "#4b4263",
+                      "inverse-surface": "#322f35",
+                      "surface-dim": "#ded8e0",
+                      "on-primary": "#ffffff",
+                      "primary-container": "#6750a4",
+                      "surface-container-high": "#ece6ee",
+                      "surface": "#fdf7ff",
+                      "on-tertiary-fixed-variant": "#594400",
+                      "secondary-container": "#e1d4fd",
+                      "background": "#fdf7ff",
+                      "tertiary": "#765b00",
+                      "inverse-on-surface": "#f5eff7",
+                      "secondary-fixed": "#e9ddff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-fixed-variant": "#4f378a",
+                      "on-background": "#1d1b20",
+                      "surface-bright": "#fdf7ff",
+                      "on-secondary-fixed": "#1f1635",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#cdc0e9",
+                      "secondary": "#63597c",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed": "#22005d",
+                      "primary-fixed-dim": "#cfbcff",
+                      "surface-container": "#f2ecf4",
+                      "surface-container-highest": "#e6e0e9",
+                      "inverse-primary": "#cfbcff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "section-gap": "120px",
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-desktop": "64px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Quicksand"],
+                      "label-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-sm": ["Quicksand"],
+                      "headline-lg": ["Quicksand"],
+                      "headline-xl": ["Quicksand"],
+                      "headline-md": ["Quicksand"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-sm": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .bubble-shadow {
+            box-shadow: 0 8px 32px rgba(103, 80, 164, 0.08);
+        }
+        .decorative-bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col relative overflow-x-hidden">
+<!-- Decorative Background Bubbles -->
+<div class="decorative-bubble bg-primary w-96 h-96 -top-20 -left-20 blur-3xl"></div>
+<div class="decorative-bubble bg-secondary w-64 h-64 top-1/3 -right-10 blur-2xl"></div>
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-sm fixed top-0 w-full z-50 transition-all duration-300">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+                Les Bulles de Joie
+            </div>
+<!-- Desktop Nav -->
+<div class="hidden md:flex gap-gutter items-center">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:opacity-80 transition-opacity font-body-md text-body-md" href="#">Accueil</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:opacity-80 transition-opacity font-body-md text-body-md" href="#">Pédagogie</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:opacity-80 transition-opacity font-body-md text-body-md" href="#">Vie Scolaire</a>
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 font-body-md text-body-md cursor-pointer transition-all duration-300 hover:opacity-80 transition-opacity" href="#">Admissions</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:opacity-80 transition-opacity font-body-md text-body-md" href="#">Blog</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors hover:opacity-80 transition-opacity font-body-md text-body-md" href="#">Galerie</a>
+</div>
+<!-- Primary Action -->
+<div class="hidden md:block">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full hover:bg-primary/90 transition-colors shadow-sm active:scale-95 transition-transform hover:opacity-80 transition-opacity">
+                    Inscriptions
+                </button>
+</div>
+<!-- Mobile Menu Toggle -->
+<div class="md:hidden">
+<button class="text-primary p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[100px]">
+<!-- Section 1: Rejoindre notre école (Steps) -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-gap">
+<div class="text-center mb-16">
+<h1 class="font-headline-xl text-headline-xl text-primary mb-4">Rejoindre notre école</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Un processus d'admission simple et bienveillant, conçu pour découvrir votre enfant et comprendre vos attentes éducatives.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter relative">
+<!-- Connecting Line (Desktop only) -->
+<div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-surface-variant -z-10 -translate-y-1/2"></div>
+<!-- Step 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-8 bubble-shadow flex flex-col items-center text-center relative z-10 transition-transform hover:-translate-y-2 duration-300">
+<div class="w-16 h-16 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-6 shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">visibility</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">1. Visite</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Découvrez notre environnement lumineux, nos espaces ludiques et rencontrez notre équipe pédagogique lors d'une visite personnalisée.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-8 bubble-shadow flex flex-col items-center text-center relative z-10 transition-transform hover:-translate-y-2 duration-300">
+<div class="w-16 h-16 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-6 shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">forum</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">2. Entretien</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Un moment d'échange privilégié pour comprendre la personnalité de votre enfant et aligner notre approche avec vos valeurs.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-8 bubble-shadow flex flex-col items-center text-center relative z-10 transition-transform hover:-translate-y-2 duration-300">
+<div class="w-16 h-16 bg-tertiary-container text-on-tertiary-container rounded-full flex items-center justify-center mb-6 shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">edit_document</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-3">3. Inscription</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Finalisation du dossier administratif pour confirmer la place de votre enfant au sein de notre établissement chaleureux.</p>
+</div>
+</div>
+</section>
+<!-- Section 2 & 3: Contact Form & Details (Bento Grid) -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-section-gap">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-surface-container-low rounded-3xl p-8 md:p-12 bubble-shadow">
+<!-- Form Area -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Contactez-nous</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Nous sommes à votre écoute pour toute question concernant les admissions ou la vie de l'école.</p>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="firstName">Prénom</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-full px-6 py-4 focus:ring-2 focus:ring-primary shadow-sm font-body-md text-body-md text-on-surface" id="firstName" placeholder="Votre prénom" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="lastName">Nom</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-full px-6 py-4 focus:ring-2 focus:ring-primary shadow-sm font-body-md text-body-md text-on-surface" id="lastName" placeholder="Votre nom" type="text"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="email">Email</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-full px-6 py-4 focus:ring-2 focus:ring-primary shadow-sm font-body-md text-body-md text-on-surface" id="email" placeholder="adresse@email.com" type="email"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="message">Message</label>
+<textarea class="w-full bg-surface-container-lowest border-none rounded-3xl px-6 py-4 focus:ring-2 focus:ring-primary shadow-sm font-body-md text-body-md text-on-surface resize-none" id="message" placeholder="Comment pouvons-nous vous aider ?" rows="4"></textarea>
+</div>
+<button class="w-full md:w-auto bg-primary text-on-primary font-label-md text-label-md px-8 py-4 rounded-full hover:bg-primary/90 transition-colors shadow-md flex items-center justify-center gap-2 active:scale-95 transition-transform" type="submit">
+<span>Envoyer le message</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</form>
+</div>
+<!-- Contact Details & Map Area -->
+<div class="flex flex-col gap-8">
+<!-- Details Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm flex items-start gap-4">
+<div class="text-primary">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-1">Adresse</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">123 Rue de l'Éducation<br/>75000 Paris, France</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm flex items-start gap-4">
+<div class="text-secondary">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">call</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-1">Téléphone</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">+33 1 23 45 67 89</p>
+</div>
+</div>
+</div>
+<!-- Map Placeholder -->
+<div class="flex-grow rounded-3xl overflow-hidden shadow-sm relative min-h-[300px]">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="A clean, minimalist high-resolution map view showing a central Parisian location. The map style is modern, using very soft pastel tones, light grays for streets, and a subtle pink or purple tint for parks to match the Les Bulles de Joie brand identity. The map is viewed from a top-down perspective, well-lit, and conveys a safe, easily accessible premium location." data-location="Paris" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYWQN9qjdWuP8zj0CCkAPFnwmGxZotZ6AVhPhVsCv9uGfaF3BU-oM2vs-YJK7ZM4_3Q6R7vcQV1HxMh86iUH1U7U0Di8v2z17gACR2dP5O5peKrBtBD3xqG8I0ooOpqoO9YiCk6V5J9_PlV3Q7ErREY4i5QK8xbhxYDgJCov3NKiNDby9YWVTQvWBE8ZQSkLZKkEYF_keaUm4VgRd80Ntnz7w4HmUvPlKV1nug3iWO70KVB4lrxx-T"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface w-full rounded-t-lg border-t border-outline-variant mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<!-- Brand -->
+<div class="col-span-1 flex flex-col gap-4">
+<div class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">
+                    Les Bulles de Joie
+                </div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant">
+                    © 2024 Les Bulles de Joie. Excellence Éducative &amp; Épanouissement.
+                </p>
+</div>
+<!-- Links -->
+<div class="col-span-1 md:col-span-2 flex flex-col md:flex-row gap-6 justify-end items-center">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 font-body-md text-body-md cursor-pointer" href="#">Contact</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 font-body-md text-body-md cursor-pointer" href="#">Mentions Légales</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 font-body-md text-body-md cursor-pointer" href="#">Plan du site</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 font-body-md text-body-md cursor-pointer" href="#">Réseaux Sociaux</a>
+</div>
+</div>
+</footer>
+</body></html>

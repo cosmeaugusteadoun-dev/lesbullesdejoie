@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Tableau de bord — Espace Admin — Les Bulles de Joie</title>
+<link rel="icon" type="image/png" href="../assets/images/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../css/custom.css" />
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen antialiased">
+
+<!-- ===== Top bar ===== -->
+<header class="bg-surface-container-low border-b border-outline-variant/40 relative">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-4 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3 min-w-0">
+<img alt="Logo Les Bulles de Joie" class="h-9 w-auto shrink-0" src="../assets/images/logo.png" />
+<div class="min-w-0">
+<p class="font-headline-sm text-headline-sm text-primary leading-none">Espace Admin</p>
+<p class="font-body-md text-[13px] text-on-surface-variant truncate" id="user-email">…</p>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-3">
+<a class="font-body-md text-[14px] text-on-surface-variant hover:text-primary transition-colors" href="../index.html" target="_blank" rel="noopener">Voir le site ↗</a>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-primary text-primary font-label-md text-label-md rounded-full hover:bg-primary hover:text-on-primary transition-colors duration-300" id="logout-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+Déconnexion
+</button>
+</div>
+<button aria-controls="admin-mobile-menu" aria-expanded="false" class="md:hidden text-primary p-2 shrink-0" data-admin-nav-toggle type="button">
+<span class="material-symbols-outlined icon-menu">menu</span>
+<span class="material-symbols-outlined icon-close hidden">close</span>
+</button>
+</div>
+<div class="md:hidden mobile-nav" data-admin-nav-panel id="admin-mobile-menu">
+<div class="flex flex-col gap-1 px-margin-mobile pb-6 pt-2 max-w-container-max mx-auto">
+<a class="py-3 font-label-md text-label-md text-on-surface-variant" href="../index.html" target="_blank" rel="noopener">Voir le site ↗</a>
+<button class="mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-primary text-primary font-label-md text-label-md rounded-full" id="logout-btn-mobile" type="button">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+Déconnexion
+</button>
+</div>
+</div>
+</header>
+
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-10">
+
+<!-- ===== Tabs ===== -->
+<div class="flex flex-wrap gap-3 mb-10">
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-colors duration-200" data-tab="inscriptions" type="button">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1">folder_shared</span>Dossiers
+</button>
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="testimonials" type="button">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1">format_quote</span>Témoignages
+</button>
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="blog" type="button">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1">edit_note</span>Blog
+</button>
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="teachers" type="button">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1">person</span>Enseignants
+</button>
+</div>
+
+<!-- ===== Dossiers d'inscription ===== -->
+<section class="admin-tab-panel" data-tab-panel="inscriptions">
+<div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+<h2 class="font-headline-md text-headline-md text-on-surface">Dossiers d'inscription</h2>
+<div class="flex flex-wrap gap-2" id="inscriptions-status-filter">
+<button class="px-4 py-2 rounded-full font-label-md text-[13px] bg-primary text-on-primary" data-status-filter="all" type="button">Tous</button>
+<button class="px-4 py-2 rounded-full font-label-md text-[13px] bg-surface text-on-surface-variant hover:bg-surface-container-high" data-status-filter="nouveau" type="button">Nouveau</button>
+<button class="px-4 py-2 rounded-full font-label-md text-[13px] bg-surface text-on-surface-variant hover:bg-surface-container-high" data-status-filter="contacte" type="button">Contacté</button>
+<button class="px-4 py-2 rounded-full font-label-md text-[13px] bg-surface text-on-surface-variant hover:bg-surface-container-high" data-status-filter="visite_planifiee" type="button">Visite planifiée</button>
+<button class="px-4 py-2 rounded-full font-label-md text-[13px] bg-surface text-on-surface-variant hover:bg-surface-container-high" data-status-filter="accepte" type="button">Accepté</button>
+<button class="px-4 py-2 rounded-full font-label-md text-[13px] bg-surface text-on-surface-variant hover:bg-surface-container-high" data-status-filter="refuse" type="button">Refusé</button>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-4" id="inscriptions-list" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
+</div>
+</section>
+
+<!-- ===== Enseignants ===== -->
+<section class="admin-tab-panel hidden" data-tab-panel="teachers">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Contacts des enseignants</h2>
+<button class="btn-lift inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-ambient" data-add-teacher type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>Ajouter
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Ce contact est montré au parent juste après sa pré-inscription, pour la classe correspondante.</p>
+
+<form class="hidden bg-surface-container-low rounded-2xl p-6 md:p-8 bubble-shadow mb-8 space-y-5" id="teacher-form" data-entity-form="teachers">
+<input type="hidden" id="teacher-id" />
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Classe</label>
+<select class="form-field font-body-md text-body-md text-on-surface" id="teacher-class"></select>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Nom de l'enseignant(e)</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="teacher-name" placeholder="Mme Kokou" required type="text" />
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Téléphone</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="teacher-phone" placeholder="01 97 91 94 52" type="tel" />
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Email (facultatif)</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="teacher-email" placeholder="enseignant@lesbullesdejoie.fr" type="email" />
+</div>
+<div class="flex items-center gap-3">
+<button class="btn-lift bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full shadow-md" type="submit">Enregistrer</button>
+<button class="font-label-md text-label-md text-on-surface-variant px-6 py-3" data-cancel-form type="button">Annuler</button>
+</div>
+</form>
+
+<div class="grid grid-cols-1 gap-4" id="teachers-list" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
+</div>
+</section>
+
+<!-- ===== Témoignages ===== -->
+<section class="admin-tab-panel hidden" data-tab-panel="testimonials">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Témoignages</h2>
+<button class="btn-lift inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-ambient" data-add-testimonial type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>Ajouter
+</button>
+</div>
+
+<form class="hidden bg-surface-container-low rounded-2xl p-6 md:p-8 bubble-shadow mb-8 space-y-5" id="testimonial-form" data-entity-form="testimonials">
+<input type="hidden" id="testimonial-id" />
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Nom</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="testimonial-name" placeholder="Sophie M." required type="text" />
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Rôle / lien avec l'enfant</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="testimonial-role" placeholder="Maman de Chloé, Primaire" required type="text" />
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Témoignage</label>
+<textarea class="form-field font-body-md text-body-md text-on-surface" id="testimonial-quote" placeholder="Une école extraordinaire où..." required rows="3"></textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Couleur de l'avatar</label>
+<select class="form-field font-body-md text-body-md text-on-surface" id="testimonial-color">
+<option value="primary">Violet (primary)</option>
+<option value="secondary">Bleu-violet (secondary)</option>
+<option value="tertiary">Doré (tertiary)</option>
+</select>
+</div>
+<label class="flex items-center gap-3 mt-8 md:mt-9 cursor-pointer">
+<input checked class="w-5 h-5 accent-primary rounded" id="testimonial-published" type="checkbox" />
+<span class="font-body-md text-body-md text-on-surface">Publié (visible sur le site)</span>
+</label>
+</div>
+<div class="flex items-center gap-3">
+<button class="btn-lift bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full shadow-md" type="submit">Enregistrer</button>
+<button class="font-label-md text-label-md text-on-surface-variant px-6 py-3" data-cancel-form type="button">Annuler</button>
+</div>
+</form>
+
+<div class="grid grid-cols-1 gap-4" id="testimonials-list" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
+</div>
+</section>
+
+<!-- ===== Blog ===== -->
+<section class="admin-tab-panel hidden" data-tab-panel="blog">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Articles de blog</h2>
+<button class="btn-lift inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-ambient" data-add-blog type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>Ajouter
+</button>
+</div>
+
+<form class="hidden bg-surface-container-low rounded-2xl p-6 md:p-8 bubble-shadow mb-8 space-y-5" id="blog-form" data-entity-form="blog_posts">
+<input type="hidden" id="blog-id" />
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Titre</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="blog-title" placeholder="La méthode Montessori à la maison" required type="text" />
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Extrait</label>
+<textarea class="form-field font-body-md text-body-md text-on-surface" id="blog-excerpt" placeholder="Un court résumé de l'article…" required rows="3"></textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Catégorie</label>
+<select class="form-field font-body-md text-body-md text-on-surface" id="blog-category">
+<option value="Pédagogie">Pédagogie</option>
+<option value="Vie Scolaire">Vie Scolaire</option>
+<option value="Nutrition">Nutrition</option>
+<option value="Événements">Événements</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Date</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="blog-date" type="date" />
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Icône (Material Symbols)</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="blog-icon" placeholder="local_florist" type="text" />
+</div>
+</div>
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked class="w-5 h-5 accent-primary rounded" id="blog-published" type="checkbox" />
+<span class="font-body-md text-body-md text-on-surface">Publié (visible sur le site)</span>
+</label>
+<div class="flex items-center gap-3">
+<button class="btn-lift bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full shadow-md" type="submit">Enregistrer</button>
+<button class="font-label-md text-label-md text-on-surface-variant px-6 py-3" data-cancel-form type="button">Annuler</button>
+</div>
+</form>
+
+<div class="grid grid-cols-1 gap-4" id="blog-list" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
+</div>
+</section>
+</main>
+
+<script type="module" src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(command -v chromium-cli)",
+      "Bash(npm ls *)",
+      "Bash(command -v playwright)",
+      "Bash(python -c \"import playwright\")"
+    ]
+  }
+}

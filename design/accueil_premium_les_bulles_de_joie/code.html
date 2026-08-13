@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Les Bulles de Joie - L'épanouissement au cœur de l'apprentissage</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#c9a74d",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f8f2fa",
+                        "outline-variant": "#cbc4d2",
+                        "on-surface": "#1d1b20",
+                        "surface-variant": "#e6e0e9",
+                        "error": "#ba1a1a",
+                        "primary": "#4f378a",
+                        "on-surface-variant": "#494551",
+                        "tertiary-fixed-dim": "#e7c365",
+                        "on-secondary": "#ffffff",
+                        "outline": "#7a7582",
+                        "on-primary-container": "#e0d2ff",
+                        "surface-tint": "#6750a4",
+                        "tertiary-fixed": "#ffdf93",
+                        "on-secondary-container": "#645a7d",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#503d00",
+                        "on-tertiary-fixed": "#241a00",
+                        "primary-fixed": "#e9ddff",
+                        "on-secondary-fixed-variant": "#4b4263",
+                        "inverse-surface": "#322f35",
+                        "surface-dim": "#ded8e0",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#6750a4",
+                        "surface-container-high": "#ece6ee",
+                        "surface": "#fdf7ff",
+                        "on-tertiary-fixed-variant": "#594400",
+                        "secondary-container": "#e1d4fd",
+                        "background": "#fdf7ff",
+                        "tertiary": "#765b00",
+                        "inverse-on-surface": "#f5eff7",
+                        "secondary-fixed": "#e9ddff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#4f378a",
+                        "on-background": "#1d1b20",
+                        "surface-bright": "#fdf7ff",
+                        "on-secondary-fixed": "#1f1635",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#cdc0e9",
+                        "secondary": "#63597c",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#22005d",
+                        "primary-fixed-dim": "#cfbcff",
+                        "surface-container": "#f2ecf4",
+                        "surface-container-highest": "#e6e0e9",
+                        "inverse-primary": "#cfbcff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "section-gap": "120px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-desktop": "64px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Quicksand"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Quicksand"],
+                        "headline-lg": ["Quicksand"],
+                        "headline-xl": ["Quicksand"],
+                        "headline-md": ["Quicksand"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["30px", { "lineHeight": "38px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-sm": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["36px", { "lineHeight": "44px", "fontWeight": "700" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    },
+                    boxShadow: {
+                        'ambient': '0 10px 40px -10px rgba(79, 55, 138, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes carousel {
+            0%, 25% { opacity: 1; visibility: visible; }
+            33%, 92% { opacity: 0; visibility: hidden; }
+            100% { opacity: 1; visibility: visible; }
+        }
+        .carousel-img-1 { animation: carousel 15s infinite; }
+        .carousel-img-2 { animation: carousel 15s infinite -5s; opacity: 0; }
+        .carousel-img-3 { animation: carousel 15s infinite -10s; opacity: 0; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Les Bulles de Joie</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 font-label-md text-label-md cursor-pointer transition-all duration-300" href="#">Accueil</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:opacity-80 transition-colors font-label-md text-label-md cursor-pointer transition-all duration-300" href="#">Pédagogie</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:opacity-80 transition-colors font-label-md text-label-md cursor-pointer transition-all duration-300" href="#">Vie Scolaire</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:opacity-80 transition-colors font-label-md text-label-md cursor-pointer transition-all duration-300" href="#">Admissions</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:opacity-80 transition-colors font-label-md text-label-md cursor-pointer transition-all duration-300" href="#">Blog</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:opacity-80 transition-colors font-label-md text-label-md cursor-pointer transition-all duration-300" href="#">Galerie</a>
+</div>
+<div class="hidden md:block">
+<a class="inline-flex items-center justify-center px-6 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full hover:bg-primary-container hover:text-on-primary-container transition-colors duration-300 shadow-ambient" href="#">
+                    Inscriptions
+                </a>
+</div>
+<button class="md:hidden text-primary p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative pt-32 pb-24 md:pt-48 md:pb-32 px-margin-mobile md:px-margin-desktop min-h-[90vh] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0 bg-surface">
+<img alt="Professional photography of happy children playing in a sunny school playground, modern architecture, premium feel, Les Bulles de Joie school." class="absolute inset-0 w-full h-full object-cover carousel-img-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrQ-2Rmbq4vBqMDFB4Gzcajvlh4fJ1cfl8Gip4XCu-BzRsdzuL3b12r_8aSb4-EjKi4BPiC_HZonG5qVER1MICfFuIfFWHjPgZP5HATQbyIevyWKrbTtZwHtZJRYtLTj-vJLBB-3QymSuWOog5sHwX2BWEGM9QzV0v9Fh9woyVFf59TRcl9KaunkpTgzisR0akRv_i-bwtpSa29jiUVoXrVDlioOE1qjbNT6VyXKV3y1xW4xbrbknX"/>
+<img alt="A joyful group of toddlers in a luxury nursery, soft colors, educational toys, warm atmosphere." class="absolute inset-0 w-full h-full object-cover carousel-img-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaBmgDIMP4ElEjxGxm6ghsZtWXqe4fyTpvldIamf8EsWwQnPyLaMzJ6J7gaREQTno3PwfcVqWe_Q7EdU_9DpHLJytX3g9z2zAQ7Ar4RpCWq-siWqLvFuh_4pDJQxkVdwBkD-T71a7RSHVlMzBG2t9PqT8NPp77IlU23ch6p9UCexCY4agUzdbwI06lWPSzuxzqyXYwKsaJVW4Gg4VS7G1ayuVI7vS7nrPhNDwaagY8jSxvicUVr2jh"/>
+<img alt="High-end interior of a Montessori primary classroom, natural light, creative learning environment, premium education." class="absolute inset-0 w-full h-full object-cover carousel-img-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFBrqs5Rq7_Hot7TBhj_5yTZTrXJ43nhvu45KBXkafmEDdTcUT2xlox2N30iDo4XqjG-BvCGsoNTVKFGPGCAwWokipI_cyZuiNj0iz3DYSHY9JZ10AxwM_zj_eLdISBcmkwcjnAK9aYHBqWXZAQfLX6tAbV9sE9gbzviKuBULRjF6M2oHxPiY-PhQxGRiXXc82t9zgZWNBHG1b-O7C9E7IUxtAjDNNVXS81whhkR3PBlo-vf-LYz6v"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-bright/95 via-surface-bright/80 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-container-max mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-8 lg:col-span-6 flex flex-col items-start gap-6">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-secondary-container/80 text-on-secondary-container rounded-full backdrop-blur-sm font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined icon-filled text-[18px]">stars</span>
+                    Excellence Éducative
+                </div>
+<h1 class="font-headline-xl text-headline-xl md:text-[56px] md:leading-[64px] text-on-surface font-bold drop-shadow-sm">
+                    L'épanouissement au cœur de l'apprentissage
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Un environnement stimulant et bienveillant où chaque enfant développe son potentiel créatif et académique, de la crèche au primaire.
+                </p>
+<div class="mt-4">
+<a class="inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary font-label-md text-label-md rounded-full hover:bg-primary/90 transition-all duration-300 shadow-ambient hover:-translate-y-1" href="#">
+                        Découvrir l'école
+                        <span class="material-symbols-outlined ml-2">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Decorative Bubbles -->
+<div class="absolute bottom-10 right-10 w-32 h-32 bg-secondary-container rounded-full opacity-40 mix-blend-multiply filter blur-xl animate-pulse"></div>
+<div class="absolute top-40 right-1/4 w-24 h-24 bg-primary-container rounded-full opacity-30 mix-blend-multiply filter blur-lg"></div>
+</header>
+<!-- Nos Cycles Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Nos Cycles d'Apprentissage</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Un parcours continu adapté au rythme et au développement de chaque enfant.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Crèche -->
+<div class="bg-surface rounded-xl p-8 shadow-ambient hover:shadow-lg transition-shadow duration-300 flex flex-col h-full border border-surface-variant/50 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-secondary-container rounded-bl-full opacity-20 group-hover:scale-110 transition-transform duration-500"></div>
+<div class="w-16 h-16 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined icon-filled text-3xl">child_care</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-3">Crèche</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow mb-6">
+                        Un cocon sécurisant pour l'éveil des tout-petits. Nos professionnels de la petite enfance accompagnent les premiers pas de votre enfant avec douceur et bienveillance.
+                    </p>
+<a class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all" href="#">
+                        En savoir plus <span class="material-symbols-outlined text-[20px]">arrow_right_alt</span>
+</a>
+</div>
+<!-- Maternelle -->
+<div class="bg-surface rounded-xl p-8 shadow-ambient hover:shadow-lg transition-shadow duration-300 flex flex-col h-full border border-surface-variant/50 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container rounded-bl-full opacity-20 group-hover:scale-110 transition-transform duration-500"></div>
+<div class="w-16 h-16 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined icon-filled text-3xl">palette</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-3">Maternelle</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow mb-6">
+                        L'apprentissage par le jeu et la découverte. Nous cultivons la curiosité naturelle et l'autonomie dans des espaces pensés pour l'exploration créative.
+                    </p>
+<a class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all" href="#">
+                        En savoir plus <span class="material-symbols-outlined text-[20px]">arrow_right_alt</span>
+</a>
+</div>
+<!-- Primaire -->
+<div class="bg-surface rounded-xl p-8 shadow-ambient hover:shadow-lg transition-shadow duration-300 flex flex-col h-full border border-surface-variant/50 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-tertiary-container rounded-bl-full opacity-20 group-hover:scale-110 transition-transform duration-500"></div>
+<div class="w-16 h-16 bg-tertiary-container text-on-tertiary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined icon-filled text-3xl">menu_book</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-3">Primaire</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow mb-6">
+                        Acquérir les fondamentaux avec méthode et joie. Un enseignement structuré qui valorise l'effort, la collaboration et le plaisir d'apprendre.
+                    </p>
+<a class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all" href="#">
+                        En savoir plus <span class="material-symbols-outlined text-[20px]">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- About Us Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-low overflow-hidden">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="order-2 lg:order-1 relative">
+<div class="aspect-square md:aspect-[4/3] rounded-xl overflow-hidden shadow-ambient relative z-10">
+<img class="w-full h-full object-cover" data-alt="A teacher engaging warmly with a small group of primary school children in a modern library or learning space. The environment features light wood bookshelves, comfortable seating, and bright natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTUKkrVgtGDK23-dHTnfEtAWknS505P-HjaF5jQDfyrPsgWVPX07BJLQrO67LE4HMh5plNGhqu2Kqgs3gZBbWj-m6gQWVNwOwju3cCkK4BdeBsvloGNGgtlBbsElZgFUPtxdWxHRVQ2kth3qBZQ_n95DbcsCELu6safnPoeWdZeykj7gk82ZfYVDf_xtk8usfLxTtjQ031pVLxhNz-Z_F8EThLQPsJwTw7JaIQWDzARkOxL2dMeZrH"/>
+</div>
+<!-- Decorative Elements -->
+<div class="absolute -bottom-8 -left-8 w-48 h-48 bg-primary rounded-full opacity-10 z-0"></div>
+<div class="absolute -top-8 -right-8 w-32 h-32 border-2 border-secondary border-dashed rounded-full z-0 animate-spin" style="animation-duration: 20s;"></div>
+</div>
+<div class="order-1 lg:order-2 flex flex-col gap-6">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Une approche éducative premium et bienveillante</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                        Aux Bulles de Joie, nous croyons que l'excellence académique s'épanouit dans un climat de confiance et de joie. Notre pédagogie innovante allie rigueur des apprentissages et développement de la créativité.
+                    </p>
+<ul class="flex flex-col gap-4 mt-2">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Équipe pédagogique qualifiée</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Des professionnels passionnés et formés aux meilleures pratiques.</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1">check_circle</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Infrastructures modernes</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Des espaces lumineux, sécurisés et pensés pour chaque âge.</p>
+</div>
+</li>
+</ul>
+<div class="mt-4">
+<a class="inline-flex items-center justify-center px-6 py-3 border-2 border-primary text-primary font-label-md text-label-md rounded-full hover:bg-primary hover:text-on-primary transition-colors duration-300" href="#">
+                            Notre Projet Éducatif
+                        </a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Blog Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Dernières Actualités</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Découvrez la vie de notre école et nos conseils éducatifs</p>
+</div>
+<a class="inline-flex items-center text-primary font-label-md text-label-md hover:underline" href="#">Voir tous les articles <span class="material-symbols-outlined ml-1 text-[20px]">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Article 1 -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient hover:shadow-lg transition-all duration-300 group border border-outline-variant/30 flex flex-col h-full cursor-pointer">
+<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary-container to-secondary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-primary-container opacity-50 flex items-center justify-center text-4xl">local_florist</span>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-[12px]">Pédagogie</span>
+<span class="text-on-surface-variant text-[14px] font-body-md">15 Mai 2024</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">La méthode Montessori à la maison</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Comment prolonger les apprentissages de l'école à la maison avec des activités simples et accessibles.</p>
+<div class="mt-auto">
+<span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span>
+</div>
+</div>
+</div>
+<!-- Article 2 -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient hover:shadow-lg transition-all duration-300 group border border-outline-variant/30 flex flex-col h-full cursor-pointer">
+<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-tertiary-container to-primary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-tertiary-container opacity-50 flex items-center justify-center text-4xl">celebration</span>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full font-label-md text-[12px]">Vie Scolaire</span>
+<span class="text-on-surface-variant text-[14px] font-body-md">02 Mai 2024</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Fête du Printemps : Retour en images</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Une journée mémorable remplie de rires, de jeux coopératifs et d'ateliers créatifs en plein air.</p>
+<div class="mt-auto">
+<span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span>
+</div>
+</div>
+</div>
+<!-- Article 3 -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient hover:shadow-lg transition-all duration-300 group border border-outline-variant/30 flex flex-col h-full cursor-pointer">
+<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary-container to-tertiary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-secondary-container opacity-50 flex items-center justify-center text-4xl">restaurant</span>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px]">Nutrition</span>
+<span class="text-on-surface-variant text-[14px] font-body-md">28 Avr 2024</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Nouveaux menus bio à la cantine</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Notre engagement pour une alimentation saine, locale et respectueuse de l'environnement se renforce.</p>
+<div class="mt-auto">
+<span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-low">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Témoignages</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Découvrez ce que les familles disent de notre école</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Testimonial 1 -->
+<div class="bg-surface p-8 rounded-3xl shadow-ambient relative">
+<span class="material-symbols-outlined text-5xl text-primary-container/40 absolute top-6 right-6">format_quote</span>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-8 relative z-10">"Une école extraordinaire où notre fille a pris confiance en elle. L'approche individualisée et la bienveillance de l'équipe pédagogique font toute la différence. Nous sommes ravis."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-lg">S</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Sophie M.</h4>
+<p class="font-body-md text-[14px] text-on-surface-variant">Maman de Chloé, Primaire</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-surface p-8 rounded-3xl shadow-ambient relative">
+<span class="material-symbols-outlined text-5xl text-secondary-container/40 absolute top-6 right-6">format_quote</span>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-8 relative z-10">"La transition de la crèche à la maternelle s'est faite en douceur. Les espaces sont magnifiques et pensés pour les enfants. Mon fils adore aller à l'école tous les matins."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-lg">T</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Thomas L.</h4>
+<p class="font-body-md text-[14px] text-on-surface-variant">Papa de Lucas, Maternelle</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-surface p-8 rounded-3xl shadow-ambient relative">
+<span class="material-symbols-outlined text-5xl text-tertiary-container/40 absolute top-6 right-6">format_quote</span>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-8 relative z-10">"Un environnement d'apprentissage exceptionnel. Les activités proposées sont riches et variées. L'école offre vraiment un cadre premium pour l'épanouissement des enfants."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold text-lg">C</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Camille D.</h4>
+<p class="font-body-md text-[14px] text-on-surface-variant">Maman de Hugo, Crèche</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-primary text-on-primary relative overflow-hidden">
+<!-- Abstract Background -->
+<div class="absolute inset-0 opacity-20">
+<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="100" id="bubbles" patternunits="userSpaceOnUse" width="100" x="0" y="0">
+<circle cx="20" cy="20" fill="none" r="15" stroke="currentColor" stroke-width="2"></circle>
+<circle cx="70" cy="60" fill="none" r="25" stroke="currentColor" stroke-width="1"></circle>
+<circle cx="40" cy="90" fill="currentColor" opacity="0.5" r="10"></circle>
+</pattern>
+</defs>
+<rect fill="url(#bubbles)" height="100%" width="100%"></rect>
+</svg>
+</div>
+<div class="max-w-3xl mx-auto text-center relative z-10 flex flex-col items-center gap-8">
+<h2 class="font-headline-xl text-headline-xl">Prêt à rejoindre l'aventure ?</h2>
+<p class="font-body-lg text-body-lg opacity-90">
+                Les inscriptions pour la prochaine rentrée scolaire sont ouvertes. Venez visiter nos locaux et rencontrer notre équipe pédagogique.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 mt-4">
+<a class="inline-flex items-center justify-center px-8 py-4 bg-surface text-primary font-label-md text-label-md rounded-full hover:bg-surface-variant transition-colors duration-300 shadow-lg" href="#">
+                    Déposer une candidature
+                </a>
+<a class="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-on-primary text-on-primary font-label-md text-label-md rounded-full hover:bg-on-primary/10 transition-colors duration-300" href="#">
+                    Planifier une visite
+                </a>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface w-full rounded-t-lg border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="flex flex-col gap-4">
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">Les Bulles de Joie</span>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant mt-2 max-w-xs">
+                    L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un cadre d'excellence.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-md text-label-md font-bold text-primary dark:text-primary-fixed-dim">Liens utiles</h4>
+<div class="flex flex-col gap-3">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 cursor-pointer" href="#">Contact</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 cursor-pointer" href="#">Mentions Légales</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 cursor-pointer" href="#">Plan du site</a>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-md text-label-md font-bold text-primary dark:text-primary-fixed-dim">Réseaux Sociaux</h4>
+<div class="flex gap-4 mt-2">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined">share</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined">public</span>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 px-margin-mobile md:px-margin-desktop py-6 bg-surface-container-low dark:bg-inverse-surface">
+<div class="max-w-container-max mx-auto text-center font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant">
+                © 2024 Les Bulles de Joie. Excellence Éducative &amp; Épanouissement.
+            </div>
+</div>
+</footer>
+</body></html>

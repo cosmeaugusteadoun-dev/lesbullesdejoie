@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vie Scolaire - Les Bulles de Joie</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#ece6ee",
+                    "primary": "#4f378a",
+                    "on-primary-container": "#e0d2ff",
+                    "secondary": "#63597c",
+                    "on-tertiary-fixed-variant": "#594400",
+                    "surface-dim": "#ded8e0",
+                    "inverse-on-surface": "#f5eff7",
+                    "on-primary-fixed": "#22005d",
+                    "secondary-fixed-dim": "#cdc0e9",
+                    "surface-container-low": "#f8f2fa",
+                    "on-surface-variant": "#494551",
+                    "primary-fixed-dim": "#cfbcff",
+                    "outline": "#7a7582",
+                    "tertiary": "#765b00",
+                    "background": "#fdf7ff",
+                    "on-primary-fixed-variant": "#4f378a",
+                    "tertiary-container": "#c9a74d",
+                    "primary-fixed": "#e9ddff",
+                    "on-background": "#1d1b20",
+                    "on-secondary-container": "#645a7d",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#e7c365",
+                    "on-tertiary-fixed": "#241a00",
+                    "primary-container": "#6750a4",
+                    "outline-variant": "#cbc4d2",
+                    "surface-bright": "#fdf7ff",
+                    "secondary-container": "#e1d4fd",
+                    "inverse-surface": "#322f35",
+                    "surface-tint": "#6750a4",
+                    "inverse-primary": "#cfbcff",
+                    "surface-container": "#f2ecf4",
+                    "surface-container-highest": "#e6e0e9",
+                    "surface-variant": "#e6e0e9",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#ffdf93",
+                    "secondary-fixed": "#e9ddff",
+                    "on-surface": "#1d1b20",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#4b4263",
+                    "surface": "#fdf7ff",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#1f1635",
+                    "on-tertiary-container": "#503d00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "unit": "8px",
+                    "margin-desktop": "64px",
+                    "section-gap": "120px"
+            },
+            "fontFamily": {
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "headline-sm": [
+                            "Quicksand"
+                    ],
+                    "headline-lg-mobile": [
+                            "Quicksand"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-xl": [
+                            "Quicksand"
+                    ],
+                    "headline-lg": [
+                            "Quicksand"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Quicksand"
+                    ]
+            },
+            "fontSize": {
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-sm": [
+                            "22px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "30px",
+                            {
+                                    "lineHeight": "38px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-xl": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg": [
+                            "36px",
+                            {
+                                    "lineHeight": "44px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 1,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-sm transition-all duration-300" id="main-nav">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+<img alt="Les Bulles de Joie Logo" class="h-10 w-auto rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt_IrrIcBi0KZA4NUREefCPZ4qz_q9VGrVpYqeYpTeQabs4X98tmsUNU3HvceDHp2L0xGb0k-7Qtg_UUJbUkXvF1WYP0NSAfn4p4XeccbTaqabN7WZpZcC2fnKUFuYaKQmo1MJ525V-B29tbSsyi9Yk8yXtrFZM7zjwzGiFYuXid0pgb2hXubtvSequaHajgPgewBVz9E0JkK3X2ezDVFaoVxa5hVM_A33O93t9q-RQC-ihE0PeLE_pPqO19gmh_zY6g"/>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Les Bulles de Joie</span>
+</div>
+<ul class="hidden md:flex gap-8 items-center">
+<li><a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300" href="#">Accueil</a></li>
+<li><a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300" href="#">Pédagogie</a></li>
+<li><a class="font-label-md text-label-md text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 transition-colors duration-300" href="#">Vie Scolaire</a></li>
+<li><a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300" href="#">Admissions</a></li>
+<li><a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300" href="#">Blog</a></li>
+<li><a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300" href="#">Galerie</a></li>
+</ul>
+<button class="hidden md:block bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full hover:bg-primary-container hover:text-on-primary-container transition-colors duration-200 shadow-sm active:scale-95 cursor-pointer">
+                Inscriptions
+            </button>
+<!-- Mobile Menu Toggle (Simplified for demo) -->
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</nav>
+<main class="pt-[100px] pb-section-gap">
+<!-- Section 1: Hero -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="relative rounded-xl overflow-hidden shadow-sm h-[60vh] md:h-[70vh] flex items-center justify-center">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A vibrant, high-quality photograph of diverse children playing joyfully in a modern, brightly lit school playground. The scene is bathed in natural sunlight, emphasizing a clean, premium, and safe educational environment. The colors are energetic, reflecting the playful brand identity with subtle hints of pink and blue in the surrounding architecture." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB1VgRWNzyi33shYrrPsFLQ6Akoii4OWFjF81qNAZlMO2UgtVbGTzWbxcd64X3fCpqYSWDHEjLhBCLhjoVlnSIPd8hdjAxyCYT8x-39fyTee0p8qxxIgwmxN6F9hNo7se4L9ejc36VpiZG2Z9cJrlY8rw0iOxOM6NTDg5yeljojqAErXz8Mt_zhav_eNXYWYw7p-uHA5V9U1ClYPcBTWSI0VdcsfWCbg0EtvrS03QnghYGV72L4Zyv8')"></div>
+<div class="absolute inset-0 bg-primary/20 backdrop-blur-[2px]"></div>
+<div class="relative z-10 text-center px-4 max-w-3xl">
+<h1 class="font-headline-xl text-headline-xl text-on-primary mb-6 shadow-sm">Découvrez la Vie à l'École</h1>
+<p class="font-body-lg text-body-lg text-on-primary/90 mb-8 max-w-2xl mx-auto shadow-sm">Un environnement bienveillant où chaque enfant s'épanouit, apprend et grandit à son propre rythme.</p>
+</div>
+</div>
+</section>
+<!-- Section 2: Typical Day -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Une Journée Type</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Rythme et rituels pour rassurer et guider les enfants tout au long de la journée.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Morning -->
+<div class="bg-surface-container-low p-8 rounded-xl shadow-sm hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary" data-icon="wb_sunny">wb_sunny</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Matin (8h30 - 11h30)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Accueil en douceur, rituels du matin, et ateliers d'apprentissage autonomes inspirés de la pédagogie Montessori.</p>
+</div>
+<!-- Midday -->
+<div class="bg-surface-container-low p-8 rounded-xl shadow-sm hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-12 bg-tertiary-container/30 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-tertiary" data-icon="restaurant">restaurant</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Midi (11h30 - 13h30)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Repas équilibré préparé sur place, suivi d'un temps calme ou d'une sieste pour les plus jeunes afin de recharger les batteries.</p>
+</div>
+<!-- Afternoon -->
+<div class="bg-surface-container-low p-8 rounded-xl shadow-sm hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-12 bg-primary-container/30 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="palette">palette</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Après-midi (13h30 - 16h30)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Activités créatives, sport, musique et jeux en plein air. Fin de journée en douceur avec un bilan positif.</p>
+</div>
+</div>
+</section>
+<!-- Section 3: Extracurricular -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="bg-surface-variant rounded-xl p-8 md:p-16 flex flex-col md:flex-row items-center gap-12">
+<div class="w-full md:w-1/2">
+<div class="w-full h-80 bg-cover bg-center rounded-xl shadow-sm" data-alt="A modern, high-quality photograph of children engaged in an art class in a brightly lit, premium classroom. The children are happily painting on small canvases. The room features clean, organized surfaces and large windows letting in ample natural light, conveying a creative and nurturing educational atmosphere." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAm8F4uG5QBXefoiwYZdGSAC7Id4g2UJpDMuNMqWpzkv9dXisMpx9yyvtPcTj7BEldvysn109AoMKQUttnM7yCQUuTwGXwaofzKqbv85ExrSTpJ2Y-i9WKJOyutMHAT9Tbd-jClVYGdMRo8tgp7-WGqTprmjywE4UBNZz03Oq37a9S2Z1ix_f10XEkee9eqtvhtxtLMKfsH4plsfLgGZI6P4RUGI00lwZle0Wy6vJ6VPqRM4x2YdSOY')"></div>
+</div>
+<div class="w-full md:w-1/2">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Activités Extrascolaires</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Nous proposons une variété d'activités pour développer la curiosité et les talents de chaque enfant au-delà du programme scolaire classique.</p>
+<ul class="space-y-4">
+<li class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="music_note" data-weight="fill">music_note</span>
+<span class="font-label-md text-label-md text-on-surface">Éveil Musical</span>
+</li>
+<li class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="sports_soccer" data-weight="fill">sports_soccer</span>
+<span class="font-label-md text-label-md text-on-surface">Motricité et Sport</span>
+</li>
+<li class="flex items-center gap-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="brush" data-weight="fill">brush</span>
+<span class="font-label-md text-label-md text-on-surface">Arts Plastiques</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Section 4: Photo Gallery -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<h2 class="font-headline-md text-headline-md text-center text-primary mb-12">Instants de Joie</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="col-span-2 row-span-2">
+<div class="w-full h-full min-h-[300px] bg-cover bg-center rounded-xl shadow-sm" data-alt="A wide, premium photograph of a modern school library. Children are sitting on comfortable, colorful beanbags reading books. The environment is serene, well-lit, and designed with soft, rounded furniture adhering to the modern-playful aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD7vu338ZBoeuJR0HpaozELbTgcDBuY3gefEafSgPl_n13bbHEtzpzWxoRw8ej29iyLJ8ipZkRBrYy6e1ue-hC7SjlpzVAKXpwvXjiLoFhUoi0kgDN8T_2U15ZB-2Z3ge69ImObnt67RROnL4y3ifcPYp-pfiqlbfckP7v8txORdqD2UNF1qJfKXL3QKFljTH-6a6YIVYMxEbk40AJUh-mQ2zDkQl4y801G-95qcC7RF_A0HdnCSBdd')"></div>
+</div>
+<div class="col-span-1 row-span-1">
+<div class="w-full h-48 bg-cover bg-center rounded-xl shadow-sm" data-alt="A close-up photograph of a child's hands carefully manipulating wooden educational toys. The image emphasizes the tactile learning approach and the high-quality materials used in the premium school setting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBAgI-sJ8YkZUkgYmE_nOMDFjNAQ3w_ywbHTrmcCFHaDdGHhss5EAF-msrycdyKc25kpaOhcculjg8aZp41ulZuCs7RRcZvv6N11qUroHP6EuO1ZGwYQasqGGyA2usyPBvnVic3WO4HYTFakdT5AqaJXBe1Ib1_IMvXRUIjAGJr_XS45VcO48DBbBMaAiSjXn5NdXa01DV6wul6dTld9e2u1J7B8BKbw1nr3Xow4wyuNvkMFkEO-8BY')"></div>
+</div>
+<div class="col-span-1 row-span-1">
+<div class="w-full h-48 bg-cover bg-center rounded-xl shadow-sm" data-alt="A bright photo of children playing outdoor games on a manicured lawn under a clear blue sky. The scene is energetic and joyful, capturing the essence of active learning and physical well-being." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLx3wW5FMkq2Qv38DH76lZ3gxvLBX5sHBbwh-PTQT-Q5XqfwKrVhf1V1MN1CKeiwsWEWXWPQwA5EUKT131AwJ4wa6viYpTNchlV5wywnoR0p2pOUWmI5yztEGmFLjqG2ffMQLIzqTtJeK8uhlCAlCFCkmJQAPNMO5l5wZ4oOfdf2dDDDRp4luaWOCEevXtRQjHnedJ3KOYUUnvHPNQJTIuXkRI7WU_B7PiK52rgYgBnk2B16XcMdwm')"></div>
+</div>
+<div class="col-span-2 row-span-1">
+<div class="w-full h-48 bg-cover bg-center rounded-xl shadow-sm" data-alt="A photograph of a group of children gathered around a teacher who is reading a storybook. The classroom setting is clean, modern, with expansive white space and subtle pastel color accents in the decor." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_wSz2Z4jrMXCl1WgXUAN2sxlGclN9c8OdGDzkOxqjRL9bJ_KK25BMjlI8Qq-nHREuINx_0KihbZXDttRBCSC6CpdPe7x3226uFEI9Xer2b1MtcyUASJhX6ZqcXiUpEU0NhXRdYWL_5n8bE-DD8DyfnK81rCsK8xwDv5qtsxFKAmGgTiX6O8_LesM0qGnnTw2PfkfXYYwBakwHFIuJUKQ-4d0Ae0UKjOua0PweldmcYT2ss2zgyyH1')"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface border-t border-outline-variant w-full rounded-t-lg mt-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter px-margin-mobile md:px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="col-span-1">
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim mb-4 block">Les Bulles de Joie</span>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant mb-6">Une école maternelle bilingue innovante, bienveillante et ouverte sur le monde.</p>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant">© 2024 Les Bulles de Joie. Excellence Éducative &amp; Épanouissement.</p>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-md text-label-md text-on-surface mb-4">Liens Utiles</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 cursor-pointer" href="#">Contact</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 cursor-pointer" href="#">Plan du site</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-md text-label-md text-on-surface mb-4">Légal</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 cursor-pointer" href="#">Mentions Légales</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 cursor-pointer" href="#">Réseaux Sociaux</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

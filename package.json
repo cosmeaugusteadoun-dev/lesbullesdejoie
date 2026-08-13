@@ -1,0 +1,19 @@
+{
+  "name": "les-bulles-de-joie",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site vitrine de l'école Les Bulles de Joie",
+  "scripts": {
+    "build:tw": "tailwindcss -i ./src/css/tailwind.css -o ./css/style.css --minify",
+    "build:scss": "sass src/scss/main.scss css/custom.css --style=compressed --no-source-map",
+    "build": "npm run build:tw && npm run build:scss",
+    "watch:tw": "tailwindcss -i ./src/css/tailwind.css -o ./css/style.css --watch",
+    "watch:scss": "sass --watch src/scss/main.scss:css/custom.css --no-source-map",
+    "dev": "concurrently \"npm:watch:tw\" \"npm:watch:scss\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "sass": "^1.83.0",
+    "tailwindcss": "^3.4.17"
+  }
+}

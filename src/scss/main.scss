@@ -1,0 +1,392 @@
+// ==========================================================================
+// Les Bulles de Joie — Custom SCSS layer
+// Complements Tailwind (css/style.css) with brand decoration, animation
+// and small components that are simpler to express as hand-written CSS.
+// ==========================================================================
+
+// ---- Design tokens (mirrors tailwind.config.js) --------------------------
+$color-primary: #4f378a;
+$color-primary-container: #6750a4;
+$color-secondary-container: #e1d4fd;
+$color-tertiary-container: #c9a74d;
+$color-surface: #fdf7ff;
+$color-on-surface-variant: #494551;
+
+$shadow-ambient: 0 10px 40px -10px rgba($color-primary, 0.08);
+$shadow-ambient-lg: 0 20px 60px -15px rgba($color-primary, 0.16);
+
+$radius-pill: 9999px;
+$transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+@mixin bubble($size, $color, $opacity: 0.15) {
+  position: absolute;
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  background: $color;
+  opacity: $opacity;
+  pointer-events: none;
+}
+
+// ---- Base niceties ---------------------------------------------------------
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: $color-secondary-container;
+  color: $color-primary;
+}
+
+// Custom scrollbar (WebKit)
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba($color-primary, 0.25);
+  border-radius: $radius-pill;
+  &:hover {
+    background: rgba($color-primary, 0.45);
+  }
+}
+
+// ---- Material Symbols -----------------------------------------------------
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  vertical-align: middle;
+}
+.icon-filled {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+// ---- Decorative bubbles -----------------------------------------------------
+.decorative-bubble {
+  @include bubble(320px, $color-primary, 0.08);
+  z-index: -1;
+  filter: blur(60px);
+}
+
+.bubble-shadow {
+  box-shadow: $shadow-ambient;
+}
+
+.soft-shadow {
+  box-shadow: 0 10px 40px rgba($color-primary-container, 0.08);
+}
+
+.shadow-ambient-lg {
+  box-shadow: $shadow-ambient-lg;
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+.float {
+  animation: float-y 6s ease-in-out infinite;
+}
+.float-delay {
+  animation: float-y 7s ease-in-out infinite -2s;
+}
+
+@keyframes morph {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+}
+.bubble-shape {
+  animation: morph 8s ease-in-out infinite;
+}
+
+// ---- Hero image carousel ---------------------------------------------------
+@keyframes carousel {
+  0%,
+  25% {
+    opacity: 1;
+    visibility: visible;
+  }
+  33%,
+  92% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+.carousel-img-1 {
+  animation: carousel 15s infinite;
+}
+.carousel-img-2 {
+  animation: carousel 15s infinite -5s;
+  opacity: 0;
+}
+.carousel-img-3 {
+  animation: carousel 15s infinite -10s;
+  opacity: 0;
+}
+
+// ---- Nav ---------------------------------------------------------------
+.site-nav {
+  transition: box-shadow $transition-base, background-color $transition-base;
+
+  &.is-scrolled {
+    box-shadow: $shadow-ambient;
+  }
+}
+
+// Mobile nav panel
+.mobile-nav {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+
+  &.is-open {
+    max-height: 480px;
+  }
+}
+
+// ---- Buttons -------------------------------------------------------------
+.btn-lift {
+  transition: transform $transition-base, box-shadow $transition-base, background-color $transition-base;
+  &:hover {
+    transform: translateY(-3px);
+  }
+  &:active {
+    transform: translateY(-1px);
+  }
+}
+
+// ---- Cards -----------------------------------------------------------------
+.card-hover {
+  transition: transform $transition-base, box-shadow $transition-base;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: $shadow-ambient-lg;
+  }
+}
+
+// ---- Forms -----------------------------------------------------------------
+.form-field {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid rgba($color-on-surface-variant, 0.15);
+  border-radius: $radius-pill;
+  padding: 1rem 1.5rem;
+  transition: box-shadow $transition-base, border-color $transition-base;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 4px rgba($color-primary, 0.12);
+  }
+}
+
+textarea.form-field {
+  border-radius: 1.5rem;
+  resize: none;
+}
+
+.form-radio-card {
+  cursor: pointer;
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .form-radio-inner {
+    transition: border-color $transition-base, background-color $transition-base, box-shadow $transition-base;
+  }
+  input:checked + .form-radio-inner {
+    border-color: $color-primary;
+    background-color: rgba($color-primary-container, 0.08);
+    box-shadow: $shadow-ambient;
+  }
+  input:focus-visible + .form-radio-inner {
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.25);
+  }
+}
+
+// ---- Testimonials marquee ---------------------------------------------
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 42s linear infinite;
+
+  .marquee:hover & {
+    animation-play-state: paused;
+  }
+}
+
+.marquee-card {
+  flex: 0 0 auto;
+  width: min(85vw, 420px);
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+// ---- Gallery / lightbox ---------------------------------------------------
+.gallery-item {
+  cursor: zoom-in;
+  overflow: hidden;
+
+  img {
+    transition: transform 0.5s ease;
+  }
+  &:hover img {
+    transform: scale(1.06);
+  }
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(29, 27, 32, 0.9);
+  padding: 24px;
+
+  &.is-open {
+    display: flex;
+  }
+
+  img {
+    max-width: min(90vw, 1100px);
+    max-height: 85vh;
+    border-radius: 1.5rem;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+  }
+}
+
+// ---- Back to top ------------------------------------------------------------
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  opacity: 0;
+  transform: translateY(12px) scale(0.9);
+  pointer-events: none;
+  transition: opacity $transition-base, transform $transition-base;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+}
+
+// ---- Toast / form feedback ---------------------------------------------
+.form-status {
+  display: none;
+  &.is-visible {
+    display: flex;
+  }
+}
+
+// ---- Motto cards (Amour / Travail / Discipline / Créativité) --------------
+.motto-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: $shadow-ambient-lg;
+  }
+
+  .material-symbols-outlined {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover .material-symbols-outlined {
+    transform: scale(1.2) rotate(-8deg);
+  }
+}
+
+@keyframes motto-pop {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Se déclenche seulement une fois le bloc parent révélé au scroll (voir
+// [data-reveal] ci-dessous) ; sans JS, les cartes restent simplement visibles
+// (dégradation silencieuse, cohérente avec le reste du site).
+.js [data-reveal].is-revealed .motto-card {
+  animation: motto-pop 0.5s ease backwards;
+
+  &:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  &:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.25s;
+  }
+  &:nth-child(4) {
+    animation-delay: 0.35s;
+  }
+}
+
+// ---- Reveal on scroll -----------------------------------------------------
+// Scoped under html.js so visitors/crawlers without JS (or if the
+// IntersectionObserver never fires — e.g. a screenshot bot that never
+// scrolls) still see full content instead of a permanently blank section.
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+
+  &.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

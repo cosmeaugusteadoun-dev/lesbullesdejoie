@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.classList.add("js");</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog — Les Bulles de Joie</title>
+<meta name="description" content="Actualités, conseils pédagogiques et vie de l'école Les Bulles de Joie." />
+<link rel="icon" type="image/png" href="assets/images/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/custom.css" />
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased overflow-x-hidden">
+
+<!-- ===== Navigation ===== -->
+<nav class="site-nav fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm" data-site-nav>
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<a class="flex items-center gap-3" href="index.html">
+<img alt="Logo Les Bulles de Joie" class="h-11 w-auto" src="assets/images/logo.png" />
+<span class="font-headline-md text-headline-md font-bold text-primary hidden sm:inline">Les Bulles de Joie</span>
+</a>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="index.html">Accueil</a>
+<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="pedagogie.html">Pédagogie</a>
+<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="vie-scolaire.html">Vie Scolaire</a>
+<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="admissions.html">Admissions</a>
+<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="contact.html">Contact</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md transition-all duration-300" href="blog.html">Blog</a>
+<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="galerie.html">Galerie</a>
+</div>
+<div class="hidden md:block">
+<a class="btn-lift inline-flex items-center justify-center px-6 py-3 bg-pink text-on-pink font-label-md text-label-md rounded-full hover:bg-pink/90 transition-colors duration-300 shadow-ambient" href="inscription.html">Inscriptions</a>
+</div>
+<button aria-controls="mobile-menu" aria-expanded="false" class="md:hidden text-primary p-2" data-nav-toggle type="button">
+<span class="material-symbols-outlined icon-menu">menu</span>
+<span class="material-symbols-outlined icon-close hidden">close</span>
+</button>
+</div>
+<div class="md:hidden mobile-nav" data-nav-panel id="mobile-menu">
+<div class="flex flex-col gap-1 px-margin-mobile pb-6 pt-2 max-w-container-max mx-auto">
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="index.html">Accueil</a>
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="pedagogie.html">Pédagogie</a>
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="vie-scolaire.html">Vie Scolaire</a>
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="admissions.html">Admissions</a>
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="contact.html">Contact</a>
+<a class="py-3 text-primary font-label-md text-label-md" href="blog.html">Blog</a>
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="galerie.html">Galerie</a>
+<a class="mt-2 inline-flex items-center justify-center px-6 py-3 bg-pink text-on-pink font-label-md text-label-md rounded-full" href="inscription.html">Inscriptions</a>
+</div>
+</div>
+</nav>
+
+<main class="flex-grow pt-[100px] pb-section-gap">
+<!-- ===== Hero ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center mb-16" data-reveal>
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-secondary-container/80 text-on-secondary-container rounded-full font-label-md text-label-md shadow-sm mb-6">
+<span class="material-symbols-outlined icon-filled text-[18px]">edit_note</span>
+Blog
+</div>
+<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-primary mb-4">Actualités &amp; Conseils</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Découvrez la vie de notre école, nos conseils éducatifs et les temps forts de l'année.</p>
+</section>
+
+<!-- ===== Filters ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-10">
+<div class="flex flex-wrap justify-center gap-3" data-reveal>
+<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-colors duration-200" data-filter="all" type="button">Tous</button>
+<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-filter="pedagogie" type="button">Pédagogie</button>
+<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-filter="vie-scolaire" type="button">Vie Scolaire</button>
+<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-filter="nutrition" type="button">Nutrition</button>
+<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-filter="evenements" type="button">Événements</button>
+</div>
+</section>
+
+<!-- ===== Articles ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="blog-grid">
+
+<article class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" data-category="pedagogie" data-reveal>
+<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary-container to-secondary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-primary-container opacity-60 flex items-center justify-center text-4xl">local_florist</span>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-[12px]">Pédagogie</span>
+<span class="text-on-surface-variant text-[14px] font-body-md">15 Mai 2024</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">La méthode Montessori à la maison</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Comment prolonger les apprentissages de l'école à la maison avec des activités simples et accessibles, adaptées à chaque âge.</p>
+<div class="mt-auto"><span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span></div>
+</div>
+</article>
+
+<article class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" data-category="vie-scolaire" data-reveal>
+<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-tertiary-container to-primary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-tertiary-container opacity-60 flex items-center justify-center text-4xl">celebration</span>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full font-label-md text-[12px]">Vie Scolaire</span>
+<span class="text-on-surface-variant text-[14px] font-body-md">02 Mai 2024</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Fête du Printemps : Retour en images</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Une journée mémorable remplie de rires, de jeux coopératifs et d'ateliers créatifs en plein air.</p>
+<div class="mt-auto"><span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span></div>
+</div>
+</article>
+
+<article class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" data-category="nutrition" data-reveal>
+<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary-container to-tertiary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-secondary-container opacity-60 flex items-center justify-center text-4xl">restaurant</span>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px]">Nutrition</span>
+<span class="text-on-surface-variant text-[14px] font-body-md">28 Avr 2024</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Nouveaux menus bio à la cantine</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Notre engagement pour une alimentation saine, locale et respectueuse de l'environnement se renforce.</p>
+<div class="mt-auto"><span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span></div>
+</div>
+</article>
+
+<article class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" data-category="evenements" data-reveal>
+<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary-container to-tertiary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-primary-container opacity-60 flex items-center justify-center text-4xl">event</span>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-[12px]">Événements</span>
+<span class="text-on-surface-variant text-[14px] font-body-md">20 Avr 2024</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Portes ouvertes : notez la date !</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Venez visiter nos locaux, rencontrer l'équipe pédagogique et découvrir notre projet éducatif en famille.</p>
+<div class="mt-auto"><span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span></div>
+</div>
+</article>
+
+<article class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" data-category="pedagogie" data-reveal>
+<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-tertiary-container to-secondary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-tertiary-container opacity-60 flex items-center justify-center text-4xl">psychology</span>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full font-label-md text-[12px]">Pédagogie</span>
+<span class="text-on-surface-variant text-[14px] font-body-md">10 Avr 2024</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Le bilinguisme précoce, pourquoi ça marche</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Les bénéfices cognitifs et sociaux d'un apprentissage bilingue dès le plus jeune âge, expliqués simplement.</p>
+<div class="mt-auto"><span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span></div>
+</div>
+</article>
+
+<article class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" data-category="vie-scolaire" data-reveal>
+<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary-container to-primary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-secondary-container opacity-60 flex items-center justify-center text-4xl">groups</span>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px]">Vie Scolaire</span>
+<span class="text-on-surface-variant text-[14px] font-body-md">02 Avr 2024</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Une nouvelle salle de motricité pour les tout-petits</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Retour sur l'aménagement de notre nouvel espace dédié au développement moteur des enfants de crèche.</p>
+<div class="mt-auto"><span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span></div>
+</div>
+</article>
+
+</div>
+</section>
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="bg-surface-container-low w-full rounded-t-lg border-t border-outline-variant mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="md:col-span-2 flex flex-col gap-4">
+<a class="flex items-center gap-3 w-fit" href="index.html">
+<img alt="Logo Les Bulles de Joie" class="h-10 w-auto" src="assets/images/logo.png" />
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Les Bulles de Joie</span>
+</a>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-xs">
+L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un cadre d'excellence, de la crèche au primaire. Depuis 2017.
+</p>
+<div class="flex gap-3 mt-2">
+<a aria-label="Facebook" class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-colors duration-200" href="#"><span class="material-symbols-outlined text-[20px]">thumb_up</span></a>
+<a aria-label="Instagram" class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-colors duration-200" href="#"><span class="material-symbols-outlined text-[20px]">photo_camera</span></a>
+<a aria-label="Réseau" class="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-colors duration-200" href="#"><span class="material-symbols-outlined text-[20px]">public</span></a>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-md text-label-md font-bold text-primary">Navigation</h4>
+<div class="flex flex-col gap-3">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="pedagogie.html">Pédagogie</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="vie-scolaire.html">Vie Scolaire</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="galerie.html">Galerie</a>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-md text-label-md font-bold text-primary">Informations</h4>
+<div class="flex flex-col gap-3">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="contact.html">Contact</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="inscription.html">Inscriptions</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Mentions Légales</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Plan du site</a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 px-margin-mobile md:px-margin-desktop py-6">
+<div class="max-w-container-max mx-auto text-center font-body-md text-body-md text-on-surface-variant">
+© <span data-year></span> Les Bulles de Joie. Excellence Éducative &amp; Épanouissement.
+</div>
+</div>
+</footer>
+
+<button aria-label="Retour en haut" class="back-to-top w-12 h-12 rounded-full bg-primary text-on-primary shadow-ambient-lg flex items-center justify-center" data-back-to-top type="button">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+
+<script src="js/main.js"></script>
+<script type="module" src="js/dynamic-content.js"></script>
+</body>
+</html>
