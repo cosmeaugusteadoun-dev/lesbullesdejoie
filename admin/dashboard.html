@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../css/style.css" />
 <link rel="stylesheet" href="../css/custom.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen antialiased">
 
@@ -52,7 +53,10 @@ Déconnexion
 
 <!-- ===== Tabs ===== -->
 <div class="flex flex-wrap gap-3 mb-10">
-<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-colors duration-200" data-tab="inscriptions" type="button">
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-colors duration-200" data-tab="stats" type="button">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1">monitoring</span>Statistiques
+</button>
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="inscriptions" type="button">
 <span class="material-symbols-outlined text-[18px] align-middle mr-1">folder_shared</span>Dossiers
 </button>
 <button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="testimonials" type="button">
@@ -64,10 +68,51 @@ Déconnexion
 <button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="teachers" type="button">
 <span class="material-symbols-outlined text-[18px] align-middle mr-1">person</span>Enseignants
 </button>
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="gallery" type="button">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1">photo_library</span>Galerie
+</button>
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="account" type="button">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1">lock</span>Mon compte
+</button>
 </div>
 
+<!-- ===== Statistiques ===== -->
+<section class="admin-tab-panel" data-tab-panel="stats">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Statistiques</h2>
+<p class="hidden font-body-md text-body-md text-error mb-6" id="stats-error"></p>
+
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+<div class="bg-surface-container-low rounded-2xl p-6 shadow-sm">
+<p class="font-body-md text-[13px] text-on-surface-variant mb-1">Visites aujourd'hui</p>
+<p class="font-headline-lg text-headline-lg text-primary" id="stat-today">—</p>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-6 shadow-sm">
+<p class="font-body-md text-[13px] text-on-surface-variant mb-1">Visites (7 derniers jours)</p>
+<p class="font-headline-lg text-headline-lg text-primary" id="stat-week">—</p>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-6 shadow-sm">
+<p class="font-body-md text-[13px] text-on-surface-variant mb-1">Dossiers d'inscription reçus</p>
+<p class="font-headline-lg text-headline-lg text-primary" id="stat-inscriptions-total">—</p>
+</div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+<div class="lg:col-span-3 bg-surface-container-low rounded-2xl p-6 shadow-sm">
+<h3 class="font-label-md text-label-md text-on-surface mb-4">Visites — 7 derniers jours</h3>
+<div class="relative h-64"><canvas id="chart-visits"></canvas></div>
+</div>
+<div class="lg:col-span-2 bg-surface-container-low rounded-2xl p-6 shadow-sm">
+<h3 class="font-label-md text-label-md text-on-surface mb-4">Dossiers par statut</h3>
+<div class="relative h-64 flex items-center justify-center">
+<canvas id="chart-status"></canvas>
+<p class="hidden font-body-md text-body-md text-on-surface-variant text-center" id="chart-status-empty">Aucun dossier reçu pour le moment.</p>
+</div>
+</div>
+</div>
+</section>
+
 <!-- ===== Dossiers d'inscription ===== -->
-<section class="admin-tab-panel" data-tab-panel="inscriptions">
+<section class="admin-tab-panel hidden" data-tab-panel="inscriptions">
 <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
 <h2 class="font-headline-md text-headline-md text-on-surface">Dossiers d'inscription</h2>
 <div class="flex flex-wrap gap-2" id="inscriptions-status-filter">
@@ -230,6 +275,102 @@ Déconnexion
 
 <div class="grid grid-cols-1 gap-4" id="blog-list" data-loading>
 <p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
+</div>
+</section>
+
+<!-- ===== Galerie ===== -->
+<section class="admin-tab-panel hidden" data-tab-panel="gallery">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Galerie (photos &amp; vidéos)</h2>
+<button class="btn-lift inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-ambient" data-add-gallery type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>Ajouter
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Déposez d'abord le fichier dans le dossier <code>assets/gallery/&lt;catégorie&gt;/</code> de votre site (voir README), puis renseignez son nom exact ici.</p>
+
+<form class="hidden bg-surface-container-low rounded-2xl p-6 md:p-8 bubble-shadow mb-8 space-y-5" id="gallery-form" data-entity-form="gallery_items">
+<input type="hidden" id="gallery-id" />
+<fieldset class="flex gap-6">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked class="accent-primary" id="gallery-type-image" name="gallery-type" type="radio" value="image" />
+<span class="font-body-md text-body-md text-on-surface">Photo</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="accent-primary" id="gallery-type-video" name="gallery-type" type="radio" value="video" />
+<span class="font-body-md text-body-md text-on-surface">Vidéo</span>
+</label>
+</fieldset>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Catégorie</label>
+<select class="form-field font-body-md text-body-md text-on-surface" id="gallery-category">
+<option value="creche">Crèche</option>
+<option value="maternelle">Maternelle</option>
+<option value="primaire">Primaire</option>
+<option value="vie-scolaire">Vie Scolaire</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Nom du fichier</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="gallery-filename" placeholder="creche-01.jpg" required type="text" />
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Légende</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="gallery-caption" placeholder="Sortie pédagogique au jardin botanique" type="text" />
+</div>
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked class="w-5 h-5 accent-primary rounded" id="gallery-published" type="checkbox" />
+<span class="font-body-md text-body-md text-on-surface">Publié (visible sur le site)</span>
+</label>
+<div class="flex items-center gap-3">
+<button class="btn-lift bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full shadow-md" type="submit">Enregistrer</button>
+<button class="font-label-md text-label-md text-on-surface-variant px-6 py-3" data-cancel-form type="button">Annuler</button>
+</div>
+</form>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="gallery-list" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
+</div>
+</section>
+
+<!-- ===== Mon compte ===== -->
+<section class="admin-tab-panel hidden" data-tab-panel="account">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Mon compte</h2>
+<div class="max-w-lg bg-surface-container-low rounded-2xl p-6 md:p-8 bubble-shadow">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Changer le mot de passe</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant mb-6">Au moins 6 caractères.</p>
+<form class="space-y-5" id="password-form">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="current-password">Mot de passe actuel</label>
+<div class="relative">
+<input class="form-field font-body-md text-body-md text-on-surface pr-14" id="current-password" required type="password" autocomplete="current-password" />
+<button aria-label="Afficher le mot de passe" class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" data-password-toggle type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="new-password">Nouveau mot de passe</label>
+<div class="relative">
+<input class="form-field font-body-md text-body-md text-on-surface pr-14" id="new-password" minlength="6" required type="password" autocomplete="new-password" />
+<button aria-label="Afficher le mot de passe" class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" data-password-toggle type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="confirm-password">Confirmer le nouveau mot de passe</label>
+<div class="relative">
+<input class="form-field font-body-md text-body-md text-on-surface pr-14" id="confirm-password" minlength="6" required type="password" autocomplete="new-password" />
+<button aria-label="Afficher le mot de passe" class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" data-password-toggle type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<div id="password-status" class="hidden items-center gap-2 px-4 py-3 rounded-xl font-body-md text-[14px]"></div>
+<button class="btn-lift bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full shadow-md" id="password-submit" type="submit">Mettre à jour le mot de passe</button>
+</form>
 </div>
 </section>
 </main>

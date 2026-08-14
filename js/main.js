@@ -91,18 +91,32 @@
     document.querySelectorAll("[data-reveal]").forEach((el) => observer.observe(el));
   }
 
-  // Simple lightbox for the gallery pages
+  // Lightbox for the gallery page. Supports photos and videos, and uses
+  // event delegation (rather than binding each item once at load) so tiles
+  // loaded later from Supabase are clickable without extra wiring.
   function initGalleryLightbox() {
-    const items = document.querySelectorAll("[data-lightbox-src]");
     const lightbox = document.querySelector("[data-lightbox]");
-    if (!items.length || !lightbox) return;
+    if (!lightbox) return;
 
-    const img = lightbox.querySelector("img");
+    const img = lightbox.querySelector("[data-lightbox-img]");
+    const video = lightbox.querySelector("[data-lightbox-video]");
     const caption = lightbox.querySelector("[data-lightbox-caption]");
 
-    const open = (src, alt) => {
-      img.setAttribute("src", src);
-      img.setAttribute("alt", alt || "");
+    const open = (src, alt, type) => {
+      if (type === "video") {
+        img.classList.add("hidden");
+        video.classList.remove("hidden");
+        video.src = src;
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+        video.removeAttribute("src");
+        video.classList.add("hidden");
+        img.classList.remove("hidden");
+        img.setAttribute("src", src);
+        img.setAttribute("alt", alt || "");
+      }
       if (caption) caption.textContent = alt || "";
       lightbox.classList.add("is-open");
       document.body.style.overflow = "hidden";
@@ -111,16 +125,18 @@
     const close = () => {
       lightbox.classList.remove("is-open");
       document.body.style.overflow = "";
+      video.pause();
     };
 
-    items.forEach((item) => {
-      item.addEventListener("click", () => {
-        open(item.getAttribute("data-lightbox-src"), item.getAttribute("data-lightbox-alt"));
-      });
+    document.addEventListener("click", (e) => {
+      const item = e.target.closest("[data-lightbox-src]");
+      if (item) {
+        open(item.getAttribute("data-lightbox-src"), item.getAttribute("data-lightbox-alt"), item.getAttribute("data-lightbox-type"));
+      }
     });
 
     lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox || e.target.hasAttribute("data-lightbox-close")) close();
+      if (e.target === lightbox || e.target.closest("[data-lightbox-close]")) close();
     });
 
     document.addEventListener("keydown", (e) => {
@@ -228,7 +244,7 @@
       const rowsHtml = rows
         .map(
           ([label, value]) =>
-            `<div class="flex items-center justify-between gap-4 py-2 border-b border-primary/10 last:border-0"><span class="font-body-md text-body-md text-on-surface-variant">${label}</span><span class="font-label-md text-label-md text-on-surface shrink-0">${value}</span></div>`
+            `<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-4 py-2 border-b border-primary/10 last:border-0"><span class="font-body-md text-body-md text-on-surface-variant">${label}</span><span class="font-label-md text-label-md text-on-surface sm:shrink-0 sm:text-right">${value}</span></div>`
         )
         .join("");
       return `<h4 class="font-label-md text-label-md text-primary mb-2">${title}</h4><div>${rowsHtml}</div>`;

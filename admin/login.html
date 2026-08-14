@@ -32,7 +32,12 @@
 </div>
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-2" for="password">Mot de passe</label>
-<input class="form-field font-body-md text-body-md text-on-surface" id="password" name="password" placeholder="••••••••" required type="password" autocomplete="current-password" />
+<div class="relative">
+<input class="form-field font-body-md text-body-md text-on-surface pr-14" id="password" name="password" placeholder="••••••••" required type="password" autocomplete="current-password" />
+<button aria-label="Afficher le mot de passe" class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" data-password-toggle type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
 </div>
 <div id="login-error" class="hidden items-center gap-2 px-4 py-3 rounded-xl bg-error-container text-on-error-container font-body-md text-[14px]">
 <span class="material-symbols-outlined text-[20px]">error</span>
@@ -57,6 +62,9 @@
 <script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { SUPABASE_URL, SUPABASE_ANON_KEY, isSupabaseConfigured } from "../js/supabase-config.js";
+import { initPasswordToggles } from "../js/password-toggle.js";
+
+initPasswordToggles();
 
 const form = document.getElementById("login-form");
 const errorBox = document.getElementById("login-error");

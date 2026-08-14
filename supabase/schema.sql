@@ -134,6 +134,54 @@ create policy "Authenticated delete inscriptions"
   on public.inscriptions for delete
   using (auth.role() = 'authenticated');
 
+-- ---- Visites du site --------------------------------------------------------
+create table if not exists public.page_views (
+  id uuid primary key default gen_random_uuid(),
+  page text not null,
+  viewed_at timestamptz not null default now()
+);
+
+alter table public.page_views enable row level security;
+
+drop policy if exists "Public can log a page view" on public.page_views;
+create policy "Public can log a page view"
+  on public.page_views for insert
+  with check (true);
+
+drop policy if exists "Authenticated read page_views" on public.page_views;
+create policy "Authenticated read page_views"
+  on public.page_views for select
+  using (auth.role() = 'authenticated');
+
+drop policy if exists "Authenticated delete page_views" on public.page_views;
+create policy "Authenticated delete page_views"
+  on public.page_views for delete
+  using (auth.role() = 'authenticated');
+
+-- ---- Galerie (photos & vidéos) ----------------------------------------------
+create table if not exists public.gallery_items (
+  id uuid primary key default gen_random_uuid(),
+  media_type text not null check (media_type in ('image', 'video')),
+  category text not null check (category in ('creche', 'maternelle', 'primaire', 'vie-scolaire')),
+  file_path text not null,
+  caption text,
+  published boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+alter table public.gallery_items enable row level security;
+
+drop policy if exists "Public reads published gallery_items" on public.gallery_items;
+create policy "Public reads published gallery_items"
+  on public.gallery_items for select
+  using (published = true);
+
+drop policy if exists "Authenticated manage gallery_items" on public.gallery_items;
+create policy "Authenticated manage gallery_items"
+  on public.gallery_items for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
 -- ---- Données de démarrage (reprend le contenu déjà présent sur le site) ---
 -- Le "where not exists" rend ce bloc rejouable sans risque : les exemples ne
 -- sont insérés que si la table est encore vide (premher lancement). Si vous

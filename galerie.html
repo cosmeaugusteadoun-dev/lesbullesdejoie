@@ -78,7 +78,7 @@ Galerie
 
 <!-- ===== Grid ===== -->
 <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="gallery-grid">
 
 <div class="gallery-item col-span-2 row-span-2 rounded-xl shadow-sm" data-category="maternelle" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Salle de classe Montessori, ateliers en autonomie" data-reveal>
 <img alt="Salle de classe Montessori, ateliers en autonomie" class="w-full h-full min-h-[300px] object-cover rounded-xl" src="assets/images/hero-classroom.jpg" />
@@ -182,7 +182,8 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 <span class="material-symbols-outlined text-4xl" data-lightbox-close>close</span>
 </button>
 <figure class="flex flex-col items-center gap-4">
-<img alt="" src="" />
+<img alt="" data-lightbox-img src="" />
+<video class="hidden max-w-[90vw] max-h-[85vh] rounded-2xl shadow-2xl" controls data-lightbox-video></video>
 <figcaption class="text-white/80 font-body-md text-body-md text-center" data-lightbox-caption></figcaption>
 </figure>
 </div>
@@ -192,5 +193,7 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 </button>
 
 <script src="js/main.js"></script>
+<script type="module" src="js/analytics.js"></script>
+<script type="module" src="js/gallery.js"></script>
 </body>
 </html>
