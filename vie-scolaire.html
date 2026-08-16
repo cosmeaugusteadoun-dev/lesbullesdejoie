@@ -58,8 +58,8 @@
 <!-- ===== Hero ===== -->
 <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
 <div class="relative rounded-xl overflow-hidden shadow-sm h-[60vh] md:h-[70vh] flex items-center justify-center" data-reveal>
-<img alt="Enfants jouant joyeusement dans la cour de récréation" class="absolute inset-0 w-full h-full object-cover" src="assets/images/hero-playground.jpg" />
-<div class="absolute inset-0 bg-primary/25 backdrop-blur-[2px]"></div>
+<img alt="Enfants des Bulles de Joie dans la cour de l'école" class="absolute inset-0 w-full h-full object-cover" src="assets/images/viescolairehero.jpg" />
+<div class="absolute inset-0 bg-primary/15"></div>
 <div class="relative z-10 text-center px-4 max-w-3xl">
 <h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-primary mb-6">Découvrez la Vie à l'École</h1>
 <p class="font-body-lg text-body-lg text-on-primary/90 mb-2 max-w-2xl mx-auto">Un environnement bienveillant où chaque enfant s'épanouit, apprend et grandit à son propre rythme.</p>
@@ -102,7 +102,7 @@
 <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
 <div class="bg-surface-variant rounded-xl p-8 md:p-16 flex flex-col md:flex-row items-center gap-12" data-reveal>
 <div class="w-full md:w-1/2">
-<img alt="Enfants en atelier d'arts plastiques dans une salle lumineuse" class="w-full h-80 object-cover rounded-xl shadow-sm" src="assets/images/hero-nursery.jpg" />
+<img alt="Élèves en séance de jardinage aux Bulles de Joie" class="w-full h-80 object-cover rounded-xl shadow-sm" src="assets/images/jardinage1.jpeg" />
 </div>
 <div class="w-full md:w-1/2">
 <h2 class="font-headline-lg text-headline-lg text-primary mb-6">Activités Extrascolaires</h2>
@@ -139,17 +139,17 @@
 <h2 class="font-headline-md text-headline-md text-primary">Instants de Joie</h2>
 <a class="inline-flex items-center text-primary font-label-md text-label-md hover:underline" href="galerie.html">Voir toute la galerie <span class="material-symbols-outlined ml-1 text-[20px]">arrow_forward</span></a>
 </div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4" data-reveal>
-<div class="col-span-2 row-span-2">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="joy-preview-grid">
+<div class="col-span-2 row-span-2 gallery-item rounded-xl shadow-sm" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Salle de classe lumineuse et accueillante">
 <img alt="Salle de classe lumineuse et accueillante" class="w-full h-full min-h-[300px] object-cover rounded-xl shadow-sm" src="assets/images/hero-classroom.jpg" />
 </div>
-<div class="col-span-1 row-span-1">
+<div class="col-span-1 row-span-1 gallery-item rounded-xl shadow-sm" data-lightbox-src="assets/images/hero-nursery.jpg" data-lightbox-alt="Enfant manipulant du matériel éducatif en bois">
 <img alt="Enfant manipulant du matériel éducatif en bois" class="w-full h-48 object-cover rounded-xl shadow-sm" src="assets/images/hero-nursery.jpg" />
 </div>
-<div class="col-span-1 row-span-1">
+<div class="col-span-1 row-span-1 gallery-item rounded-xl shadow-sm" data-lightbox-src="assets/images/hero-playground.jpg" data-lightbox-alt="Enfants jouant en extérieur sous le soleil">
 <img alt="Enfants jouant en extérieur sous le soleil" class="w-full h-48 object-cover rounded-xl shadow-sm" src="assets/images/hero-playground.jpg" />
 </div>
-<div class="col-span-2 row-span-1">
+<div class="col-span-2 row-span-1 gallery-item rounded-xl shadow-sm" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Moment de lecture partagé en classe">
 <img alt="Moment de lecture partagé en classe" class="w-full h-48 object-cover rounded-xl shadow-sm" src="assets/images/hero-classroom.jpg" />
 </div>
 </div>
@@ -195,11 +195,24 @@
 </div>
 </footer>
 
+<!-- ===== Lightbox ===== -->
+<div class="lightbox" data-lightbox>
+<button aria-label="Fermer" class="absolute top-6 right-6 text-white/80 hover:text-white" data-lightbox-close type="button">
+<span class="material-symbols-outlined text-4xl" data-lightbox-close>close</span>
+</button>
+<figure class="flex flex-col items-center gap-4">
+<img alt="" data-lightbox-img src="" />
+<video class="hidden max-w-[90vw] max-h-[85vh] rounded-2xl shadow-2xl" controls data-lightbox-video></video>
+<figcaption class="text-white/80 font-body-md text-body-md text-center" data-lightbox-caption></figcaption>
+</figure>
+</div>
+
 <button aria-label="Retour en haut" class="back-to-top w-12 h-12 rounded-full bg-primary text-on-primary shadow-ambient-lg flex items-center justify-center" data-back-to-top type="button">
 <span class="material-symbols-outlined">arrow_upward</span>
 </button>
 
 <script src="js/main.js"></script>
 <script type="module" src="js/analytics.js"></script>
+<script type="module" src="js/gallery.js"></script>
 </body>
 </html>

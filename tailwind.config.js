@@ -9,6 +9,10 @@ module.exports = {
         // touche d'accent aux côtés du violet principal.
         pink: "#e6338d",
         "on-pink": "#ffffff",
+        // Vert citron de la marque (issu du logo), même usage que le rose :
+        // touche d'accent ponctuelle, pas une couleur dominante.
+        citron: "#7cbc10",
+        "on-citron": "#ffffff",
         "tertiary-container": "#c9a74d",
         "on-error": "#ffffff",
         "surface-container-low": "#f8f2fa",

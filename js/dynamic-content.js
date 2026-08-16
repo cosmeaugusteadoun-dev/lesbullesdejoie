@@ -43,7 +43,12 @@ async function loadTestimonials(supabase) {
     .eq("published", true)
     .order("created_at", { ascending: false });
 
-  if (error || !data || !data.length) return;
+  if (error) return; // leave the static fallback untouched if we can't reach Supabase
+
+  if (!data || !data.length) {
+    track.closest(".marquee")?.classList.add("hidden");
+    return;
+  }
 
   const cardHtml = (t, hidden) => `
     <div class="marquee-card bg-surface p-8 rounded-3xl shadow-ambient relative"${hidden ? ' aria-hidden="true"' : ""}>
@@ -89,16 +94,23 @@ function formatDateFr(isoDate) {
 }
 
 async function loadBlogPosts(supabase) {
-  const grid = document.getElementById("blog-grid");
+  const fullGrid = document.getElementById("blog-grid");
+  const previewGrid = document.getElementById("blog-preview-grid");
+  const grid = fullGrid || previewGrid;
   if (!grid) return;
 
-  const { data, error } = await supabase
-    .from("blog_posts")
-    .select("*")
-    .eq("published", true)
-    .order("published_date", { ascending: false });
+  let query = supabase.from("blog_posts").select("*").eq("published", true).order("published_date", { ascending: false });
+  if (previewGrid && !fullGrid) query = query.limit(3);
 
-  if (error || !data || !data.length) return;
+  const { data, error } = await query;
+  if (error) return; // leave the static fallback untouched if we can't reach Supabase
+
+  if (!data || !data.length) {
+    // No published posts (e.g. everything was unpublished from the admin) —
+    // clear the static fallback instead of silently leaving it displayed.
+    grid.innerHTML = `<p class="col-span-full font-body-md text-body-md text-on-surface-variant text-center py-12">Aucun article publié pour le moment.</p>`;
+    return;
+  }
 
   grid.innerHTML = data
     .map((post, i) => {
@@ -109,8 +121,12 @@ async function loadBlogPosts(supabase) {
       <article class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full relative" data-category="${slug}" data-reveal>
         <a class="absolute inset-0 z-10" href="article.html?id=${post.id}" aria-label="Lire l'article : ${escapeHtml(post.title)}"></a>
         <div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-tr ${gradient} opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
-          <span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-primary-container opacity-60 flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300">${escapeHtml(post.icon || "auto_stories")}</span>
+          ${
+            post.image_url
+              ? `<img alt="${escapeHtml(post.title)}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${escapeHtml(post.image_url)}" />`
+              : `<div class="absolute inset-0 bg-gradient-to-tr ${gradient} opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
+          <span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-primary-container opacity-60 flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300">${escapeHtml(post.icon || "auto_stories")}</span>`
+          }
         </div>
         <div class="p-6 flex flex-col flex-grow">
           <div class="flex items-center gap-3 mb-4">

@@ -25,13 +25,15 @@ create table if not exists public.blog_posts (
   content text,                                -- texte complet, affiché sur article.html
   category text not null check (category in ('Pédagogie', 'Vie Scolaire', 'Nutrition', 'Événements')),
   icon text not null default 'auto_stories',  -- nom d'icône Material Symbols
+  image_url text,                              -- photo de couverture (URL publique, envoyée depuis l'admin)
   published_date date not null default current_date,
   published boolean not null default true,
   created_at timestamptz not null default now()
 );
 
--- Ajoute la colonne si la table existait déjà avant cette version du script.
+-- Ajoute les colonnes si la table existait déjà avant cette version du script.
 alter table public.blog_posts add column if not exists content text;
+alter table public.blog_posts add column if not exists image_url text;
 
 -- ---- Row Level Security ---------------------------------------------------
 alter table public.testimonials enable row level security;
@@ -181,6 +183,26 @@ create policy "Authenticated manage gallery_items"
   on public.gallery_items for all
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
+
+-- ---- Stockage des photos & vidéos (envoyées depuis l'espace admin) ---------
+insert into storage.buckets (id, name, public)
+values ('gallery', 'gallery', true)
+on conflict (id) do nothing;
+
+drop policy if exists "Public read gallery bucket" on storage.objects;
+create policy "Public read gallery bucket"
+  on storage.objects for select
+  using (bucket_id = 'gallery');
+
+drop policy if exists "Authenticated upload gallery bucket" on storage.objects;
+create policy "Authenticated upload gallery bucket"
+  on storage.objects for insert
+  with check (bucket_id = 'gallery' and auth.role() = 'authenticated');
+
+drop policy if exists "Authenticated delete gallery bucket" on storage.objects;
+create policy "Authenticated delete gallery bucket"
+  on storage.objects for delete
+  using (bucket_id = 'gallery' and auth.role() = 'authenticated');
 
 -- ---- Données de démarrage (reprend le contenu déjà présent sur le site) ---
 -- Le "where not exists" rend ce bloc rejouable sans risque : les exemples ne

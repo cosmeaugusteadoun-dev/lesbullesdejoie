@@ -20,13 +20,7 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 │   ├── login.html                 Connexion (email/mot de passe Supabase, œil afficher/masquer)
 │   ├── dashboard.html              Statistiques, dossiers, témoignages, blog, enseignants, galerie, compte
 │   └── admin.js
-├── assets/
-│   ├── images/                   Logo + photos du site (optimisées pour le web)
-│   └── gallery/                   Photos & vidéos de la galerie, rangées par catégorie (voir plus bas)
-│       ├── creche/
-│       ├── maternelle/
-│       ├── primaire/
-│       └── vie-scolaire/
+├── assets/images/               Logo + photos du site (optimisées pour le web)
 ├── src/
 │   ├── css/tailwind.css          Point d'entrée Tailwind
 │   └── scss/main.scss            Styles custom (bulles, marquee, animations, formulaires…)
@@ -44,7 +38,9 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 │   ├── schema.sql                  Script complet (installation depuis zéro)
 │   ├── migration_02_inscriptions_teachers.sql   Dossiers d'inscription + contacts enseignants
 │   ├── migration_03_blog_content.sql            Texte complet des articles (colonne "content")
-│   └── migration_04_stats_gallery.sql           Statistiques de visites + galerie photos/vidéos
+│   ├── migration_04_stats_gallery.sql           Statistiques de visites + galerie photos/vidéos
+│   ├── migration_05_gallery_storage.sql          Stockage (bucket) pour l'envoi de photos/vidéos depuis l'admin
+│   └── migration_06_blog_image.sql               Photo de couverture des articles de blog
 ├── tailwind.config.js
 ├── netlify.toml
 └── package.json
@@ -86,7 +82,7 @@ Pour recevoir un **email à chaque nouvelle pré-inscription** (en plus du dossi
 Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 - consulter les **statistiques** de fréquentation (visites du jour, des 7 derniers jours, graphique en barres, répartition des dossiers par statut en donut) ;
 - suivre et mettre à jour l'état des **dossiers de pré-inscription** (Nouveau → Contacté → Visite planifiée → Accepté/Refusé) ;
-- gérer les **témoignages** et les **articles de blog** (extrait affiché sur la carte + texte complet affiché sur `article.html`) ;
+- gérer les **témoignages** et les **articles de blog** (extrait affiché sur la carte + texte complet affiché sur `article.html`, avec une **photo de couverture optionnelle envoyée directement depuis l'appareil** — sinon une icône par défaut est affichée) ;
 - renseigner le **contact de l'enseignant de chaque classe** — automatiquement montré au parent juste après l'envoi de sa pré-inscription ;
 - gérer la **galerie** (ajouter/dépublier/supprimer des photos et vidéos) ;
 - **changer son mot de passe** à tout moment (onglet *Mon compte*).
@@ -94,8 +90,8 @@ Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 ### Mise en place (une seule fois, ~10 minutes)
 
 1. **Créer le projet** : sur [supabase.com](https://supabase.com), créez un compte puis un nouveau projet (gratuit).
-2. **Créer les tables** : dans le dashboard Supabase → *SQL Editor* → *New query* (un **onglet neuf et vide**, pour éviter d'accumuler d'anciens essais), collez tout le contenu de [`supabase/schema.sql`](supabase/schema.sql) et exécutez-le. Cela crée les 6 tables (`testimonials`, `blog_posts`, `teachers`, `inscriptions`, `page_views`, `gallery_items`), active la sécurité (RLS) et insère les contenus déjà présents sur le site en données de départ.
-   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql) puis [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql) — sans dupliquer vos données déjà en place.
+2. **Créer les tables** : dans le dashboard Supabase → *SQL Editor* → *New query* (un **onglet neuf et vide**, pour éviter d'accumuler d'anciens essais), collez tout le contenu de [`supabase/schema.sql`](supabase/schema.sql) et exécutez-le. Cela crée les 6 tables (`testimonials`, `blog_posts`, `teachers`, `inscriptions`, `page_views`, `gallery_items`), le bucket de stockage `gallery`, active la sécurité (RLS) et insère les contenus déjà présents sur le site en données de départ.
+   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql), [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql), [`migration_05_gallery_storage.sql`](supabase/migration_05_gallery_storage.sql) puis [`migration_06_blog_image.sql`](supabase/migration_06_blog_image.sql) — sans dupliquer vos données déjà en place.
 3. **Créer votre compte admin** : *Authentication → Users → Add user*, renseignez l'email et le mot de passe qui serviront à vous connecter sur `/admin/login.html`. C'est la seule "porte" : sans compte créé ici, personne ne peut modifier le contenu, même en connaissant les clés du site. Vous pourrez changer ce mot de passe à tout moment depuis l'onglet *Mon compte* du tableau de bord.
 4. **Récupérer les identifiants** : *Project Settings → API*, copiez **Project URL** et la clé **anon / public**.
 5. **Configurer le site** : ouvrez [`js/supabase-config.js`](js/supabase-config.js) et remplacez les deux valeurs par celles de votre projet.
@@ -108,26 +104,22 @@ Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 
 ### Galerie : ajouter vos vraies photos et vidéos
 
-Comme il s'agit d'un site statique, l'admin ne "téléverse" pas directement un fichier : vous déposez d'abord le fichier dans le projet, puis vous l'enregistrez dans l'admin pour qu'il apparaisse sur `galerie.html`. Concrètement :
+Tout se passe depuis l'admin, aucun fichier à déposer manuellement dans le projet :
 
-1. **Rangez vos fichiers** dans [`assets/gallery/`](assets/gallery/), dans le sous-dossier de la bonne catégorie :
-   - `assets/gallery/creche/`
-   - `assets/gallery/maternelle/`
-   - `assets/gallery/primaire/`
-   - `assets/gallery/vie-scolaire/` → sorties pédagogiques, activités manuelles, anglais/art oratoire, projets de classe, jardinage, etc. (toute activité qui n'est pas propre à un seul cycle)
-2. **Nommez-les simplement**, par exemple `creche-01.jpg`, `creche-02.mp4`, `vie-scolaire-03.mp4`… Le nom exact n'a pas besoin d'être descriptif : c'est le champ **Légende** de l'admin qui décrit l'activité ("Sortie pédagogique au jardin botanique", "Séance de jardinage — Maternelle 2"…).
-3. **Redéployez le site** (git push, ou glisser-déposer sur Netlify) pour que les nouveaux fichiers soient en ligne.
-4. Dans `/admin/dashboard.html` → onglet **Galerie** → **Ajouter**, choisissez Photo ou Vidéo, la catégorie, tapez le **nom du fichier exact** (ex. `creche-01.jpg`), une légende, puis Enregistrer. L'élément apparaît aussitôt sur `galerie.html`, avec la même mise en page mosaïque et la lightbox (clic pour agrandir, vidéo lue avec le son).
+1. Dans `/admin/dashboard.html` → onglet **Galerie** → **Ajouter**.
+2. Choisissez **Photo** ou **Vidéo**, la **catégorie** (Crèche / Maternelle / Primaire / Vie Scolaire — cette dernière pour les sorties pédagogiques, activités manuelles, anglais/art oratoire, projets de classe, jardinage, etc.).
+3. Cliquez sur **Fichier** et sélectionnez directement la photo ou vidéo depuis l'appareil (téléphone, ordinateur…), ajoutez une légende si besoin, puis **Enregistrer**.
+4. Le fichier est envoyé dans le stockage Supabase (bucket `gallery`) et l'élément apparaît aussitôt sur `galerie.html`, avec la même mise en page mosaïque et la lightbox (clic pour agrandir, vidéo lue avec le son).
 
-**Formats vidéo recommandés** : MP4 (H.264), pour une lecture fiable dans tous les navigateurs. Compressez vos vidéos avant de les déposer (quelques dizaines de Mo maximum par fichier) pour que le site reste rapide.
+**Limites** : 10 Mo max par photo, 50 Mo max par vidéo. **Format vidéo recommandé** : MP4 (H.264), pour une lecture fiable dans tous les navigateurs — compressez vos vidéos avant l'envoi si besoin.
 
-Pour supprimer un média : bouton **Supprimer** dans l'admin (retire l'entrée du site ; pensez à supprimer aussi le fichier du dossier `assets/gallery/` si vous ne comptez plus l'utiliser).
+Pour supprimer un média : bouton **Supprimer** dans l'admin — retire à la fois l'entrée du site et le fichier envoyé.
 
 ## Informations à finaliser
 
 Quelques éléments nécessitent une information de votre part avant la mise en ligne définitive :
 
-- **Ville / pays de l'école** : `contact.html` affiche l'adresse telle que fournie (Quartier Zongo 2, près de l'ANPE, après Kobourou City Hôtel) mais sans ville — à ajouter pour la clarté, et pour permettre une carte Google Maps / OpenStreetMap précise (un lien Google Maps ou des coordonnées GPS suffisent).
+- **Carte de localisation** : la carte insérée sur `contact.html` utilise une recherche Google Maps sur "Quartier Zongo, ANPE, Bénin" (déduit de l'indicatif +229 du téléphone) — elle n'est donc qu'approximative. Envoyez-moi un lien Google Maps ou des coordonnées GPS précises pour la rendre exacte, et confirmez la ville si ce n'est pas Cotonou.
 - **Email de contact** : aucun email n'apparaît sur les documents fournis ; le site n'en affiche donc pas pour l'instant. À communiquer si vous en avez un.
 - **Horaires maternelle/primaire** : seuls les horaires de la crèche (7h–19h, samedi 8h–17h) étaient fournis ; `vie-scolaire.html` utilise des horaires de journée type à titre indicatif — à confirmer.
 - **Réseaux sociaux** : liens du footer actuellement en `#`, à connecter aux vrais comptes.

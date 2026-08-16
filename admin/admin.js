@@ -84,16 +84,6 @@ const STATUS_LABELS = {
   refuse: "Refusé",
 };
 
-// Classes Tailwind écrites en toutes lettres pour rester détectables par le
-// scanner JIT (voir note plus bas sur AVATAR_CLASSES).
-const STATUS_BADGE_CLASSES = {
-  nouveau: "bg-secondary-container text-on-secondary-container",
-  contacte: "bg-primary-container text-on-primary-container",
-  visite_planifiee: "bg-tertiary-container text-on-tertiary-container",
-  accepte: "bg-secondary-container text-on-secondary-container",
-  refuse: "bg-error-container text-on-error-container",
-};
-
 // ---- Helpers ----------------------------------------------------------------
 function escapeHtml(str) {
   const div = document.createElement("div");
@@ -214,9 +204,42 @@ document.querySelector("[data-add-blog]").addEventListener("click", () => {
   document.getElementById("blog-id").value = "";
   document.getElementById("blog-date").value = new Date().toISOString().slice(0, 10);
   document.getElementById("blog-published").checked = true;
+  setBlogImagePreview("");
   blogForm.classList.remove("hidden");
   blogForm.scrollIntoView({ behavior: "smooth", block: "center" });
 });
+
+// ---- Blog : photo de couverture (envoyée directement depuis l'appareil,
+// comme pour la Galerie — pas une sélection parmi des photos déjà en ligne) --
+const blogImageUrlInput = document.getElementById("blog-image-url");
+const blogImageFileInput = document.getElementById("blog-image-file");
+const blogImagePreview = document.getElementById("blog-image-preview");
+const blogImageRemoveBtn = document.querySelector("[data-remove-blog-image]");
+const blogImageUploadStatus = document.getElementById("blog-image-upload-status");
+
+function setBlogImagePreview(url) {
+  blogImageUrlInput.value = url;
+  blogImageFileInput.value = "";
+  if (url) {
+    blogImagePreview.src = url;
+    blogImagePreview.classList.remove("hidden");
+    blogImageRemoveBtn.classList.remove("hidden");
+  } else {
+    blogImagePreview.src = "";
+    blogImagePreview.classList.add("hidden");
+    blogImageRemoveBtn.classList.add("hidden");
+  }
+}
+
+blogImageFileInput.addEventListener("change", () => {
+  const file = blogImageFileInput.files[0];
+  if (!file) return;
+  blogImagePreview.src = URL.createObjectURL(file);
+  blogImagePreview.classList.remove("hidden");
+  blogImageRemoveBtn.classList.remove("hidden");
+});
+
+blogImageRemoveBtn.addEventListener("click", () => setBlogImagePreview(""));
 
 async function loadBlogPosts() {
   blogList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>`;
@@ -235,7 +258,11 @@ async function loadBlogPosts() {
     .map(
       (p) => `
     <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-start gap-4">
-      <div class="w-11 h-11 shrink-0 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center"><span class="material-symbols-outlined">${escapeHtml(p.icon || "auto_stories")}</span></div>
+      ${
+        p.image_url
+          ? `<img alt="" class="w-11 h-11 shrink-0 rounded-full object-cover" src="${escapeHtml(p.image_url)}" />`
+          : `<div class="w-11 h-11 shrink-0 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center"><span class="material-symbols-outlined">${escapeHtml(p.icon || "auto_stories")}</span></div>`
+      }
       <div class="flex-grow min-w-0">
         <div class="flex flex-wrap items-center gap-2">
           <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-[12px]">${escapeHtml(p.category)}</span>
@@ -264,6 +291,7 @@ async function loadBlogPosts() {
       document.getElementById("blog-date").value = p.published_date;
       document.getElementById("blog-icon").value = p.icon || "";
       document.getElementById("blog-published").checked = p.published;
+      setBlogImagePreview(p.image_url || "");
       blogForm.classList.remove("hidden");
       blogForm.scrollIntoView({ behavior: "smooth", block: "center" });
     });
@@ -282,9 +310,47 @@ async function loadBlogPosts() {
   });
 }
 
+// Photos de couverture des articles : rangées à part ("blog/…") dans le même
+// bucket "gallery" que la Galerie publique, pour ne jamais toucher aux
+// fichiers de celle-ci lors du remplacement/suppression d'une couverture.
+async function deleteBlogStorageFile(publicUrl) {
+  const path = extractGalleryStoragePath(publicUrl);
+  if (!path || !path.startsWith("blog/")) return;
+  await supabase.storage.from("gallery").remove([path]);
+}
+
 blogForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const id = document.getElementById("blog-id").value;
+  const file = blogImageFileInput.files[0];
+  const existingUrl = blogImageUrlInput.value;
+  const submitBtn = blogForm.querySelector('button[type="submit"]');
+
+  if (file && file.size > MAX_IMAGE_BYTES) {
+    alert("Photo trop volumineuse (max 10 Mo).");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  let imageUrl = existingUrl || null;
+
+  if (file) {
+    blogImageUploadStatus.classList.remove("hidden");
+    blogImageUploadStatus.classList.add("flex");
+    const storagePath = `blog/${Date.now()}-${sanitizeFileName(file.name)}`;
+    const { error: uploadError } = await supabase.storage.from("gallery").upload(storagePath, file, { upsert: false });
+    blogImageUploadStatus.classList.add("hidden");
+    blogImageUploadStatus.classList.remove("flex");
+
+    if (uploadError) {
+      submitBtn.disabled = false;
+      alert("Erreur d'envoi de la photo : " + uploadError.message);
+      return;
+    }
+    const { data: publicUrlData } = supabase.storage.from("gallery").getPublicUrl(storagePath);
+    imageUrl = publicUrlData.publicUrl;
+  }
+
   const payload = {
     title: document.getElementById("blog-title").value.trim(),
     excerpt: document.getElementById("blog-excerpt").value.trim(),
@@ -292,15 +358,25 @@ blogForm.addEventListener("submit", async (e) => {
     category: document.getElementById("blog-category").value,
     published_date: document.getElementById("blog-date").value || new Date().toISOString().slice(0, 10),
     icon: document.getElementById("blog-icon").value.trim() || "auto_stories",
+    image_url: imageUrl,
     published: document.getElementById("blog-published").checked,
   };
 
   const query = id ? supabase.from("blog_posts").update(payload).eq("id", id) : supabase.from("blog_posts").insert(payload);
   const { error } = await query;
+  submitBtn.disabled = false;
+
   if (error) {
     alert("Erreur : " + error.message);
+    if (file) await deleteBlogStorageFile(imageUrl);
     return;
   }
+
+  // A new photo replaced the previous one, or the photo was removed: clean up the orphaned upload.
+  if (id && existingUrl && existingUrl !== imageUrl) {
+    await deleteBlogStorageFile(existingUrl);
+  }
+
   blogForm.classList.add("hidden");
   loadBlogPosts();
 });
@@ -346,20 +422,23 @@ async function loadInscriptions() {
     return;
   }
 
-  const statusOptions = (current) =>
-    Object.entries(STATUS_LABELS)
-      .map(([value, label]) => `<option value="${value}" ${value === current ? "selected" : ""}>${label}</option>`)
-      .join("");
-
   inscriptionsList.innerHTML = data
-    .map(
-      (d) => `
+    .map((d) => {
+      const buttons = Object.entries(STATUS_LABELS)
+        .map(
+          ([value, label]) => `
+          <button class="px-3 py-1.5 rounded-full font-label-md text-[12px] transition-colors duration-200 ${
+            value === d.status ? "bg-primary text-on-primary" : "bg-surface text-on-surface-variant hover:bg-surface-container-high"
+          }" data-set-status="${d.id}" data-status-value="${value}" type="button">${label}</button>`
+        )
+        .join("");
+
+      return `
     <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm">
-      <div class="flex flex-wrap items-start justify-between gap-4">
+      <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
         <div class="min-w-0">
           <div class="flex flex-wrap items-center gap-2 mb-2">
             <span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px]">${escapeHtml(CLASS_LABELS[d.cycle] || d.cycle)}</span>
-            <span class="px-3 py-1 ${STATUS_BADGE_CLASSES[d.status] || STATUS_BADGE_CLASSES.nouveau} rounded-full font-label-md text-[12px]">${escapeHtml(STATUS_LABELS[d.status] || d.status)}</span>
             <span class="font-body-md text-[13px] text-on-surface-variant">${formatDateTimeFr(d.created_at)}</span>
           </div>
           <p class="font-label-md text-label-md text-on-surface">Enfant : ${escapeHtml(d.child_first_name)} ${escapeHtml(d.child_last_name)}${d.child_birth_date ? ` — né(e) le ${escapeHtml(d.child_birth_date)}` : ""}</p>
@@ -367,21 +446,24 @@ async function loadInscriptions() {
           ${d.entry_term ? `<p class="font-body-md text-[14px] text-on-surface-variant mt-1">Rentrée souhaitée : ${escapeHtml(d.entry_term)}</p>` : ""}
           ${d.message ? `<p class="font-body-md text-[14px] text-on-surface-variant italic mt-2">"${escapeHtml(d.message)}"</p>` : ""}
         </div>
-        <div class="flex flex-col items-end gap-2 shrink-0">
-          <select class="form-field font-body-md text-[13px] text-on-surface !py-2 !px-4 w-auto" data-status-select="${d.id}">
-            ${statusOptions(d.status)}
-          </select>
-          <button class="px-4 py-2 rounded-full border border-error/40 text-error font-label-md text-[13px] hover:bg-error-container" data-delete-inscription="${d.id}" type="button">Supprimer</button>
-        </div>
+        <button class="px-4 py-2 rounded-full border border-error/40 text-error font-label-md text-[13px] hover:bg-error-container shrink-0" data-delete-inscription="${d.id}" type="button">Supprimer</button>
       </div>
-    </div>`
-    )
+      <div class="flex flex-wrap items-center gap-2 pt-4 border-t border-outline-variant/30">
+        <span class="font-label-md text-[12px] text-on-surface-variant mr-1">Statut :</span>
+        ${buttons}
+      </div>
+    </div>`;
+    })
     .join("");
 
   data.forEach((d) => {
-    document.querySelector(`[data-status-select="${d.id}"]`).addEventListener("change", async (e) => {
-      await supabase.from("inscriptions").update({ status: e.target.value }).eq("id", d.id);
-      loadInscriptions();
+    inscriptionsList.querySelectorAll(`[data-set-status="${d.id}"]`).forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const newStatus = btn.getAttribute("data-status-value");
+        if (newStatus === d.status) return;
+        await supabase.from("inscriptions").update({ status: newStatus }).eq("id", d.id);
+        loadInscriptions();
+      });
     });
     document.querySelector(`[data-delete-inscription="${d.id}"]`).addEventListener("click", async () => {
       if (!confirm("Supprimer définitivement ce dossier ?")) return;
@@ -492,13 +574,23 @@ const galleryList = document.getElementById("gallery-list");
 document.querySelector("[data-add-gallery]").addEventListener("click", () => {
   galleryForm.reset();
   document.getElementById("gallery-id").value = "";
+  document.getElementById("gallery-existing-path").value = "";
   document.getElementById("gallery-published").checked = true;
   galleryForm.classList.remove("hidden");
   galleryForm.scrollIntoView({ behavior: "smooth", block: "center" });
 });
 
-function galleryFilePath(category, filename) {
-  return `assets/gallery/${category}/${filename}`.replace(/\/{2,}/g, "/");
+// Public URLs look like https://<project>.supabase.co/storage/v1/object/public/gallery/<path>
+function extractGalleryStoragePath(publicUrl) {
+  const marker = "/storage/v1/object/public/gallery/";
+  const idx = publicUrl.indexOf(marker);
+  return idx === -1 ? null : publicUrl.slice(idx + marker.length);
+}
+
+async function deleteGalleryStorageFile(publicUrl) {
+  const path = extractGalleryStoragePath(publicUrl);
+  if (!path) return;
+  await supabase.storage.from("gallery").remove([path]);
 }
 
 async function loadGallery() {
@@ -521,8 +613,8 @@ async function loadGallery() {
       <div class="aspect-video bg-surface-variant relative flex items-center justify-center overflow-hidden">
         ${
           g.media_type === "video"
-            ? `<video class="w-full h-full object-cover" muted src="../${escapeHtml(g.file_path)}"></video><span class="material-symbols-outlined absolute inset-0 m-auto text-white text-4xl drop-shadow">play_circle</span>`
-            : `<img class="w-full h-full object-cover" src="../${escapeHtml(g.file_path)}" alt="" onerror="this.style.opacity=0.2" />`
+            ? `<video class="w-full h-full object-cover" muted src="${escapeHtml(g.file_path)}"></video><span class="material-symbols-outlined absolute inset-0 m-auto text-white text-4xl drop-shadow">play_circle</span>`
+            : `<img class="w-full h-full object-cover" src="${escapeHtml(g.file_path)}" alt="" onerror="this.style.opacity=0.2" />`
         }
       </div>
       <div class="p-4 flex flex-col flex-grow gap-2">
@@ -531,7 +623,6 @@ async function loadGallery() {
           <span class="px-3 py-1 bg-surface text-on-surface-variant rounded-full font-label-md text-[12px]">${g.media_type === "video" ? "Vidéo" : "Photo"}</span>
           <span class="px-3 py-1 rounded-full text-[12px] font-label-md ${g.published ? "bg-secondary-container text-on-secondary-container" : "bg-surface-variant text-on-surface-variant"}">${g.published ? "Publié" : "Brouillon"}</span>
         </div>
-        <p class="font-body-md text-[13px] text-on-surface-variant break-all">${escapeHtml(g.file_path)}</p>
         ${g.caption ? `<p class="font-body-md text-[14px] text-on-surface">${escapeHtml(g.caption)}</p>` : ""}
         <div class="flex gap-2 mt-auto pt-2">
           <button class="px-3 py-1.5 rounded-full border border-outline-variant/50 font-label-md text-[12px] hover:bg-surface" data-edit-gallery="${g.id}" type="button">Modifier</button>
@@ -546,9 +637,10 @@ async function loadGallery() {
   data.forEach((g) => {
     document.querySelector(`[data-edit-gallery="${g.id}"]`).addEventListener("click", () => {
       document.getElementById("gallery-id").value = g.id;
+      document.getElementById("gallery-existing-path").value = g.file_path;
       document.getElementById(g.media_type === "video" ? "gallery-type-video" : "gallery-type-image").checked = true;
       document.getElementById("gallery-category").value = g.category;
-      document.getElementById("gallery-filename").value = g.file_path.split("/").pop();
+      document.getElementById("gallery-file").value = "";
       document.getElementById("gallery-caption").value = g.caption || "";
       document.getElementById("gallery-published").checked = g.published;
       galleryForm.classList.remove("hidden");
@@ -562,32 +654,90 @@ async function loadGallery() {
     });
 
     document.querySelector(`[data-delete-gallery="${g.id}"]`).addEventListener("click", async () => {
-      if (!confirm("Supprimer cet élément de la galerie ? (le fichier lui-même n'est pas supprimé du serveur)")) return;
+      if (!confirm("Supprimer définitivement cet élément de la galerie et son fichier ?")) return;
       await supabase.from("gallery_items").delete().eq("id", g.id);
+      await deleteGalleryStorageFile(g.file_path);
       loadGallery();
     });
   });
+}
+
+const galleryFileInput = document.getElementById("gallery-file");
+const galleryUploadStatus = document.getElementById("gallery-upload-status");
+const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+const MAX_VIDEO_BYTES = 50 * 1024 * 1024;
+
+function sanitizeFileName(name) {
+  // Pas besoin de translitérer les accents : juste produire un nom de
+  // fichier de stockage sûr (l'admin ne voit/tape jamais ce nom).
+  return name.replace(/[^a-zA-Z0-9.-]/g, "-");
 }
 
 galleryForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const id = document.getElementById("gallery-id").value;
   const category = document.getElementById("gallery-category").value;
-  const filename = document.getElementById("gallery-filename").value.trim().replace(/^\/+/, "");
+  const mediaType = document.getElementById("gallery-type-video").checked ? "video" : "image";
+  const existingPath = document.getElementById("gallery-existing-path").value;
+  const file = galleryFileInput.files[0];
+  const submitBtn = galleryForm.querySelector('button[type="submit"]');
+
+  if (!file && !id) {
+    alert("Veuillez choisir un fichier à ajouter.");
+    return;
+  }
+
+  if (file) {
+    const maxBytes = mediaType === "video" ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+    if (file.size > maxBytes) {
+      alert(`Fichier trop volumineux (max ${mediaType === "video" ? "50" : "10"} Mo).`);
+      return;
+    }
+  }
+
+  submitBtn.disabled = true;
+  let filePath = existingPath;
+
+  if (file) {
+    galleryUploadStatus.classList.remove("hidden");
+    galleryUploadStatus.classList.add("flex");
+    const storagePath = `${category}/${Date.now()}-${sanitizeFileName(file.name)}`;
+    const { error: uploadError } = await supabase.storage.from("gallery").upload(storagePath, file, { upsert: false });
+    galleryUploadStatus.classList.add("hidden");
+    galleryUploadStatus.classList.remove("flex");
+
+    if (uploadError) {
+      submitBtn.disabled = false;
+      alert("Erreur d'envoi du fichier : " + uploadError.message);
+      return;
+    }
+    const { data: publicUrlData } = supabase.storage.from("gallery").getPublicUrl(storagePath);
+    filePath = publicUrlData.publicUrl;
+  }
+
   const payload = {
-    media_type: document.getElementById("gallery-type-video").checked ? "video" : "image",
+    media_type: mediaType,
     category,
-    file_path: galleryFilePath(category, filename),
+    file_path: filePath,
     caption: document.getElementById("gallery-caption").value.trim() || null,
     published: document.getElementById("gallery-published").checked,
   };
 
   const query = id ? supabase.from("gallery_items").update(payload).eq("id", id) : supabase.from("gallery_items").insert(payload);
   const { error } = await query;
+  submitBtn.disabled = false;
+
   if (error) {
     alert("Erreur : " + error.message);
+    if (file) await deleteGalleryStorageFile(filePath); // roll back the upload if the DB write failed
     return;
   }
+
+  // A new file replaced an old one during an edit: clean up the orphaned object.
+  if (file && id && existingPath && existingPath !== filePath) {
+    await deleteGalleryStorageFile(existingPath);
+  }
+
   galleryForm.classList.add("hidden");
   loadGallery();
 });

@@ -127,8 +127,17 @@ function render(article) {
     <span class="text-on-surface-variant text-[14px] font-body-md">${formatDateFr(article.date)}</span>`;
 
   document.querySelector("[data-article-title]").textContent = article.title;
-  document.querySelector("[data-article-gradient]").classList.add(from, to);
-  document.querySelector("[data-article-icon]").textContent = article.icon || "auto_stories";
+  if (article.imageUrl) {
+    const banner = document.querySelector("[data-article-banner]");
+    const img = document.createElement("img");
+    img.src = article.imageUrl;
+    img.alt = article.title;
+    img.className = "absolute inset-0 w-full h-full object-cover";
+    banner.prepend(img);
+  } else {
+    document.querySelector("[data-article-gradient]").classList.add(from, to);
+    document.querySelector("[data-article-icon]").textContent = article.icon || "auto_stories";
+  }
 
   const body = document.querySelector("[data-article-body]");
   const paragraphs = (article.content || "").split(/\n\s*\n/).filter(Boolean);
@@ -162,6 +171,7 @@ async function init() {
       title: data.title,
       category: data.category,
       icon: data.icon,
+      imageUrl: data.image_url,
       date: data.published_date,
       content: data.content || data.excerpt,
       isFallback: !data.content,

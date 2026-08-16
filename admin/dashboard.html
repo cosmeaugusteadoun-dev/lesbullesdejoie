@@ -244,6 +244,22 @@ Déconnexion
 <textarea class="form-field font-body-md text-body-md text-on-surface" id="blog-content" placeholder="Le texte complet de l'article, affiché sur sa propre page. Séparez les paragraphes par une ligne vide." rows="10"></textarea>
 <p class="font-body-md text-[13px] text-on-surface-variant mt-2">Laissez une ligne vide entre deux paragraphes.</p>
 </div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Photo de couverture</label>
+<p class="font-body-md text-[13px] text-on-surface-variant mb-3">Choisissez une photo directement depuis les fichiers de votre téléphone ou de votre ordinateur. Laissez vide pour garder l'icône par défaut.</p>
+<input type="hidden" id="blog-image-url" />
+<div class="flex items-start gap-4 flex-wrap">
+<img alt="" class="hidden w-28 h-28 rounded-xl object-cover shadow-sm" id="blog-image-preview" />
+<div class="flex-grow min-w-[220px]">
+<input accept="image/*" class="w-full font-body-md text-body-md text-on-surface-variant file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:bg-primary file:text-on-primary file:font-label-md file:text-label-md hover:file:bg-primary/90 file:cursor-pointer cursor-pointer" id="blog-image-file" type="file" />
+<button class="hidden mt-2 font-label-md text-[13px] text-error" data-remove-blog-image type="button">Retirer la photo</button>
+</div>
+</div>
+<div id="blog-image-upload-status" class="hidden items-center gap-2 px-4 py-3 mt-3 rounded-xl bg-secondary-container text-on-secondary-container font-body-md text-[14px]">
+<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
+<span>Envoi en cours…</span>
+</div>
+</div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-2">Catégorie</label>
@@ -286,10 +302,11 @@ Déconnexion
 <span class="material-symbols-outlined text-[18px]">add</span>Ajouter
 </button>
 </div>
-<p class="font-body-md text-body-md text-on-surface-variant mb-6">Déposez d'abord le fichier dans le dossier <code>assets/gallery/&lt;catégorie&gt;/</code> de votre site (voir README), puis renseignez son nom exact ici.</p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Choisissez directement une photo ou une vidéo depuis votre appareil.</p>
 
 <form class="hidden bg-surface-container-low rounded-2xl p-6 md:p-8 bubble-shadow mb-8 space-y-5" id="gallery-form" data-entity-form="gallery_items">
 <input type="hidden" id="gallery-id" />
+<input type="hidden" id="gallery-existing-path" />
 <fieldset class="flex gap-6">
 <label class="flex items-center gap-2 cursor-pointer">
 <input checked class="accent-primary" id="gallery-type-image" name="gallery-type" type="radio" value="image" />
@@ -300,7 +317,6 @@ Déconnexion
 <span class="font-body-md text-body-md text-on-surface">Vidéo</span>
 </label>
 </fieldset>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-2">Catégorie</label>
 <select class="form-field font-body-md text-body-md text-on-surface" id="gallery-category">
@@ -311,9 +327,9 @@ Déconnexion
 </select>
 </div>
 <div>
-<label class="block font-label-md text-label-md text-on-surface mb-2">Nom du fichier</label>
-<input class="form-field font-body-md text-body-md text-on-surface" id="gallery-filename" placeholder="creche-01.jpg" required type="text" />
-</div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Fichier</label>
+<input accept="image/*,video/*" class="w-full font-body-md text-body-md text-on-surface-variant file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:bg-primary file:text-on-primary file:font-label-md file:text-label-md hover:file:bg-primary/90 file:cursor-pointer cursor-pointer" id="gallery-file" type="file" />
+<p class="font-body-md text-[13px] text-on-surface-variant mt-2">Photo : 10 Mo max. Vidéo : 50 Mo max (MP4 recommandé). En modification, laissez vide pour garder le fichier actuel.</p>
 </div>
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-2">Légende</label>
@@ -323,6 +339,10 @@ Déconnexion
 <input checked class="w-5 h-5 accent-primary rounded" id="gallery-published" type="checkbox" />
 <span class="font-body-md text-body-md text-on-surface">Publié (visible sur le site)</span>
 </label>
+<div id="gallery-upload-status" class="hidden items-center gap-2 px-4 py-3 rounded-xl bg-secondary-container text-on-secondary-container font-body-md text-[14px]">
+<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
+<span>Envoi en cours…</span>
+</div>
 <div class="flex items-center gap-3">
 <button class="btn-lift bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full shadow-md" type="submit">Enregistrer</button>
 <button class="font-label-md text-label-md text-on-surface-variant px-6 py-3" data-cancel-form type="button">Annuler</button>
