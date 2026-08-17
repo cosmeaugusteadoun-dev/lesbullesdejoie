@@ -11,6 +11,7 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 ├── admissions.html           Étapes d'admission + pièces à fournir
 ├── contact.html               Formulaire de contact, adresse, téléphone, horaires
 ├── galerie.html                Galerie photo filtrable + lightbox
+├── resultats.html               Résultats & Distinctions (palmarès, félicitations, projets de classe)
 ├── blog.html                   Actualités filtrables par catégorie
 ├── article.html                 Page d'un article complet ("Lire la suite")
 ├── inscription.html            Pré-inscription avec détail des frais par classe
@@ -18,7 +19,7 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 ├── 404.html                      Page d'erreur personnalisée
 ├── admin/
 │   ├── login.html                 Connexion (email/mot de passe Supabase, œil afficher/masquer)
-│   ├── dashboard.html              Statistiques, dossiers, témoignages, blog, enseignants, galerie, compte
+│   ├── dashboard.html              Statistiques, dossiers, témoignages, blog, enseignants, galerie, résultats, compte
 │   └── admin.js
 ├── assets/images/               Logo + photos du site (optimisées pour le web)
 ├── src/
@@ -29,7 +30,8 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 │   ├── main.js                    Menu mobile, scroll reveal, lightbox (photo + vidéo), formulaires, tarifs d'inscription
 │   ├── inscription.js              Envoi du formulaire de pré-inscription (Netlify + Supabase + contact enseignant)
 │   ├── article.js                  Charge et affiche un article complet (Supabase ou contenu statique)
-│   ├── gallery.js                  Charge la galerie (photos/vidéos) depuis Supabase
+│   ├── gallery.js                  Charge la galerie (photos/vidéos) depuis Supabase, dont "Vidéos par cycle"
+│   ├── results.js                  Charge la page Résultats & Distinctions depuis Supabase
 │   ├── dynamic-content.js          Charge témoignages/blog depuis Supabase (avec repli statique)
 │   ├── analytics.js                Enregistre une visite anonyme (page + date) pour les statistiques admin
 │   ├── password-toggle.js          Icône "œil" afficher/masquer un mot de passe
@@ -40,7 +42,8 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 │   ├── migration_03_blog_content.sql            Texte complet des articles (colonne "content")
 │   ├── migration_04_stats_gallery.sql           Statistiques de visites + galerie photos/vidéos
 │   ├── migration_05_gallery_storage.sql          Stockage (bucket) pour l'envoi de photos/vidéos depuis l'admin
-│   └── migration_06_blog_image.sql               Photo de couverture des articles de blog
+│   ├── migration_06_blog_image.sql               Photo de couverture des articles de blog
+│   └── migration_07_results.sql                  Palmarès du personnel + félicitations/encouragements/projets de classe
 ├── tailwind.config.js
 ├── netlify.toml
 └── package.json
@@ -85,13 +88,14 @@ Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 - gérer les **témoignages** et les **articles de blog** (extrait affiché sur la carte + texte complet affiché sur `article.html`, avec une **photo de couverture optionnelle envoyée directement depuis l'appareil** — sinon une icône par défaut est affichée) ;
 - renseigner le **contact de l'enseignant de chaque classe** — automatiquement montré au parent juste après l'envoi de sa pré-inscription ;
 - gérer la **galerie** (ajouter/dépublier/supprimer des photos et vidéos) ;
+- gérer les **résultats** (palmarès du personnel, tableaux de félicitations/encouragements et projets de classe), affichés sur `resultats.html` ;
 - **changer son mot de passe** à tout moment (onglet *Mon compte*).
 
 ### Mise en place (une seule fois, ~10 minutes)
 
 1. **Créer le projet** : sur [supabase.com](https://supabase.com), créez un compte puis un nouveau projet (gratuit).
 2. **Créer les tables** : dans le dashboard Supabase → *SQL Editor* → *New query* (un **onglet neuf et vide**, pour éviter d'accumuler d'anciens essais), collez tout le contenu de [`supabase/schema.sql`](supabase/schema.sql) et exécutez-le. Cela crée les 6 tables (`testimonials`, `blog_posts`, `teachers`, `inscriptions`, `page_views`, `gallery_items`), le bucket de stockage `gallery`, active la sécurité (RLS) et insère les contenus déjà présents sur le site en données de départ.
-   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql), [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql), [`migration_05_gallery_storage.sql`](supabase/migration_05_gallery_storage.sql) puis [`migration_06_blog_image.sql`](supabase/migration_06_blog_image.sql) — sans dupliquer vos données déjà en place.
+   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql), [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql), [`migration_05_gallery_storage.sql`](supabase/migration_05_gallery_storage.sql), [`migration_06_blog_image.sql`](supabase/migration_06_blog_image.sql) puis [`migration_07_results.sql`](supabase/migration_07_results.sql) — sans dupliquer vos données déjà en place.
 3. **Créer votre compte admin** : *Authentication → Users → Add user*, renseignez l'email et le mot de passe qui serviront à vous connecter sur `/admin/login.html`. C'est la seule "porte" : sans compte créé ici, personne ne peut modifier le contenu, même en connaissant les clés du site. Vous pourrez changer ce mot de passe à tout moment depuis l'onglet *Mon compte* du tableau de bord.
 4. **Récupérer les identifiants** : *Project Settings → API*, copiez **Project URL** et la clé **anon / public**.
 5. **Configurer le site** : ouvrez [`js/supabase-config.js`](js/supabase-config.js) et remplacez les deux valeurs par celles de votre projet.
@@ -114,6 +118,10 @@ Tout se passe depuis l'admin, aucun fichier à déposer manuellement dans le pro
 **Limites** : 10 Mo max par photo, 50 Mo max par vidéo. **Format vidéo recommandé** : MP4 (H.264), pour une lecture fiable dans tous les navigateurs — compressez vos vidéos avant l'envoi si besoin.
 
 Pour supprimer un média : bouton **Supprimer** dans l'admin — retire à la fois l'entrée du site et le fichier envoyé.
+
+### Résultats & Distinctions
+
+Depuis l'onglet **Résultats** de l'admin, gérez le palmarès du personnel (rang, nom, fonction, photo facultative) et les félicitations/encouragements/projets de classe (classe, catégorie, rang, nom complet de l'élève). Ces éléments s'affichent publiquement sur `resultats.html` avec le nom complet des élèves, tel que validé par l'école — pensez à vous assurer que les familles ont bien été informées avant publication.
 
 ## Informations à finaliser
 

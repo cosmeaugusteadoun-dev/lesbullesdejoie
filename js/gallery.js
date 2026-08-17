@@ -12,7 +12,16 @@ if (isSupabaseConfigured) {
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   loadGallery(supabase);
   loadJoyPreview(supabase);
+  loadCycleVideos(supabase);
 }
+
+const CYCLE_LABELS = {
+  creche: "Crèche",
+  maternelle: "Maternelle",
+  primaire: "Primaire",
+  "vie-scolaire": "Vie Scolaire",
+};
+const CYCLE_ORDER = ["creche", "maternelle", "primaire", "vie-scolaire"];
 
 function escapeHtml(str) {
   const div = document.createElement("div");
@@ -82,5 +91,58 @@ async function loadJoyPreview(supabase) {
   if (error || !data || !data.length) return;
 
   grid.innerHTML = data.map((item, i) => renderTile(item, TILE_SPANS[i % TILE_SPANS.length], false)).join("");
+  activateReveal(grid);
+}
+
+// "Vidéos par cycle" sur pedagogie.html : la vidéo la plus récente de chaque
+// catégorie de la Galerie (même source que galerie.html et l'admin).
+async function loadCycleVideos(supabase) {
+  const grid = document.getElementById("cycle-videos-grid");
+  if (!grid) return;
+
+  const { data, error } = await supabase
+    .from("gallery_items")
+    .select("*")
+    .eq("media_type", "video")
+    .eq("published", true)
+    .order("created_at", { ascending: false });
+
+  if (error || !data || !data.length) {
+    grid.closest("[data-cycle-videos-section]")?.classList.add("hidden");
+    return;
+  }
+
+  const latestByCycle = {};
+  data.forEach((item) => {
+    if (!latestByCycle[item.category]) latestByCycle[item.category] = item;
+  });
+
+  const cycles = CYCLE_ORDER.filter((c) => latestByCycle[c]);
+  if (!cycles.length) {
+    grid.closest("[data-cycle-videos-section]")?.classList.add("hidden");
+    return;
+  }
+
+  grid.innerHTML = cycles
+    .map((cycle) => {
+      const item = latestByCycle[cycle];
+      const title = item.caption || CYCLE_LABELS[cycle];
+      return `
+      <div class="bg-surface rounded-2xl p-5 shadow-ambient" data-lightbox-src="${escapeHtml(item.file_path)}" data-lightbox-alt="${escapeHtml(title)}" data-lightbox-type="video" data-reveal>
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px] mb-3">
+          <span class="material-symbols-outlined text-[16px]">school</span>${escapeHtml(CYCLE_LABELS[cycle])}
+        </div>
+        <p class="font-label-md text-label-md text-on-surface mb-4">${escapeHtml(title)}</p>
+        <div class="relative rounded-xl overflow-hidden aspect-video bg-surface-variant">
+          <video class="w-full h-full object-cover" muted playsinline preload="metadata" src="${escapeHtml(item.file_path)}#t=0.5"></video>
+          <span class="material-symbols-outlined absolute inset-0 m-auto text-4xl text-white drop-shadow-lg pointer-events-none flex items-center justify-center">play_circle</span>
+        </div>
+        <div class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-pink to-orange text-white font-label-md text-label-md w-full justify-center cursor-pointer">
+          <span class="material-symbols-outlined text-[18px]">play_arrow</span>Lire la vidéo
+        </div>
+      </div>`;
+    })
+    .join("");
+
   activateReveal(grid);
 }

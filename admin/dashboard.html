@@ -71,6 +71,9 @@ Déconnexion
 <button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="gallery" type="button">
 <span class="material-symbols-outlined text-[18px] align-middle mr-1">photo_library</span>Galerie
 </button>
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="results" type="button">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1">military_tech</span>Résultats
+</button>
 <button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="account" type="button">
 <span class="material-symbols-outlined text-[18px] align-middle mr-1">lock</span>Mon compte
 </button>
@@ -350,6 +353,111 @@ Déconnexion
 </form>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="gallery-list" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
+</div>
+</section>
+
+<!-- ===== Résultats & Distinctions ===== -->
+<section class="admin-tab-panel hidden" data-tab-panel="results">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Résultats &amp; Distinctions</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-10">Gère le palmarès du personnel et les tableaux de félicitations, encouragements et projets de classe affichés sur la page publique "Résultats".</p>
+
+<!-- Palmarès du personnel -->
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Palmarès du personnel</h3>
+<button class="btn-lift inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-ambient" data-add-staff-distinction type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>Ajouter
+</button>
+</div>
+
+<form class="hidden bg-surface-container-low rounded-2xl p-6 md:p-8 bubble-shadow mb-8 space-y-5" id="staff-distinction-form" data-entity-form="staff_distinctions">
+<input type="hidden" id="staff-distinction-id" />
+<div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Rang</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="staff-distinction-rank" min="1" placeholder="1" required type="number" />
+</div>
+<div class="md:col-span-3">
+<label class="block font-label-md text-label-md text-on-surface mb-2">Nom et prénom</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="staff-distinction-name" placeholder="KODO Amandine" required type="text" />
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Fonction</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="staff-distinction-role" placeholder="Assistante maternelle" required type="text" />
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Photo (facultative)</label>
+<input type="hidden" id="staff-distinction-photo-url" />
+<div class="flex items-start gap-4 flex-wrap">
+<img alt="" class="hidden w-16 h-16 rounded-full object-cover shadow-sm" id="staff-distinction-photo-preview" />
+<div class="flex-grow min-w-[220px]">
+<input accept="image/*" class="w-full font-body-md text-body-md text-on-surface-variant file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:bg-primary file:text-on-primary file:font-label-md file:text-label-md hover:file:bg-primary/90 file:cursor-pointer cursor-pointer" id="staff-distinction-photo-file" type="file" />
+<button class="hidden mt-2 font-label-md text-[13px] text-error" data-remove-staff-photo type="button">Retirer la photo</button>
+</div>
+</div>
+<div id="staff-distinction-upload-status" class="hidden items-center gap-2 px-4 py-3 mt-3 rounded-xl bg-secondary-container text-on-secondary-container font-body-md text-[14px]">
+<span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
+<span>Envoi en cours…</span>
+</div>
+</div>
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked class="w-5 h-5 accent-primary rounded" id="staff-distinction-published" type="checkbox" />
+<span class="font-body-md text-body-md text-on-surface">Publié (visible sur le site)</span>
+</label>
+<div class="flex items-center gap-3">
+<button class="btn-lift bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full shadow-md" type="submit">Enregistrer</button>
+<button class="font-label-md text-label-md text-on-surface-variant px-6 py-3" data-cancel-form type="button">Annuler</button>
+</div>
+</form>
+
+<div class="grid grid-cols-1 gap-4 mb-14" id="staff-distinctions-list" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
+</div>
+
+<!-- Félicitations, encouragements & projets de classe -->
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Félicitations, encouragements &amp; projets de classe</h3>
+<button class="btn-lift inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-ambient" data-add-class-recognition type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>Ajouter
+</button>
+</div>
+
+<form class="hidden bg-surface-container-low rounded-2xl p-6 md:p-8 bubble-shadow mb-8 space-y-5" id="class-recognition-form" data-entity-form="class_recognitions">
+<input type="hidden" id="class-recognition-id" />
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Classe</label>
+<select class="form-field font-body-md text-body-md text-on-surface" id="class-recognition-class"></select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Catégorie</label>
+<select class="form-field font-body-md text-body-md text-on-surface" id="class-recognition-category">
+<option value="felicitation">Félicitation</option>
+<option value="encouragement">Encouragement</option>
+<option value="projet_classe">Projet de classe</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Rang</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="class-recognition-rank" min="1" placeholder="1" required type="number" />
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Nom et prénom de l'élève</label>
+<input class="form-field font-body-md text-body-md text-on-surface" id="class-recognition-name" placeholder="GUERGUISSE Shaïne" required type="text" />
+</div>
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked class="w-5 h-5 accent-primary rounded" id="class-recognition-published" type="checkbox" />
+<span class="font-body-md text-body-md text-on-surface">Publié (visible sur le site)</span>
+</label>
+<div class="flex items-center gap-3">
+<button class="btn-lift bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full shadow-md" type="submit">Enregistrer</button>
+<button class="font-label-md text-label-md text-on-surface-variant px-6 py-3" data-cancel-form type="button">Annuler</button>
+</div>
+</form>
+
+<div class="grid grid-cols-1 gap-4" id="class-recognitions-list" data-loading>
 <p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
 </div>
 </section>

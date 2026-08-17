@@ -4,8 +4,8 @@
 <script>document.documentElement.classList.add("js");</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Galerie Photos — Les Bulles de Joie</title>
-<meta name="description" content="Plongez dans le quotidien de l'école : crèche, maternelle, primaire et vie scolaire en images." />
+<title>Résultats & Distinctions — Les Bulles de Joie</title>
+<meta name="description" content="Palmarès du personnel, tableaux de félicitations et d'encouragements, projets de classe : les résultats de l'année scolaire aux Bulles de Joie." />
 <link rel="icon" type="image/png" href="assets/images/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,10 +28,10 @@
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="pedagogie.html">Pédagogie</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="vie-scolaire.html">Vie Scolaire</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="admissions.html">Admissions</a>
-<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="resultats.html">Résultats</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md transition-all duration-300" href="resultats.html">Résultats</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="contact.html">Contact</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="blog.html">Blog</a>
-<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md transition-all duration-300" href="galerie.html">Galerie</a>
+<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="galerie.html">Galerie</a>
 </div>
 <div class="hidden md:block">
 <a class="btn-lift inline-flex items-center justify-center px-6 py-3 bg-pink text-on-pink font-label-md text-label-md rounded-full hover:bg-pink/90 transition-colors duration-300 shadow-ambient" href="inscription.html">Inscriptions</a>
@@ -47,10 +47,10 @@
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="pedagogie.html">Pédagogie</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="vie-scolaire.html">Vie Scolaire</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="admissions.html">Admissions</a>
-<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="resultats.html">Résultats</a>
+<a class="py-3 text-primary font-label-md text-label-md" href="resultats.html">Résultats</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="contact.html">Contact</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="blog.html">Blog</a>
-<a class="py-3 text-primary font-label-md text-label-md" href="galerie.html">Galerie</a>
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="galerie.html">Galerie</a>
 <a class="mt-2 inline-flex items-center justify-center px-6 py-3 bg-pink text-on-pink font-label-md text-label-md rounded-full" href="inscription.html">Inscriptions</a>
 </div>
 </div>
@@ -59,79 +59,54 @@
 <main class="flex-grow pt-[100px] pb-section-gap">
 <!-- ===== Hero ===== -->
 <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center mb-16" data-reveal>
-<div class="inline-flex items-center gap-2 px-4 py-2 bg-secondary-container/80 text-on-secondary-container rounded-full font-label-md text-label-md shadow-sm mb-6">
-<span class="material-symbols-outlined icon-filled text-[18px]">photo_library</span>
-Galerie
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-container/60 text-on-primary-container rounded-full font-label-md text-label-md shadow-sm mb-6">
+<span class="material-symbols-outlined icon-filled text-[18px]">military_tech</span>
+Résultats &amp; Distinctions
 </div>
-<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-primary mb-4">Instants de Joie en images</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Un aperçu du quotidien de nos élèves : ateliers, jeux, découvertes et sourires, de la crèche au primaire.</p>
+<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-primary mb-4">Célébrer chaque réussite</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Félicitations, encouragements, projets de classe et distinctions du personnel : le palmarès de l'année scolaire aux Bulles de Joie.</p>
 </section>
 
-<!-- ===== Filters ===== -->
-<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-10">
-<div class="flex flex-wrap justify-center gap-3" data-reveal>
-<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-colors duration-200" data-filter="all" type="button">Toutes</button>
-<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-filter="creche" type="button">Crèche</button>
-<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-filter="maternelle" type="button">Maternelle</button>
-<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-filter="primaire" type="button">Primaire</button>
-<button class="px-5 py-2 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-filter="vie-scolaire" type="button">Vie Scolaire</button>
+<!-- ===== Distinctions du personnel ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="text-center mb-10" data-reveal>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-3">Nos éducateurs à l'honneur</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Le personnel distingué pour son engagement auprès des enfants.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="staff-distinctions" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant text-center py-8 col-span-full">Chargement…</p>
 </div>
 </section>
 
-<!-- ===== Grid ===== -->
-<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="gallery-grid">
-
-<div class="gallery-item col-span-2 row-span-2 rounded-xl shadow-sm" data-category="maternelle" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Salle de classe Montessori, ateliers en autonomie" data-reveal>
-<img alt="Salle de classe Montessori, ateliers en autonomie" class="w-full h-full min-h-[300px] object-cover rounded-xl" src="assets/images/hero-classroom.jpg" />
+<!-- ===== Tableaux de félicitations et encouragements ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="text-center mb-10" data-reveal>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-3">Félicitations &amp; encouragements par classe</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Excellence, exemplarité et progression remarquable : les élèves distingués ce trimestre.</p>
 </div>
-
-<div class="gallery-item rounded-xl shadow-sm" data-category="creche" data-lightbox-src="assets/images/hero-nursery.jpg" data-lightbox-alt="Éveil sensoriel à la crèche" data-reveal>
-<img alt="Éveil sensoriel à la crèche" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-nursery.jpg" />
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="class-tableaux" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant text-center py-8 col-span-full">Chargement…</p>
 </div>
+</section>
 
-<div class="gallery-item rounded-xl shadow-sm" data-category="vie-scolaire" data-lightbox-src="assets/images/hero-playground.jpg" data-lightbox-alt="Jeux dans la cour de récréation" data-reveal>
-<img alt="Jeux dans la cour de récréation" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-playground.jpg" />
+<!-- ===== Projets de classe ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="text-center mb-10" data-reveal>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-3">Projets de classe</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Créativité à la maison : des projets initiés à l'école et réalisés en famille.</p>
 </div>
-
-<div class="gallery-item col-span-2 rounded-xl shadow-sm" data-category="primaire" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Lecture partagée en classe de primaire" data-reveal>
-<img alt="Lecture partagée en classe de primaire" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-classroom.jpg" />
-</div>
-
-<div class="gallery-item rounded-xl shadow-sm" data-category="creche" data-lightbox-src="assets/images/hero-nursery.jpg" data-lightbox-alt="Jeux de construction en crèche" data-reveal>
-<img alt="Jeux de construction en crèche" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-nursery.jpg" />
-</div>
-
-<div class="gallery-item rounded-xl shadow-sm" data-category="vie-scolaire" data-lightbox-src="assets/images/hero-playground.jpg" data-lightbox-alt="École Les Bulles de Joie, façade et cour" data-reveal>
-<img alt="École Les Bulles de Joie, façade et cour" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-playground.jpg" />
-</div>
-
-<div class="gallery-item rounded-xl shadow-sm" data-category="maternelle" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Matériel pédagogique en maternelle" data-reveal>
-<img alt="Matériel pédagogique en maternelle" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-classroom.jpg" />
-</div>
-
-<div class="gallery-item col-span-2 rounded-xl shadow-sm" data-category="vie-scolaire" data-lightbox-src="assets/images/hero-playground.jpg" data-lightbox-alt="Activités en plein air, motricité et sport" data-reveal>
-<img alt="Activités en plein air, motricité et sport" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-playground.jpg" />
-</div>
-
-<div class="gallery-item rounded-xl shadow-sm" data-category="primaire" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Travail collaboratif en classe de primaire" data-reveal>
-<img alt="Travail collaboratif en classe de primaire" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-classroom.jpg" />
-</div>
-
-<div class="gallery-item rounded-xl shadow-sm" data-category="creche" data-lightbox-src="assets/images/hero-nursery.jpg" data-lightbox-alt="Moment calme et lecture à la crèche" data-reveal>
-<img alt="Moment calme et lecture à la crèche" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-nursery.jpg" />
-</div>
-
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="class-projects" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant text-center py-8 col-span-full">Chargement…</p>
 </div>
 </section>
 
 <!-- ===== CTA ===== -->
-<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mt-section-gap">
-<div class="bg-citron text-on-citron rounded-3xl p-10 md:p-16 text-center flex flex-col items-center gap-6 relative overflow-hidden" data-reveal>
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="bg-orange text-on-orange rounded-3xl p-10 md:p-16 text-center flex flex-col items-center gap-6 relative overflow-hidden" data-reveal>
 <div class="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-xl"></div>
-<h2 class="font-headline-lg text-headline-lg relative z-10">Envie de voir tout ça en vrai ?</h2>
-<p class="font-body-lg text-body-lg opacity-90 max-w-xl relative z-10">Planifiez une visite de nos locaux avec votre enfant.</p>
-<a class="btn-lift relative z-10 inline-flex items-center justify-center px-8 py-4 bg-surface text-citron font-label-md text-label-md rounded-full hover:bg-surface-variant transition-colors duration-300 shadow-lg" href="contact.html">Planifier une visite</a>
+<h2 class="font-headline-lg text-headline-lg relative z-10">Envie que votre enfant écrive sa propre réussite ?</h2>
+<p class="font-body-lg text-body-lg opacity-90 max-w-xl relative z-10">Rejoignez la famille Les Bulles de Joie dès la rentrée prochaine.</p>
+<a class="btn-lift relative z-10 inline-flex items-center justify-center px-8 py-4 bg-surface text-orange font-label-md text-label-md rounded-full hover:bg-surface-variant transition-colors duration-300 shadow-lg" href="inscription.html">Inscrire mon enfant</a>
 </div>
 </section>
 </main>
@@ -158,8 +133,8 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 <div class="flex flex-col gap-3">
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="pedagogie.html">Pédagogie</a>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="vie-scolaire.html">Vie Scolaire</a>
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="resultats.html">Résultats</a>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="blog.html">Blog</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="galerie.html">Galerie</a>
 </div>
 </div>
 <div class="flex flex-col gap-4">
@@ -180,24 +155,12 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 </div>
 </footer>
 
-<!-- ===== Lightbox ===== -->
-<div class="lightbox" data-lightbox>
-<button aria-label="Fermer" class="absolute top-6 right-6 text-white/80 hover:text-white" data-lightbox-close type="button">
-<span class="material-symbols-outlined text-4xl" data-lightbox-close>close</span>
-</button>
-<figure class="flex flex-col items-center gap-4">
-<img alt="" data-lightbox-img src="" />
-<video class="hidden max-w-[90vw] max-h-[85vh] rounded-2xl shadow-2xl" controls data-lightbox-video></video>
-<figcaption class="text-white/80 font-body-md text-body-md text-center" data-lightbox-caption></figcaption>
-</figure>
-</div>
-
 <button aria-label="Retour en haut" class="back-to-top w-12 h-12 rounded-full bg-primary text-on-primary shadow-ambient-lg flex items-center justify-center" data-back-to-top type="button">
 <span class="material-symbols-outlined">arrow_upward</span>
 </button>
 
 <script src="js/main.js"></script>
 <script type="module" src="js/analytics.js"></script>
-<script type="module" src="js/gallery.js"></script>
+<script type="module" src="js/results.js"></script>
 </body>
 </html>

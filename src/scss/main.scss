@@ -5,10 +5,8 @@
 // ==========================================================================
 
 // ---- Design tokens (mirrors tailwind.config.js) --------------------------
-$color-primary: #4f378a;
-$color-primary-container: #6750a4;
-$color-secondary-container: #e1d4fd;
-$color-tertiary-container: #c9a74d;
+$color-primary: #e6338d;
+$color-secondary-container: #e2f2c4;
 $color-surface: #fdf7ff;
 $color-on-surface-variant: #494551;
 
@@ -79,7 +77,7 @@ body {
 }
 
 .soft-shadow {
-  box-shadow: 0 10px 40px rgba($color-primary-container, 0.08);
+  box-shadow: 0 10px 40px rgba($color-primary, 0.08);
 }
 
 .shadow-ambient-lg {
@@ -120,12 +118,12 @@ body {
 // ---- Hero image carousel ---------------------------------------------------
 @keyframes carousel {
   0%,
-  25% {
+  20% {
     opacity: 1;
     visibility: visible;
   }
-  33%,
-  92% {
+  25%,
+  95% {
     opacity: 0;
     visibility: hidden;
   }
@@ -135,14 +133,18 @@ body {
   }
 }
 .carousel-img-1 {
-  animation: carousel 15s infinite;
+  animation: carousel 20s infinite;
 }
 .carousel-img-2 {
-  animation: carousel 15s infinite -5s;
+  animation: carousel 20s infinite -5s;
   opacity: 0;
 }
 .carousel-img-3 {
-  animation: carousel 15s infinite -10s;
+  animation: carousel 20s infinite -10s;
+  opacity: 0;
+}
+.carousel-img-4 {
+  animation: carousel 20s infinite -15s;
   opacity: 0;
 }
 
@@ -220,7 +222,7 @@ textarea.form-field {
   }
   input:checked + .form-radio-inner {
     border-color: $color-primary;
-    background-color: rgba($color-primary-container, 0.08);
+    background-color: rgba($color-primary, 0.08);
     box-shadow: $shadow-ambient;
   }
   input:focus-visible + .form-radio-inner {
@@ -403,5 +405,50 @@ textarea.form-field {
   &.is-revealed {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+// ---- Page transitions (native cross-document View Transitions API) --------
+// Animates the switch between pages (Chrome/Edge — other browsers ignore
+// this at-rule entirely and navigate instantly as before, so it's pure
+// progressive enhancement with zero JS and zero risk to navigation).
+@view-transition {
+  navigation: auto;
+}
+
+@keyframes page-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.99);
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+::view-transition-old(root) {
+  animation: page-fade-out 0.28s ease-in both;
+}
+
+::view-transition-new(root) {
+  animation: page-fade-in 0.38s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
 }

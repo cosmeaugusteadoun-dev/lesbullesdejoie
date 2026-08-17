@@ -742,6 +742,272 @@ galleryForm.addEventListener("submit", async (e) => {
   loadGallery();
 });
 
+// ---- Résultats & Distinctions : palmarès du personnel ----------------------
+const staffDistinctionForm = document.getElementById("staff-distinction-form");
+const staffDistinctionsList = document.getElementById("staff-distinctions-list");
+const staffPhotoUrlInput = document.getElementById("staff-distinction-photo-url");
+const staffPhotoFileInput = document.getElementById("staff-distinction-photo-file");
+const staffPhotoPreview = document.getElementById("staff-distinction-photo-preview");
+const staffPhotoRemoveBtn = document.querySelector("[data-remove-staff-photo]");
+const staffPhotoUploadStatus = document.getElementById("staff-distinction-upload-status");
+
+function setStaffPhotoPreview(url) {
+  staffPhotoUrlInput.value = url;
+  staffPhotoFileInput.value = "";
+  if (url) {
+    staffPhotoPreview.src = url;
+    staffPhotoPreview.classList.remove("hidden");
+    staffPhotoRemoveBtn.classList.remove("hidden");
+  } else {
+    staffPhotoPreview.src = "";
+    staffPhotoPreview.classList.add("hidden");
+    staffPhotoRemoveBtn.classList.add("hidden");
+  }
+}
+
+staffPhotoFileInput.addEventListener("change", () => {
+  const file = staffPhotoFileInput.files[0];
+  if (!file) return;
+  staffPhotoPreview.src = URL.createObjectURL(file);
+  staffPhotoPreview.classList.remove("hidden");
+  staffPhotoRemoveBtn.classList.remove("hidden");
+});
+
+staffPhotoRemoveBtn.addEventListener("click", () => setStaffPhotoPreview(""));
+
+async function deleteStaffStorageFile(publicUrl) {
+  const path = extractGalleryStoragePath(publicUrl);
+  if (!path || !path.startsWith("staff/")) return;
+  await supabase.storage.from("gallery").remove([path]);
+}
+
+document.querySelector("[data-add-staff-distinction]").addEventListener("click", () => {
+  staffDistinctionForm.reset();
+  document.getElementById("staff-distinction-id").value = "";
+  document.getElementById("staff-distinction-published").checked = true;
+  setStaffPhotoPreview("");
+  staffDistinctionForm.classList.remove("hidden");
+  staffDistinctionForm.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+async function loadStaffDistinctions() {
+  staffDistinctionsList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>`;
+  const { data, error } = await supabase.from("staff_distinctions").select("*").order("rank", { ascending: true });
+
+  if (error) {
+    staffDistinctionsList.innerHTML = `<p class="font-body-md text-body-md text-error">Erreur de chargement : ${escapeHtml(error.message)}</p>`;
+    return;
+  }
+  if (!data.length) {
+    staffDistinctionsList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Aucune distinction pour le moment.</p>`;
+    return;
+  }
+
+  staffDistinctionsList.innerHTML = data
+    .map(
+      (s) => `
+    <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-center gap-4">
+      ${
+        s.photo_url
+          ? `<img alt="" class="w-12 h-12 shrink-0 rounded-full object-cover" src="${escapeHtml(s.photo_url)}" />`
+          : `<div class="w-12 h-12 shrink-0 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center"><span class="material-symbols-outlined">person</span></div>`
+      }
+      <div class="flex-grow min-w-0">
+        <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-[12px]">Prix n°${s.rank}</span>
+        <p class="font-label-md text-label-md text-on-surface mt-2">${escapeHtml(s.staff_name)}</p>
+        <p class="font-body-md text-[14px] text-on-surface-variant mt-1">${escapeHtml(s.role_label)}</p>
+        <span class="inline-block mt-2 px-3 py-1 rounded-full text-[12px] font-label-md ${s.published ? "bg-secondary-container text-on-secondary-container" : "bg-surface-variant text-on-surface-variant"}">${s.published ? "Publié" : "Brouillon"}</span>
+      </div>
+      <div class="flex md:flex-col gap-2 shrink-0">
+        <button class="px-4 py-2 rounded-full border border-outline-variant/50 font-label-md text-[13px] hover:bg-surface" data-edit-staff-distinction="${s.id}" type="button">Modifier</button>
+        <button class="px-4 py-2 rounded-full border border-error/40 text-error font-label-md text-[13px] hover:bg-error-container" data-delete-staff-distinction="${s.id}" type="button">Supprimer</button>
+      </div>
+    </div>`
+    )
+    .join("");
+
+  data.forEach((s) => {
+    document.querySelector(`[data-edit-staff-distinction="${s.id}"]`).addEventListener("click", () => {
+      document.getElementById("staff-distinction-id").value = s.id;
+      document.getElementById("staff-distinction-rank").value = s.rank;
+      document.getElementById("staff-distinction-name").value = s.staff_name;
+      document.getElementById("staff-distinction-role").value = s.role_label;
+      document.getElementById("staff-distinction-published").checked = s.published;
+      setStaffPhotoPreview(s.photo_url || "");
+      staffDistinctionForm.classList.remove("hidden");
+      staffDistinctionForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    document.querySelector(`[data-delete-staff-distinction="${s.id}"]`).addEventListener("click", async () => {
+      if (!confirm("Supprimer définitivement cette distinction ?")) return;
+      await supabase.from("staff_distinctions").delete().eq("id", s.id);
+      if (s.photo_url) await deleteStaffStorageFile(s.photo_url);
+      loadStaffDistinctions();
+    });
+  });
+}
+
+staffDistinctionForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = document.getElementById("staff-distinction-id").value;
+  const file = staffPhotoFileInput.files[0];
+  const existingUrl = staffPhotoUrlInput.value;
+  const submitBtn = staffDistinctionForm.querySelector('button[type="submit"]');
+
+  if (file && file.size > MAX_IMAGE_BYTES) {
+    alert("Photo trop volumineuse (max 10 Mo).");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  let photoUrl = existingUrl || null;
+
+  if (file) {
+    staffPhotoUploadStatus.classList.remove("hidden");
+    staffPhotoUploadStatus.classList.add("flex");
+    const storagePath = `staff/${Date.now()}-${sanitizeFileName(file.name)}`;
+    const { error: uploadError } = await supabase.storage.from("gallery").upload(storagePath, file, { upsert: false });
+    staffPhotoUploadStatus.classList.add("hidden");
+    staffPhotoUploadStatus.classList.remove("flex");
+
+    if (uploadError) {
+      submitBtn.disabled = false;
+      alert("Erreur d'envoi de la photo : " + uploadError.message);
+      return;
+    }
+    const { data: publicUrlData } = supabase.storage.from("gallery").getPublicUrl(storagePath);
+    photoUrl = publicUrlData.publicUrl;
+  }
+
+  const payload = {
+    rank: parseInt(document.getElementById("staff-distinction-rank").value, 10),
+    staff_name: document.getElementById("staff-distinction-name").value.trim(),
+    role_label: document.getElementById("staff-distinction-role").value.trim(),
+    photo_url: photoUrl,
+    published: document.getElementById("staff-distinction-published").checked,
+  };
+
+  const query = id ? supabase.from("staff_distinctions").update(payload).eq("id", id) : supabase.from("staff_distinctions").insert(payload);
+  const { error } = await query;
+  submitBtn.disabled = false;
+
+  if (error) {
+    alert("Erreur : " + error.message);
+    if (file) await deleteStaffStorageFile(photoUrl);
+    return;
+  }
+
+  if (id && existingUrl && existingUrl !== photoUrl) {
+    await deleteStaffStorageFile(existingUrl);
+  }
+
+  staffDistinctionForm.classList.add("hidden");
+  loadStaffDistinctions();
+});
+
+// ---- Résultats & Distinctions : félicitations, encouragements, projets ----
+const CLASS_RECOGNITION_CATEGORY_LABELS = {
+  felicitation: "Félicitation",
+  encouragement: "Encouragement",
+  projet_classe: "Projet de classe",
+};
+
+const classRecognitionForm = document.getElementById("class-recognition-form");
+const classRecognitionsList = document.getElementById("class-recognitions-list");
+const classRecognitionClassSelect = document.getElementById("class-recognition-class");
+
+classRecognitionClassSelect.innerHTML = Object.entries(CLASS_LABELS)
+  .map(([value, label]) => `<option value="${value}">${label}</option>`)
+  .join("");
+
+document.querySelector("[data-add-class-recognition]").addEventListener("click", () => {
+  classRecognitionForm.reset();
+  document.getElementById("class-recognition-id").value = "";
+  document.getElementById("class-recognition-published").checked = true;
+  classRecognitionForm.classList.remove("hidden");
+  classRecognitionForm.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+async function loadClassRecognitions() {
+  classRecognitionsList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>`;
+  const { data, error } = await supabase
+    .from("class_recognitions")
+    .select("*")
+    .order("class_key", { ascending: true })
+    .order("category", { ascending: true })
+    .order("rank", { ascending: true });
+
+  if (error) {
+    classRecognitionsList.innerHTML = `<p class="font-body-md text-body-md text-error">Erreur de chargement : ${escapeHtml(error.message)}</p>`;
+    return;
+  }
+  if (!data.length) {
+    classRecognitionsList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Aucune entrée pour le moment.</p>`;
+    return;
+  }
+
+  classRecognitionsList.innerHTML = data
+    .map(
+      (r) => `
+    <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-center gap-4">
+      <div class="flex-grow min-w-0">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px]">${escapeHtml(CLASS_LABELS[r.class_key] || r.class_key)}</span>
+          <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-[12px]">${CLASS_RECOGNITION_CATEGORY_LABELS[r.category] || r.category}</span>
+          <span class="font-body-md text-[13px] text-on-surface-variant">Rang ${r.rank}</span>
+        </div>
+        <p class="font-label-md text-label-md text-on-surface mt-2">${escapeHtml(r.student_name)}</p>
+        <span class="inline-block mt-2 px-3 py-1 rounded-full text-[12px] font-label-md ${r.published ? "bg-secondary-container text-on-secondary-container" : "bg-surface-variant text-on-surface-variant"}">${r.published ? "Publié" : "Brouillon"}</span>
+      </div>
+      <div class="flex md:flex-col gap-2 shrink-0">
+        <button class="px-4 py-2 rounded-full border border-outline-variant/50 font-label-md text-[13px] hover:bg-surface" data-edit-class-recognition="${r.id}" type="button">Modifier</button>
+        <button class="px-4 py-2 rounded-full border border-error/40 text-error font-label-md text-[13px] hover:bg-error-container" data-delete-class-recognition="${r.id}" type="button">Supprimer</button>
+      </div>
+    </div>`
+    )
+    .join("");
+
+  data.forEach((r) => {
+    document.querySelector(`[data-edit-class-recognition="${r.id}"]`).addEventListener("click", () => {
+      document.getElementById("class-recognition-id").value = r.id;
+      document.getElementById("class-recognition-class").value = r.class_key;
+      document.getElementById("class-recognition-category").value = r.category;
+      document.getElementById("class-recognition-rank").value = r.rank;
+      document.getElementById("class-recognition-name").value = r.student_name;
+      document.getElementById("class-recognition-published").checked = r.published;
+      classRecognitionForm.classList.remove("hidden");
+      classRecognitionForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    document.querySelector(`[data-delete-class-recognition="${r.id}"]`).addEventListener("click", async () => {
+      if (!confirm("Supprimer définitivement cette entrée ?")) return;
+      await supabase.from("class_recognitions").delete().eq("id", r.id);
+      loadClassRecognitions();
+    });
+  });
+}
+
+classRecognitionForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = document.getElementById("class-recognition-id").value;
+  const payload = {
+    class_key: document.getElementById("class-recognition-class").value,
+    category: document.getElementById("class-recognition-category").value,
+    rank: parseInt(document.getElementById("class-recognition-rank").value, 10),
+    student_name: document.getElementById("class-recognition-name").value.trim(),
+    published: document.getElementById("class-recognition-published").checked,
+  };
+
+  const query = id ? supabase.from("class_recognitions").update(payload).eq("id", id) : supabase.from("class_recognitions").insert(payload);
+  const { error } = await query;
+  if (error) {
+    alert("Erreur : " + error.message);
+    return;
+  }
+  classRecognitionForm.classList.add("hidden");
+  loadClassRecognitions();
+});
+
 // ---- Mon compte : changer le mot de passe --------------------------------
 const passwordForm = document.getElementById("password-form");
 const passwordStatus = document.getElementById("password-status");
@@ -845,7 +1111,7 @@ async function loadStats() {
           {
             label: "Visites",
             data: days.map((d) => counts[d]),
-            backgroundColor: "#4f378a",
+            backgroundColor: "#e6338d",
             borderRadius: 8,
           },
         ],
@@ -883,7 +1149,7 @@ async function loadStats() {
         datasets: [
           {
             data: Object.keys(statusCounts).map((k) => statusCounts[k]),
-            backgroundColor: ["#e1d4fd", "#6750a4", "#c9a74d", "#84BD00", "#ba1a1a"],
+            backgroundColor: ["#ffd8ea", "#e6338d", "#f2762e", "#7cbc10", "#ba1a1a"],
           },
         ],
       },
@@ -921,3 +1187,5 @@ loadTestimonials();
 loadBlogPosts();
 loadTeachers();
 loadGallery();
+loadStaffDistinctions();
+loadClassRecognitions();

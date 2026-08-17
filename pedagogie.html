@@ -21,13 +21,14 @@
 <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
 <a class="flex items-center gap-3" href="index.html">
 <img alt="Logo Les Bulles de Joie" class="h-11 w-auto" src="assets/images/logo.png" />
-<span class="font-headline-md text-headline-md font-bold text-primary hidden sm:inline">Les Bulles de Joie</span>
+<span class="font-headline-md text-headline-md font-bold hidden sm:inline"><span class="text-primary">Les Bulles</span> <span class="text-citron">de Joie</span></span>
 </a>
 <div class="hidden md:flex items-center gap-6">
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="index.html">Accueil</a>
 <a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md transition-all duration-300" href="pedagogie.html">Pédagogie</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="vie-scolaire.html">Vie Scolaire</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="admissions.html">Admissions</a>
+<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="resultats.html">Résultats</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="contact.html">Contact</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="blog.html">Blog</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="galerie.html">Galerie</a>
@@ -46,6 +47,7 @@
 <a class="py-3 text-primary font-label-md text-label-md" href="pedagogie.html">Pédagogie</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="vie-scolaire.html">Vie Scolaire</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="admissions.html">Admissions</a>
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="resultats.html">Résultats</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="contact.html">Contact</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="blog.html">Blog</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="galerie.html">Galerie</a>
@@ -56,19 +58,22 @@
 
 <main class="flex-grow pt-[88px]">
 <!-- ===== Hero ===== -->
-<section class="pt-section-gap pb-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative overflow-hidden">
-<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-pink/30 bubble-shape -z-10 blur-3xl opacity-50"></div>
-<div class="text-center max-w-3xl mx-auto space-y-6" data-reveal>
-<div class="inline-flex items-center gap-2 px-4 py-1.5 bg-tertiary-container/30 text-on-tertiary-container rounded-full font-label-md text-label-md">
-<span class="material-symbols-outlined icon-filled text-[16px]">verified</span>
+<section class="pt-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="relative rounded-xl overflow-hidden shadow-sm min-h-[420px] md:min-h-[520px] flex items-center justify-center" data-reveal>
+<img alt="Élèves des Bulles de Joie en classe, exercice d'expression orale" class="absolute inset-0 w-full h-full object-cover" src="assets/images/hero-nursery1.jpg" />
+<div class="absolute inset-0 bg-primary/20"></div>
+<div class="relative z-10 text-center max-w-3xl mx-auto space-y-6 px-6 py-10">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 bg-surface/90 backdrop-blur text-on-surface rounded-full font-label-md text-label-md">
+<span class="material-symbols-outlined icon-filled text-[16px] text-tertiary">verified</span>
 Crèche · Garderie · Maternelle · Primaire bilingue — depuis 2017
 </div>
-<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-primary">
+<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-primary drop-shadow-sm">
 Notre Projet Pédagogique
 </h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant">
+<p class="font-body-lg text-body-lg text-on-primary/90 drop-shadow-sm">
 Aux Bulles de Joie, nous croyons que chaque enfant est un individu unique capable d'un développement extraordinaire lorsqu'on lui offre l'environnement, les conseils et le respect appropriés.
 </p>
+</div>
 </div>
 </section>
 
@@ -95,7 +100,7 @@ Aux Bulles de Joie, nous croyons que chaque enfant est un individu unique capabl
 <p class="font-label-md text-label-md text-on-surface">Discipline</p>
 </div>
 <div class="motto-card bg-surface rounded-2xl p-5 text-center shadow-sm cursor-default">
-<span class="material-symbols-outlined icon-filled text-primary text-2xl mb-1">palette</span>
+<span class="material-symbols-outlined icon-filled text-sky text-2xl mb-1">palette</span>
 <p class="font-label-md text-label-md text-on-surface">Créativité</p>
 </div>
 </div>
@@ -109,28 +114,34 @@ Aux Bulles de Joie, nous croyons que chaque enfant est un individu unique capabl
 <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Ce qui rend l'expérience Les Bulles de Joie unique, au quotidien.</p>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-<div class="bg-surface rounded-xl p-6 shadow-ambient flex items-start gap-4" data-reveal>
-<div class="w-12 h-12 shrink-0 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled">home</span></div>
+<div class="bg-surface rounded-xl p-6 shadow-ambient border-t-4 border-pink" data-reveal>
+<div class="w-12 h-12 bg-pink/15 text-pink rounded-full flex items-center justify-center mb-4"><span class="material-symbols-outlined icon-filled">home</span></div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Cadre Sécurisé</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">Un cadre sain et adapté pour un meilleur épanouissement.</p>
 </div>
-<div class="bg-surface rounded-xl p-6 shadow-ambient flex items-start gap-4" data-reveal>
-<div class="w-12 h-12 shrink-0 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled">school</span></div>
+<div class="bg-surface rounded-xl p-6 shadow-ambient border-t-4 border-citron" data-reveal>
+<div class="w-12 h-12 bg-citron/15 text-citron rounded-full flex items-center justify-center mb-4"><span class="material-symbols-outlined icon-filled">school</span></div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Enseignants Qualifiés</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">Des enseignants qualifiés, passionnés et dévoués pour un enseignement de qualité.</p>
 </div>
-<div class="bg-surface rounded-xl p-6 shadow-ambient flex items-start gap-4" data-reveal>
-<div class="w-12 h-12 shrink-0 bg-tertiary-container text-on-tertiary-container rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled">translate</span></div>
+<div class="bg-surface rounded-xl p-6 shadow-ambient border-t-4 border-sky" data-reveal>
+<div class="w-12 h-12 bg-sky/15 text-sky rounded-full flex items-center justify-center mb-4"><span class="material-symbols-outlined icon-filled">translate</span></div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Bilinguisme</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">Toutes les classes sont bilingues ; la prématernelle est enseignée exclusivement en anglais.</p>
 </div>
-<div class="bg-surface rounded-xl p-6 shadow-ambient flex items-start gap-4" data-reveal>
-<div class="w-12 h-12 shrink-0 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled">volunteer_activism</span></div>
+<div class="bg-surface rounded-xl p-6 shadow-ambient border-t-4 border-orange" data-reveal>
+<div class="w-12 h-12 bg-orange/15 text-orange rounded-full flex items-center justify-center mb-4"><span class="material-symbols-outlined icon-filled">volunteer_activism</span></div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Bienveillance</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">Une éducation bienveillante qui développe le sens de la créativité chez chaque enfant.</p>
 </div>
-<div class="bg-surface rounded-xl p-6 shadow-ambient flex items-start gap-4" data-reveal>
-<div class="w-12 h-12 shrink-0 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled">music_note</span></div>
+<div class="bg-surface rounded-xl p-6 shadow-ambient border-t-4 border-pink" data-reveal>
+<div class="w-12 h-12 bg-pink/15 text-pink rounded-full flex items-center justify-center mb-4"><span class="material-symbols-outlined icon-filled">music_note</span></div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Activités Enrichissantes</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">Cours de musique, jardinage, danse et art oratoire, en plus du programme scolaire.</p>
 </div>
-<div class="bg-surface rounded-xl p-6 shadow-ambient flex items-start gap-4" data-reveal>
-<div class="w-12 h-12 shrink-0 bg-tertiary-container text-on-tertiary-container rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled">restaurant</span></div>
+<div class="bg-surface rounded-xl p-6 shadow-ambient border-t-4 border-citron" data-reveal>
+<div class="w-12 h-12 bg-citron/15 text-citron rounded-full flex items-center justify-center mb-4"><span class="material-symbols-outlined icon-filled">restaurant</span></div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Alimentation Saine</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">Repas sains et équilibrés, et des lits confortables pour la sieste.</p>
 </div>
 </div>
@@ -144,7 +155,7 @@ Aux Bulles de Joie, nous croyons que chaque enfant est un individu unique capabl
 </div>
 <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
 <!-- Crèche -->
-<div class="md:col-span-12 lg:col-span-8 bg-surface-container-low rounded-xl p-8 md:p-12 soft-shadow flex flex-col md:flex-row gap-8 items-center scroll-mt-28" id="creche" data-reveal>
+<div class="md:col-span-12 lg:col-span-8 bg-surface-container-low rounded-xl p-8 md:p-12 soft-shadow border-t-4 border-pink flex flex-col md:flex-row gap-8 items-center scroll-mt-28" id="creche" data-reveal>
 <div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-sm relative">
 <img alt="Tout-petits en éveil sensoriel à la crèche" class="w-full h-full object-cover aspect-square" src="assets/images/creche2mois.jpg" />
 <div class="absolute top-4 left-4 bg-secondary-container/90 backdrop-blur text-on-secondary-container px-4 py-1 rounded-full font-label-md text-label-md">
@@ -186,7 +197,7 @@ Notre Crèche met l'accent sur l'exploration sensorielle et la sécurité émoti
 </div>
 </div>
 <!-- Prématernelle -->
-<div class="md:col-span-12 lg:col-span-6 bg-surface-container-low rounded-xl p-8 soft-shadow group scroll-mt-28" id="prematernelle" data-reveal>
+<div class="md:col-span-12 lg:col-span-6 bg-surface-container-low rounded-xl p-8 soft-shadow border-t-4 border-orange group scroll-mt-28" id="prematernelle" data-reveal>
 <div class="h-64 rounded-xl overflow-hidden mb-6 relative">
 <img alt="Salle de classe de prématernelle, apprentissage en anglais" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="assets/images/hero-classroom.jpg" />
 <div class="absolute top-4 right-4 bg-primary-fixed/90 backdrop-blur text-on-primary-fixed px-4 py-1 rounded-full font-label-md text-label-md">
@@ -199,7 +210,7 @@ Prématernelle
 </p>
 </div>
 <!-- Maternelle -->
-<div class="md:col-span-12 lg:col-span-6 bg-surface-container-low rounded-xl p-8 soft-shadow group scroll-mt-28" id="maternelle" data-reveal>
+<div class="md:col-span-12 lg:col-span-6 bg-surface-container-low rounded-xl p-8 soft-shadow border-t-4 border-citron group scroll-mt-28" id="maternelle" data-reveal>
 <div class="h-64 rounded-xl overflow-hidden mb-6 relative">
 <img alt="Élève de maternelle des Bulles de Joie lors d'un atelier de jardinage" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="assets/images/maternelle.jpeg" />
 <div class="absolute top-4 right-4 bg-tertiary-container/90 backdrop-blur text-on-tertiary-container px-4 py-1 rounded-full font-label-md text-label-md">
@@ -212,15 +223,15 @@ Les deux années de maternelle sont cruciales pour développer l'indépendance e
 </p>
 </div>
 <!-- Primaire -->
-<div class="md:col-span-12 bg-surface-container-low rounded-xl p-8 md:p-12 soft-shadow group scroll-mt-28 flex flex-col md:flex-row gap-8 items-center" id="primaire" data-reveal>
+<div class="md:col-span-12 bg-surface-container-low rounded-xl p-8 md:p-12 soft-shadow border-t-4 border-sky group scroll-mt-28 flex flex-col md:flex-row gap-8 items-center" id="primaire" data-reveal>
 <div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-sm relative">
 <img alt="Élèves de primaire des Bulles de Joie en atelier créatif" class="w-full h-full object-cover aspect-[4/3] transition-transform duration-500 group-hover:scale-105" src="assets/images/primaire.jpg" />
-<div class="absolute top-4 right-4 bg-primary-fixed/90 backdrop-blur text-on-primary-fixed px-4 py-1 rounded-full font-label-md text-label-md">
+<div class="absolute top-4 right-4 bg-sky/90 backdrop-blur text-on-sky px-4 py-1 rounded-full font-label-md text-label-md">
 Primaire
 </div>
 </div>
 <div class="w-full md:w-1/2 space-y-4">
-<h3 class="font-headline-md text-headline-md text-primary">Élargir les Horizons</h3>
+<h3 class="font-headline-md text-headline-md text-sky">Élargir les Horizons</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">
 En école primaire, nous favorisons la pensée critique, l'excellence académique et la sensibilisation globale. Notre programme bilingue stimule intellectuellement les élèves tout en continuant à privilégier leur bien-être émotionnel et leur expression créative.
 </p>
@@ -236,14 +247,25 @@ En école primaire, nous favorisons la pensée critique, l'excellence académiqu
 </div>
 </section>
 
+<!-- ===== Vidéos par cycle ===== -->
+<section class="pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto" data-cycle-videos-section>
+<div class="text-center mb-16" data-reveal>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Une vidéo par niveau</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Un aperçu en mouvement de la vie de chaque cycle, mis à jour depuis notre Galerie.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="cycle-videos-grid" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant text-center py-8 col-span-full">Chargement…</p>
+</div>
+</section>
+
 <!-- ===== CTA ===== -->
 <section class="pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<div class="bg-primary text-on-primary rounded-3xl p-10 md:p-16 text-center flex flex-col items-center gap-6 relative overflow-hidden" data-reveal>
+<div class="bg-citron text-on-citron rounded-3xl p-10 md:p-16 text-center flex flex-col items-center gap-6 relative overflow-hidden" data-reveal>
 <div class="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-xl"></div>
 <div class="absolute -bottom-10 -right-10 w-56 h-56 bg-white/10 rounded-full blur-xl"></div>
 <h2 class="font-headline-lg text-headline-lg relative z-10">Envie de découvrir notre pédagogie en action ?</h2>
 <p class="font-body-lg text-body-lg opacity-90 max-w-xl relative z-10">Planifiez une visite de nos locaux et rencontrez notre équipe pédagogique.</p>
-<a class="btn-lift relative z-10 inline-flex items-center justify-center px-8 py-4 bg-surface text-primary font-label-md text-label-md rounded-full hover:bg-surface-variant transition-colors duration-300 shadow-lg" href="contact.html">Planifier une visite</a>
+<a class="btn-lift relative z-10 inline-flex items-center justify-center px-8 py-4 bg-surface text-citron font-label-md text-label-md rounded-full hover:bg-surface-variant transition-colors duration-300 shadow-lg" href="contact.html">Planifier une visite</a>
 </div>
 </section>
 </main>
@@ -254,7 +276,7 @@ En école primaire, nous favorisons la pensée critique, l'excellence académiqu
 <div class="md:col-span-2 flex flex-col gap-4">
 <a class="flex items-center gap-3 w-fit" href="index.html">
 <img alt="Logo Les Bulles de Joie" class="h-10 w-auto" src="assets/images/logo.png" />
-<span class="font-headline-sm text-headline-sm font-bold text-primary">Les Bulles de Joie</span>
+<span class="font-headline-sm text-headline-sm font-bold"><span class="text-primary">Les Bulles</span> <span class="text-citron">de Joie</span></span>
 </a>
 <p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-xs">
 L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un cadre d'excellence, de la crèche au primaire. Depuis 2017.
@@ -270,6 +292,7 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 <div class="flex flex-col gap-3">
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="pedagogie.html">Pédagogie</a>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="vie-scolaire.html">Vie Scolaire</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="resultats.html">Résultats</a>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="blog.html">Blog</a>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="galerie.html">Galerie</a>
 </div>
@@ -285,11 +308,24 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 </div>
 </div>
 <div class="border-t border-outline-variant/30 px-margin-mobile md:px-margin-desktop py-6">
-<div class="max-w-container-max mx-auto text-center font-body-md text-body-md text-on-surface-variant">
-© <span data-year></span> Les Bulles de Joie. Excellence Éducative &amp; Épanouissement.
+<div class="max-w-container-max mx-auto flex flex-col items-center gap-2 text-center font-body-md text-body-md text-on-surface-variant">
+<p>© <span data-year></span> Les Bulles de Joie. Excellence Éducative &amp; Épanouissement.</p>
+<p class="text-[12px] text-on-surface-variant/70">Agréments officiels : N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 (2021) · N°045/MEMP/DC/SGM/DPP/SP/0223SGG22 (2022)</p>
 </div>
 </div>
 </footer>
+
+<!-- ===== Lightbox ===== -->
+<div class="lightbox" data-lightbox>
+<button aria-label="Fermer" class="absolute top-6 right-6 text-white/80 hover:text-white" data-lightbox-close type="button">
+<span class="material-symbols-outlined text-4xl" data-lightbox-close>close</span>
+</button>
+<figure class="flex flex-col items-center gap-4">
+<img alt="" data-lightbox-img src="" />
+<video class="hidden max-w-[90vw] max-h-[85vh] rounded-2xl shadow-2xl" controls data-lightbox-video></video>
+<figcaption class="text-white/80 font-body-md text-body-md text-center" data-lightbox-caption></figcaption>
+</figure>
+</div>
 
 <button aria-label="Retour en haut" class="back-to-top w-12 h-12 rounded-full bg-primary text-on-primary shadow-ambient-lg flex items-center justify-center" data-back-to-top type="button">
 <span class="material-symbols-outlined">arrow_upward</span>
@@ -297,5 +333,6 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 
 <script src="js/main.js"></script>
 <script type="module" src="js/analytics.js"></script>
+<script type="module" src="js/gallery.js"></script>
 </body>
 </html>
