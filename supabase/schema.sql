@@ -267,7 +267,7 @@ where not exists (select 1 from public.testimonials);
 
 insert into public.blog_posts (title, excerpt, content, category, icon, published_date)
 select * from (values
-  ('La méthode Montessori à la maison', 'Comment prolonger les apprentissages de l''école à la maison avec des activités simples et accessibles, adaptées à chaque âge.', 'La pédagogie Montessori ne s''arrête pas aux portes de la classe. À la maison, quelques ajustements simples suffisent pour prolonger cet esprit d''autonomie et de curiosité que nous cultivons chaque jour aux Bulles de Joie.
+  ('Cultiver l''autonomie de votre enfant à la maison', 'Comment prolonger les apprentissages de l''école à la maison avec des activités simples et accessibles, adaptées à chaque âge.', 'L''autonomie ne s''arrête pas aux portes de la classe. À la maison, quelques ajustements simples suffisent pour prolonger cet esprit d''indépendance et de curiosité que nous cultivons chaque jour aux Bulles de Joie.
 
 La première étape consiste à adapter l''environnement à la taille de l''enfant : une étagère basse avec quelques jeux soigneusement choisis, un porte-manteau à sa hauteur, un marchepied devant le lavabo. Ces petits aménagements permettent à l''enfant de faire seul ce qu''il a envie de faire, sans dépendre systématiquement d''un adulte.
 
@@ -275,15 +275,15 @@ Ensuite, privilégiez la qualité à la quantité : mieux vaut cinq activités q
 
 Enfin, laissez du temps. L''enfant a besoin de répéter un geste plusieurs fois pour le maîtriser et en tirer une vraie satisfaction. Résister à l''envie de l''aider trop vite est souvent le plus grand défi... et le plus beau cadeau que l''on puisse lui faire.', 'Pédagogie', 'local_florist', date '2024-05-15'),
 
-  ('Fête du Printemps : Retour en images', 'Une journée mémorable remplie de rires, de jeux coopératifs et d''ateliers créatifs en plein air.', 'Le soleil était au rendez-vous pour notre traditionnelle Fête du Printemps, et les enfants n''ont pas boudé leur plaisir ! Toute la matinée a été rythmée par des ateliers en plein air : peinture géante, chasse aux couleurs dans le jardin, et un grand jeu de piste coopératif imaginé par nos enseignants.
+  ('Journée Récréative : Retour en images', 'Une journée mémorable remplie de rires, de jeux coopératifs et d''ateliers créatifs en plein air.', 'Le soleil était au rendez-vous pour notre journée récréative, et les enfants n''ont pas boudé leur plaisir ! Toute la matinée a été rythmée par des ateliers en plein air : peinture géante, chasse aux couleurs dans le jardin, et un grand jeu de piste coopératif imaginé par nos enseignants.
 
 Les plus petits ont profité d''un coin sensoriel avec sable, eau et plantations, pendant que les classes de primaire s''affrontaient dans des jeux d''équipe autour de la motricité et de l''entraide plutôt que de la compétition.
 
 Un grand merci aux parents qui ont participé à l''organisation et à la préparation du goûter partagé qui a clôturé cette belle journée. Ces moments de vie collective sont précieux : ils permettent aux enfants de toutes les classes de se retrouver, de coopérer et de partager la joie simple d''une journée ensoleillée entre amis.
 
-Rendez-vous est déjà pris pour l''année prochaine !', 'Vie Scolaire', 'celebration', date '2024-05-02'),
+Rendez-vous est déjà pris pour la prochaine édition !', 'Vie Scolaire', 'celebration', date '2024-05-02'),
 
-  ('Nouveaux menus bio à la cantine', 'Notre engagement pour une alimentation saine, locale et respectueuse de l''environnement se renforce.', 'Depuis ce trimestre, notre cantine propose de nouveaux menus élaborés autour de produits bio et, autant que possible, locaux. Cette évolution s''inscrit dans notre volonté d''offrir aux enfants une alimentation saine, qui accompagne leur croissance et leur concentration tout au long de la journée.
+  ('Notre alimentation, pensée pour les enfants', 'Notre engagement pour une alimentation saine et équilibrée se renforce.', 'À la cantine des Bulles de Joie, nous portons une attention particulière à ce qui se retrouve dans l''assiette de vos enfants. Cette année, nos menus ont été retravaillés pour offrir une alimentation saine et équilibrée, pensée pour accompagner leur croissance et leur concentration tout au long de la journée.
 
 Chaque semaine, les menus alternent légumes de saison, céréales complètes et protéines variées, avec une attention particulière portée à la réduction du gaspillage alimentaire. Les portions sont adaptées à l''âge de chaque groupe, de la crèche au primaire.
 

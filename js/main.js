@@ -17,6 +17,7 @@
     initBackToTop();
     initNetlifyForms();
     initInscriptionPricing();
+    initCounters();
   });
 
   // Footer copyright year
@@ -89,6 +90,58 @@
 
     window.__observeReveal = (el) => observer.observe(el);
     document.querySelectorAll("[data-reveal]").forEach((el) => observer.observe(el));
+  }
+
+  // Compte de 0 jusqu'au chiffre affiché, une seule fois, quand la carte
+  // entre dans le viewport (ex. "8 ans de résultats prouvés" sur l'accueil).
+  function initCounters() {
+    const groups = document.querySelectorAll("[data-counter-group]");
+    if (!groups.length) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function animateCounter(el) {
+      const target = parseInt(el.getAttribute("data-counter"), 10);
+      const suffix = el.getAttribute("data-counter-suffix") || "";
+      if (prefersReducedMotion || Number.isNaN(target)) {
+        el.textContent = target + suffix;
+        return;
+      }
+
+      const duration = 1400;
+      const start = performance.now();
+
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        el.textContent = Math.round(target * eased) + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          el.textContent = target + suffix;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      groups.forEach((group) => group.querySelectorAll("[data-counter]").forEach(animateCounter));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll("[data-counter]").forEach(animateCounter);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    groups.forEach((group) => observer.observe(group));
   }
 
   // Lightbox for the gallery page. Supports photos and videos, and uses
@@ -302,14 +355,49 @@
       `;
     }
 
-    triggers.forEach((input) => {
-      input.addEventListener("change", () => {
-        const value = input.value;
-        panel.innerHTML = value === "creche" ? renderCreche() : renderSchool(value);
-        panel.classList.remove("hidden");
-        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    // Formulaire en 2 étapes : (1) informations, (2) frais + validation.
+    // Le détail des frais n'apparaît qu'à l'étape 2, une fois l'étape 1
+    // validée — jamais avant, et jamais sur une simple sélection de classe.
+    const step1 = document.querySelector('[data-step="1"]');
+    const step2 = document.querySelector('[data-step="2"]');
+    const nextBtn = document.querySelector("[data-step1-next]");
+    const backBtn = document.querySelector("[data-step2-back]");
+    if (!step1 || !step2 || !nextBtn) return;
+
+    function setStep(step) {
+      step1.classList.toggle("hidden", step !== 1);
+      step2.classList.toggle("hidden", step !== 2);
+      document.querySelectorAll("[data-step-indicator-badge]").forEach((badge) => {
+        const active = Number(badge.getAttribute("data-step-indicator-badge")) === step;
+        badge.classList.toggle("bg-primary", active);
+        badge.classList.toggle("text-on-primary", active);
+        badge.classList.toggle("bg-surface-variant", !active);
+        badge.classList.toggle("text-on-surface-variant", !active);
       });
+      document.querySelectorAll("[data-step-indicator-label]").forEach((label) => {
+        const active = Number(label.getAttribute("data-step-indicator-label")) === step;
+        label.classList.toggle("text-primary", active);
+        label.classList.toggle("text-on-surface-variant", !active);
+      });
+      (step === 1 ? step1 : step2).scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    nextBtn.addEventListener("click", () => {
+      const fields = step1.querySelectorAll("input, select, textarea");
+      for (const field of fields) {
+        if (!field.checkValidity()) {
+          field.reportValidity();
+          return;
+        }
+      }
+      const checked = document.querySelector("[data-pricing-trigger]:checked");
+      panel.innerHTML = checked.value === "creche" ? renderCreche() : renderSchool(checked.value);
+      setStep(2);
     });
+
+    if (backBtn) {
+      backBtn.addEventListener("click", () => setStep(1));
+    }
   }
 
   // Progressive enhancement for Netlify Forms: submit via fetch so the

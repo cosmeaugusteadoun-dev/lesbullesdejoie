@@ -4,8 +4,8 @@
 <script>document.documentElement.classList.add("js");</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Article — Les Bulles de Joie</title>
-<meta name="description" content="Actualités et conseils de l'école Les Bulles de Joie." />
+<title>Activités Parascolaires — Les Bulles de Joie</title>
+<meta name="description" content="Musique, danse, jardinage, art oratoire, motricité et sport : découvrez toutes les activités parascolaires proposées aux élèves des Bulles de Joie." />
 <link rel="icon" type="image/png" href="assets/images/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,12 +26,10 @@
 <div class="hidden md:flex items-center gap-6">
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="index.html">Accueil</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="pedagogie.html">Pédagogie</a>
-<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="vie-scolaire.html">Vie Scolaire</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md transition-all duration-300" href="vie-scolaire.html">Vie Scolaire</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="admissions.html">Admissions</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="resultats.html">Résultats</a>
 <a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="contact.html">Contact</a>
-<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md transition-all duration-300" href="blog.html">Blog</a>
-<a class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 font-label-md text-label-md" href="galerie.html">Galerie</a>
 </div>
 <div class="hidden md:block">
 <a class="btn-lift inline-flex items-center justify-center px-6 py-3 bg-pink text-on-pink font-label-md text-label-md rounded-full hover:bg-pink/90 transition-colors duration-300 shadow-ambient" href="inscription.html">Inscriptions</a>
@@ -45,67 +43,113 @@
 <div class="flex flex-col gap-1 px-margin-mobile pb-6 pt-2 max-w-container-max mx-auto">
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="index.html">Accueil</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="pedagogie.html">Pédagogie</a>
-<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="vie-scolaire.html">Vie Scolaire</a>
+<a class="py-3 text-primary font-label-md text-label-md" href="vie-scolaire.html">Vie Scolaire</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="admissions.html">Admissions</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="resultats.html">Résultats</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="contact.html">Contact</a>
-<a class="py-3 text-primary font-label-md text-label-md" href="blog.html">Blog</a>
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="blog.html">Blog</a>
 <a class="py-3 text-on-surface-variant font-label-md text-label-md" href="galerie.html">Galerie</a>
+<a class="py-3 text-on-surface-variant font-label-md text-label-md" href="activites-parascolaires.html">Activités Parascolaires</a>
 <a class="mt-2 inline-flex items-center justify-center px-6 py-3 bg-pink text-on-pink font-label-md text-label-md rounded-full" href="inscription.html">Inscriptions</a>
 </div>
 </div>
 </nav>
 
 <main class="flex-grow pt-[100px] pb-section-gap">
-
-<!-- ===== Loading state ===== -->
-<section class="max-w-2xl mx-auto px-margin-mobile md:px-margin-desktop py-section-gap text-center" data-article-loading>
-<div class="w-12 h-12 mx-auto rounded-full border-4 border-primary/20 border-t-primary animate-spin"></div>
-<p class="font-body-md text-body-md text-on-surface-variant mt-6">Chargement de l'article…</p>
+<!-- ===== Hero ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center mb-section-gap" data-reveal>
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-secondary-container/80 text-on-secondary-container rounded-full font-label-md text-label-md shadow-sm mb-6">
+<span class="material-symbols-outlined icon-filled text-[18px]">stadia_controller</span>
+Activités Parascolaires
+</div>
+<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-primary mb-4">Bien plus que le programme scolaire</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Musique, danse, jardinage, art oratoire, motricité et sport : chaque semaine, nos élèves découvrent de nouvelles activités qui nourrissent leur curiosité, leur confiance et leur joie d'apprendre.</p>
 </section>
 
-<!-- ===== Not found state ===== -->
-<section class="max-w-2xl mx-auto px-margin-mobile md:px-margin-desktop py-section-gap text-center hidden" data-article-notfound>
-<span class="material-symbols-outlined text-6xl text-primary-container mb-4 inline-block">search_off</span>
-<h1 class="font-headline-md text-headline-md text-on-surface mb-3">Article introuvable</h1>
-<p class="font-body-md text-body-md text-on-surface-variant mb-8">Cet article n'existe pas ou n'est plus disponible.</p>
-<a class="btn-lift inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-on-primary font-label-md text-label-md rounded-full hover:bg-primary/90 transition-all duration-300 shadow-ambient" href="blog.html">
-<span class="material-symbols-outlined text-[20px]">arrow_back</span>
-Retour au blog
-</a>
-</section>
-
-<!-- ===== Article ===== -->
-<article class="hidden" data-article-content>
-<section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop">
-<a class="inline-flex items-center gap-2 text-primary font-label-md text-label-md hover:gap-3 transition-all mb-8" href="blog.html">
-<span class="material-symbols-outlined text-[20px]">arrow_back</span>
-Tous les articles
-</a>
-
-<div class="flex items-center gap-3 mb-5" data-article-meta></div>
-
-<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-surface mb-8" data-article-title></h1>
-
-<div class="aspect-[16/9] rounded-3xl overflow-hidden relative mb-10 shadow-ambient" data-article-banner>
-<div class="absolute inset-0 bg-gradient-to-tr" data-article-gradient></div>
-<span class="material-symbols-outlined absolute inset-0 m-auto text-8xl text-white/70 flex items-center justify-center" data-article-icon></span>
+<!-- ===== Musique & Rythmes ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="bg-surface-container-low rounded-xl p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center" data-reveal>
+<div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-sm relative">
+<img alt="Élèves des Bulles de Joie lors d'un atelier de groupe" class="w-full h-72 md:h-80 object-cover" src="assets/images/hero-classroom1.jpg" />
+<div class="absolute top-4 left-4 bg-pink/90 backdrop-blur text-on-pink px-4 py-1 rounded-full font-label-md text-label-md">Dès 2 ans</div>
 </div>
-
-<div class="font-body-lg text-body-lg text-on-surface-variant space-y-6" data-article-body></div>
-
-<div class="mt-14 bg-surface-container-low rounded-3xl p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
-<div>
-<h2 class="font-headline-sm text-headline-sm text-primary mb-2">Envie d'en savoir plus sur notre école ?</h2>
-<p class="font-body-md text-body-md text-on-surface-variant">Notre équipe est à votre écoute pour répondre à toutes vos questions.</p>
+<div class="w-full md:w-1/2 space-y-4">
+<div class="w-14 h-14 bg-pink/15 text-pink rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled text-2xl">music_note</span></div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Musique &amp; Rythmes</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Chants, percussions simples et jeux rythmiques accompagnent nos élèves dès le plus jeune âge. Ces ateliers développent l'écoute, la mémoire et l'expression de soi, dans une ambiance joyeuse et sans pression de performance.</p>
 </div>
-<a class="btn-lift shrink-0 inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-on-primary font-label-md text-label-md rounded-full hover:bg-primary/90 transition-all duration-300 shadow-ambient" href="contact.html">
-Nous contacter
-<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-</a>
 </div>
 </section>
-</article>
+
+<!-- ===== Danse ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="bg-surface-container-low rounded-xl p-8 md:p-12 flex flex-col md:flex-row-reverse gap-10 items-center" data-reveal>
+<div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-sm relative">
+<img alt="Élèves des Bulles de Joie en activité collective" class="w-full h-72 md:h-80 object-cover" src="assets/images/hero-playground2.jpg" />
+<div class="absolute top-4 left-4 bg-citron/90 backdrop-blur text-on-citron px-4 py-1 rounded-full font-label-md text-label-md">Dès 2 ans</div>
+</div>
+<div class="w-full md:w-1/2 space-y-4">
+<div class="w-14 h-14 bg-citron/15 text-citron rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled text-2xl">nightlife</span></div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Danse</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Mouvement, coordination et joie de bouger ensemble : nos élèves apprennent de petites chorégraphies adaptées à chaque âge, seuls ou en groupe, pour développer leur repère dans l'espace et leur confiance corporelle.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== Jardinage ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="bg-surface-container-low rounded-xl p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center" data-reveal>
+<div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-sm relative">
+<img alt="Élèves des Bulles de Joie en séance de jardinage" class="w-full h-72 md:h-80 object-cover" src="assets/images/jardinage1.jpeg" />
+<div class="absolute top-4 left-4 bg-orange/90 backdrop-blur text-on-orange px-4 py-1 rounded-full font-label-md text-label-md">Dès 3 ans</div>
+</div>
+<div class="w-full md:w-1/2 space-y-4">
+<div class="w-14 h-14 bg-orange/15 text-orange rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled text-2xl">yard</span></div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Jardinage</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Semer, arroser, observer pousser : dans notre coin de verdure, les élèves apprennent la patience et le respect du vivant en cultivant leurs propres plants, du premier bourgeon à la récolte.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== Art Oratoire ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="bg-surface-container-low rounded-xl p-8 md:p-12 flex flex-col md:flex-row-reverse gap-10 items-center" data-reveal>
+<div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-sm relative">
+<img alt="Élève des Bulles de Joie prenant la parole au micro lors d'une prestation d'art oratoire" class="w-full h-72 md:h-80 object-cover" src="assets/images/artoratoire.jpg" />
+<div class="absolute top-4 left-4 bg-sky/90 backdrop-blur text-on-sky px-4 py-1 rounded-full font-label-md text-label-md">Dès le CE1</div>
+</div>
+<div class="w-full md:w-1/2 space-y-4">
+<div class="w-14 h-14 bg-sky/15 text-sky rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled text-2xl">record_voice_over</span></div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Art Oratoire</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Prise de parole en public, articulation et structuration des idées : nos élèves gagnent en aisance et en confiance à l'oral, que ce soit devant leur classe ou sur scène lors de nos événements.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== Motricité et Sport ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+<div class="bg-surface-container-low rounded-xl p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center" data-reveal>
+<div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-sm relative">
+<img alt="Élèves des Bulles de Joie en activité sportive dans la cour" class="w-full h-72 md:h-80 object-cover" src="assets/images/hero-playground.jpg" />
+<div class="absolute top-4 left-4 bg-pink/90 backdrop-blur text-on-pink px-4 py-1 rounded-full font-label-md text-label-md">Tous âges</div>
+</div>
+<div class="w-full md:w-1/2 space-y-4">
+<div class="w-14 h-14 bg-pink/15 text-pink rounded-full flex items-center justify-center"><span class="material-symbols-outlined icon-filled text-2xl">sports_soccer</span></div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Motricité et Sport</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Jeux collectifs, exercices d'équilibre et de coordination : nos élèves bougent, coopèrent et se dépensent dans un esprit d'entraide plutôt que de compétition, pour grandir en confiance et en santé.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="bg-citron text-on-citron rounded-3xl p-10 md:p-16 text-center flex flex-col items-center gap-6 relative overflow-hidden" data-reveal>
+<div class="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-xl"></div>
+<h2 class="font-headline-lg text-headline-lg relative z-10">Envie de voir ces activités en images ?</h2>
+<p class="font-body-lg text-body-lg opacity-90 max-w-xl relative z-10">Retrouvez nos élèves en pleine activité dans notre galerie photo et vidéo.</p>
+<a class="btn-lift relative z-10 inline-flex items-center justify-center px-8 py-4 bg-surface text-citron font-label-md text-label-md rounded-full hover:bg-surface-variant transition-colors duration-300 shadow-lg" href="galerie.html">Voir la galerie</a>
+</div>
+</section>
 </main>
 
 <!-- ===== Footer ===== -->
@@ -136,7 +180,6 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 <div class="flex flex-col gap-3">
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="pedagogie.html">Pédagogie</a>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="vie-scolaire.html">Vie Scolaire</a>
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="activites-parascolaires.html">Activités Parascolaires</a>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="resultats.html">Résultats</a>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="blog.html">Blog</a>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="galerie.html">Galerie</a>
@@ -146,7 +189,6 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 <h4 class="font-label-md text-label-md font-bold text-primary">Informations</h4>
 <div class="flex flex-col gap-3">
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="contact.html">Contact</a>
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="inscription.html">Inscriptions</a>
 </div>
 </div>
 </div>
@@ -173,8 +215,8 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 <span class="material-symbols-outlined text-[22px]">school</span>
 <span class="font-label-md text-[11px]">Pédagogie</span>
 </a>
-<a class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 text-on-surface-variant" href="vie-scolaire.html">
-<span class="material-symbols-outlined text-[22px]">diversity_3</span>
+<a class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 text-primary" href="vie-scolaire.html">
+<span class="material-symbols-outlined icon-filled text-[22px]">diversity_3</span>
 <span class="font-label-md text-[11px]">Vie Scolaire</span>
 </a>
 <a class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 text-on-surface-variant" href="resultats.html">
@@ -189,6 +231,5 @@ L'école où chaque enfant trouve sa place pour grandir et s'épanouir dans un c
 
 <script src="js/main.js"></script>
 <script type="module" src="js/analytics.js"></script>
-<script type="module" src="js/article.js"></script>
 </body>
 </html>

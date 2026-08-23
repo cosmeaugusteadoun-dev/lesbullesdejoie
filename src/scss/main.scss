@@ -320,6 +320,22 @@ textarea.form-field {
   }
 }
 
+// ---- Bottom nav (mobile only) ----------------------------------------------
+// Reserves space so fixed content (footer, back-to-top, form toasts) never
+// hides behind the bar, and lifts the back-to-top button above it.
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+  .back-to-top {
+    bottom: calc(64px + 16px + env(safe-area-inset-bottom));
+  }
+}
+
+.mobile-bottom-nav {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 // ---- Toast / form feedback ---------------------------------------------
 .form-status {
   display: none;

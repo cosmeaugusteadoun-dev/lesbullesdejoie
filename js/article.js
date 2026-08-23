@@ -23,12 +23,12 @@ const CATEGORY_GRADIENTS = {
 // Articles d'exemple, utilisés hors-ligne (Supabase non configuré) ou pour
 // les cartes statiques du blog dupliquées dans blog.html.
 const STATIC_ARTICLES = {
-  "montessori-maison": {
-    title: "La méthode Montessori à la maison",
+  "autonomie-maison": {
+    title: "Cultiver l'autonomie de votre enfant à la maison",
     category: "Pédagogie",
     icon: "local_florist",
     date: "2024-05-15",
-    content: `La pédagogie Montessori ne s'arrête pas aux portes de la classe. À la maison, quelques ajustements simples suffisent pour prolonger cet esprit d'autonomie et de curiosité que nous cultivons chaque jour aux Bulles de Joie.
+    content: `L'autonomie ne s'arrête pas aux portes de la classe. À la maison, quelques ajustements simples suffisent pour prolonger cet esprit d'indépendance et de curiosité que nous cultivons chaque jour aux Bulles de Joie.
 
 La première étape consiste à adapter l'environnement à la taille de l'enfant : une étagère basse avec quelques jeux soigneusement choisis, un porte-manteau à sa hauteur, un marchepied devant le lavabo. Ces petits aménagements permettent à l'enfant de faire seul ce qu'il a envie de faire, sans dépendre systématiquement d'un adulte.
 
@@ -36,25 +36,25 @@ Ensuite, privilégiez la qualité à la quantité : mieux vaut cinq activités q
 
 Enfin, laissez du temps. L'enfant a besoin de répéter un geste plusieurs fois pour le maîtriser et en tirer une vraie satisfaction. Résister à l'envie de l'aider trop vite est souvent le plus grand défi... et le plus beau cadeau que l'on puisse lui faire.`,
   },
-  "fete-printemps": {
-    title: "Fête du Printemps : Retour en images",
+  "journee-recreative": {
+    title: "Journée Récréative : Retour en images",
     category: "Vie Scolaire",
     icon: "celebration",
     date: "2024-05-02",
-    content: `Le soleil était au rendez-vous pour notre traditionnelle Fête du Printemps, et les enfants n'ont pas boudé leur plaisir ! Toute la matinée a été rythmée par des ateliers en plein air : peinture géante, chasse aux couleurs dans le jardin, et un grand jeu de piste coopératif imaginé par nos enseignants.
+    content: `Le soleil était au rendez-vous pour notre journée récréative, et les enfants n'ont pas boudé leur plaisir ! Toute la matinée a été rythmée par des ateliers en plein air : peinture géante, chasse aux couleurs dans le jardin, et un grand jeu de piste coopératif imaginé par nos enseignants.
 
 Les plus petits ont profité d'un coin sensoriel avec sable, eau et plantations, pendant que les classes de primaire s'affrontaient dans des jeux d'équipe autour de la motricité et de l'entraide plutôt que de la compétition.
 
 Un grand merci aux parents qui ont participé à l'organisation et à la préparation du goûter partagé qui a clôturé cette belle journée. Ces moments de vie collective sont précieux : ils permettent aux enfants de toutes les classes de se retrouver, de coopérer et de partager la joie simple d'une journée ensoleillée entre amis.
 
-Rendez-vous est déjà pris pour l'année prochaine !`,
+Rendez-vous est déjà pris pour la prochaine édition !`,
   },
-  "menus-bio": {
-    title: "Nouveaux menus bio à la cantine",
+  "notre-alimentation": {
+    title: "Notre alimentation, pensée pour les enfants",
     category: "Nutrition",
     icon: "restaurant",
     date: "2024-04-28",
-    content: `Depuis ce trimestre, notre cantine propose de nouveaux menus élaborés autour de produits bio et, autant que possible, locaux. Cette évolution s'inscrit dans notre volonté d'offrir aux enfants une alimentation saine, qui accompagne leur croissance et leur concentration tout au long de la journée.
+    content: `À la cantine des Bulles de Joie, nous portons une attention particulière à ce qui se retrouve dans l'assiette de vos enfants. Cette année, nos menus ont été retravaillés pour offrir une alimentation saine et équilibrée, pensée pour accompagner leur croissance et leur concentration tout au long de la journée.
 
 Chaque semaine, les menus alternent légumes de saison, céréales complètes et protéines variées, avec une attention particulière portée à la réduction du gaspillage alimentaire. Les portions sont adaptées à l'âge de chaque groupe, de la crèche au primaire.
 

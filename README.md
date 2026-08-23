@@ -8,6 +8,7 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 ├── index.html               Accueil (carrousel héros, cycles, témoignages défilants)
 ├── pedagogie.html            Mission, atouts, devise et détail des cycles
 ├── vie-scolaire.html         Journée type, activités extrascolaires, photos
+├── activites-parascolaires.html  Détail de chaque activité parascolaire (texte + photos)
 ├── admissions.html           Étapes d'admission + pièces à fournir
 ├── contact.html               Formulaire de contact, adresse, téléphone, horaires
 ├── galerie.html                Galerie photo filtrable + lightbox
@@ -127,7 +128,7 @@ Depuis l'onglet **Résultats** de l'admin, gérez le palmarès du personnel (ran
 
 Quelques éléments nécessitent une information de votre part avant la mise en ligne définitive :
 
-- **Carte de localisation** : la carte insérée sur `contact.html` utilise une recherche Google Maps sur "Quartier Zongo, ANPE, Bénin" (déduit de l'indicatif +229 du téléphone) — elle n'est donc qu'approximative. Envoyez-moi un lien Google Maps ou des coordonnées GPS précises pour la rendre exacte, et confirmez la ville si ce n'est pas Cotonou.
+- **Carte de localisation** : la carte insérée sur `contact.html` utilise une recherche Google Maps sur "Quartier Zongo 2, ANPE, Parakou, Bénin" — elle reste donc approximative (pas de coordonnées GPS exactes). Envoyez-moi un lien Google Maps ou des coordonnées GPS précises pour l'affiner.
 - **Email de contact** : aucun email n'apparaît sur les documents fournis ; le site n'en affiche donc pas pour l'instant. À communiquer si vous en avez un.
 - **Horaires maternelle/primaire** : seuls les horaires de la crèche (7h–19h, samedi 8h–17h) étaient fournis ; `vie-scolaire.html` utilise des horaires de journée type à titre indicatif — à confirmer.
 - **Réseaux sociaux** : liens du footer actuellement en `#`, à connecter aux vrais comptes.
