@@ -57,13 +57,13 @@
 </nav>
 
 <!-- ===== Hero ===== -->
-<header class="relative pt-32 pb-24 md:pt-48 md:pb-32 px-margin-mobile md:px-margin-desktop min-h-[90vh] flex items-center overflow-hidden">
-<div class="absolute inset-0 z-0 bg-surface">
+<header class="relative pt-24 pb-12 md:pt-48 md:pb-32 px-margin-mobile md:px-margin-desktop md:min-h-[90vh] flex flex-col md:flex-row md:items-center overflow-hidden">
+<div class="relative rounded-xl overflow-hidden aspect-[4/3] mb-8 md:mb-0 md:rounded-none md:overflow-visible md:aspect-auto md:absolute md:inset-0 md:z-0 bg-surface">
 <img alt="Façade et entrée de l'école Les Bulles de Joie" class="absolute inset-0 w-full h-full object-cover carousel-img-1" src="assets/images/devanture.jpeg" />
 <img alt="Enfants heureux jouant dans la cour de récréation ensoleillée de l'école Les Bulles de Joie" class="absolute inset-0 w-full h-full object-cover carousel-img-2" src="assets/images/hero-playground2.jpg" />
 <img alt="Groupe de tout-petits joyeux dans une crèche lumineuse avec des jouets éducatifs" class="absolute inset-0 w-full h-full object-cover carousel-img-3" src="assets/images/hero-nursery1.jpg" />
 <img alt="Intérieur chaleureux d'une salle de classe, lumière naturelle" class="absolute inset-0 w-full h-full object-cover carousel-img-4" src="assets/images/hero-classroom1.jpg" />
-<div class="absolute inset-0 bg-gradient-to-r from-surface-bright/95 via-surface-bright/80 to-transparent"></div>
+<div class="hidden md:block absolute inset-0 bg-gradient-to-r from-surface-bright/95 via-surface-bright/80 to-transparent"></div>
 </div>
 <div class="relative z-10 max-w-container-max mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-gutter">
 <div class="md:col-span-8 lg:col-span-6 flex flex-col items-start gap-6">
@@ -85,8 +85,8 @@ Découvrir l'école
 </div>
 </div>
 </div>
-<div class="absolute bottom-10 right-10 w-32 h-32 bg-pink rounded-full opacity-30 mix-blend-multiply filter blur-xl float"></div>
-<div class="absolute top-40 right-1/4 w-24 h-24 bg-primary-container rounded-full opacity-30 mix-blend-multiply filter blur-lg float-delay"></div>
+<div class="hidden md:block absolute bottom-10 right-10 w-32 h-32 bg-pink rounded-full opacity-30 mix-blend-multiply filter blur-xl float"></div>
+<div class="hidden md:block absolute top-40 right-1/4 w-24 h-24 bg-primary-container rounded-full opacity-30 mix-blend-multiply filter blur-lg float-delay"></div>
 </header>
 
 <!-- ===== Nos Cycles ===== -->
@@ -237,58 +237,14 @@ Notre Projet Éducatif
 </div>
 <a class="inline-flex items-center text-primary font-label-md text-label-md hover:underline" href="blog.html">Voir tous les articles <span class="material-symbols-outlined ml-1 text-[20px]">arrow_forward</span></a>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="blog-preview-grid">
-<a class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" href="article.html?slug=autonomie-maison" data-reveal>
-<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
-<div class="absolute inset-0 bg-gradient-to-tr from-primary-container to-secondary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
-<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-primary-container opacity-60 flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300">local_florist</span>
+<div class="relative">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="blog-preview-grid" data-gallery-dynamic>
+<p class="font-body-md text-body-md text-on-surface-variant text-center py-12 col-span-full">Aucun article publié pour le moment.</p>
 </div>
-<div class="p-6 flex flex-col flex-grow">
-<div class="flex items-center gap-3 mb-4">
-<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-[12px]">Pédagogie</span>
-<span class="text-on-surface-variant text-[14px] font-body-md">15 Mai 2024</span>
+<div class="absolute inset-0 items-center justify-center gap-3 bg-surface" data-gallery-loading>
+<span class="material-symbols-outlined animate-spin text-primary text-3xl">progress_activity</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Chargement des actualités…</span>
 </div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Cultiver l'autonomie de votre enfant à la maison</h3>
-<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Comment prolonger les apprentissages de l'école à la maison avec des activités simples et accessibles.</p>
-<div class="mt-auto">
-<span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span>
-</div>
-</div>
-</a>
-<a class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" href="article.html?slug=journee-recreative" data-reveal>
-<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
-<div class="absolute inset-0 bg-gradient-to-tr from-tertiary-container to-primary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
-<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-tertiary-container opacity-60 flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300">celebration</span>
-</div>
-<div class="p-6 flex flex-col flex-grow">
-<div class="flex items-center gap-3 mb-4">
-<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full font-label-md text-[12px]">Vie Scolaire</span>
-<span class="text-on-surface-variant text-[14px] font-body-md">02 Mai 2024</span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Journée Récréative : Retour en images</h3>
-<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Une journée mémorable remplie de rires, de jeux coopératifs et d'ateliers créatifs en plein air.</p>
-<div class="mt-auto">
-<span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span>
-</div>
-</div>
-</a>
-<a class="card-hover bg-surface-container-lowest rounded-2xl overflow-hidden shadow-ambient group border border-outline-variant/30 flex flex-col h-full" href="article.html?slug=notre-alimentation" data-reveal>
-<div class="aspect-[4/3] bg-surface-variant relative overflow-hidden">
-<div class="absolute inset-0 bg-gradient-to-tr from-secondary-container to-tertiary-container opacity-80 group-hover:scale-105 transition-transform duration-500"></div>
-<span class="material-symbols-outlined absolute inset-0 m-auto w-12 h-12 text-on-secondary-container opacity-60 flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300">restaurant</span>
-</div>
-<div class="p-6 flex flex-col flex-grow">
-<div class="flex items-center gap-3 mb-4">
-<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px]">Nutrition</span>
-<span class="text-on-surface-variant text-[14px] font-body-md">28 Avr 2024</span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3 group-hover:text-primary transition-colors">Notre alimentation, pensée pour les enfants</h3>
-<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-3">Notre engagement pour une alimentation saine et équilibrée se renforce.</p>
-<div class="mt-auto">
-<span class="text-primary font-label-md text-label-md inline-flex items-center group-hover:gap-2 transition-all">Lire la suite <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span></span>
-</div>
-</div>
-</a>
 </div>
 </div>
 </section>

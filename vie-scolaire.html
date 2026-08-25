@@ -59,12 +59,12 @@
 <main class="flex-grow pt-[100px] pb-section-gap">
 <!-- ===== Hero ===== -->
 <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
-<div class="relative rounded-xl overflow-hidden shadow-sm h-[60vh] md:h-[70vh] flex items-center justify-center" data-reveal>
-<img alt="Enfants des Bulles de Joie dans la cour de l'école" class="absolute inset-0 w-full h-full object-cover" src="assets/images/viescolairehero.jpg" />
-<div class="absolute inset-0 bg-primary/15"></div>
-<div class="relative z-10 text-center px-4 max-w-3xl">
-<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-primary mb-6">Découvrez la Vie à l'École</h1>
-<p class="font-body-lg text-body-lg text-on-primary/90 mb-2 max-w-2xl mx-auto">Un environnement bienveillant où chaque enfant s'épanouit, apprend et grandit à son propre rythme.</p>
+<div class="rounded-xl overflow-hidden shadow-sm md:relative md:h-[70vh] md:flex md:items-center md:justify-center" data-reveal>
+<img alt="Enfants des Bulles de Joie dans la cour de l'école" class="w-full aspect-[4/3] object-cover md:absolute md:inset-0 md:aspect-auto md:h-full" src="assets/images/viescolairehero.jpg" />
+<div class="hidden md:block md:absolute md:inset-0 md:bg-primary/15"></div>
+<div class="text-center px-4 py-10 max-w-3xl mx-auto md:relative md:z-10">
+<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-surface md:text-on-primary mb-6">Découvrez la Vie à l'École</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant md:text-on-primary/90 mb-2 max-w-2xl mx-auto">Un environnement bienveillant où chaque enfant s'épanouit, apprend et grandit à son propre rythme.</p>
 </div>
 </div>
 </section>
@@ -173,7 +173,8 @@
 <h2 class="font-headline-md text-headline-md text-primary">Instants de Joie</h2>
 <a class="inline-flex items-center text-primary font-label-md text-label-md hover:underline" href="galerie.html">Voir toute la galerie <span class="material-symbols-outlined ml-1 text-[20px]">arrow_forward</span></a>
 </div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="joy-preview-grid">
+<div class="relative">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="joy-preview-grid" data-gallery-dynamic>
 <div class="col-span-2 row-span-2 gallery-item rounded-xl shadow-sm" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Salle de classe lumineuse et accueillante">
 <img alt="Salle de classe lumineuse et accueillante" class="w-full h-full min-h-[300px] object-cover rounded-xl shadow-sm" src="assets/images/hero-classroom.jpg" />
 </div>
@@ -185,6 +186,11 @@
 </div>
 <div class="col-span-2 row-span-1 gallery-item rounded-xl shadow-sm" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Moment de lecture partagé en classe">
 <img alt="Moment de lecture partagé en classe" class="w-full h-48 object-cover rounded-xl shadow-sm" src="assets/images/hero-classroom.jpg" />
+</div>
+</div>
+<div class="absolute inset-0 items-center justify-center gap-3 bg-surface" data-gallery-loading>
+<span class="material-symbols-outlined animate-spin text-primary text-3xl">progress_activity</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Chargement…</span>
 </div>
 </div>
 </section>

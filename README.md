@@ -30,10 +30,10 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 ├── js/
 │   ├── main.js                    Menu mobile, scroll reveal, lightbox (photo + vidéo), formulaires, tarifs d'inscription
 │   ├── inscription.js              Envoi du formulaire de pré-inscription (Netlify + Supabase + contact enseignant)
-│   ├── article.js                  Charge et affiche un article complet (Supabase ou contenu statique)
+│   ├── article.js                  Charge et affiche un article complet depuis Supabase (aucun contenu codé en dur)
 │   ├── gallery.js                  Charge la galerie (photos/vidéos) depuis Supabase, dont "Vidéos par cycle"
 │   ├── results.js                  Charge la page Résultats & Distinctions depuis Supabase
-│   ├── dynamic-content.js          Charge témoignages/blog depuis Supabase (avec repli statique)
+│   ├── dynamic-content.js          Charge témoignages (avec repli statique) et blog (100% Supabase, sans repli) depuis Supabase
 │   ├── analytics.js                Enregistre une visite anonyme (page + date) pour les statistiques admin
 │   ├── password-toggle.js          Icône "œil" afficher/masquer un mot de passe
 │   └── supabase-config.js          Identifiants du projet Supabase (à compléter)
@@ -44,7 +44,9 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 │   ├── migration_04_stats_gallery.sql           Statistiques de visites + galerie photos/vidéos
 │   ├── migration_05_gallery_storage.sql          Stockage (bucket) pour l'envoi de photos/vidéos depuis l'admin
 │   ├── migration_06_blog_image.sql               Photo de couverture des articles de blog
-│   └── migration_07_results.sql                  Palmarès du personnel + félicitations/encouragements/projets de classe
+│   ├── migration_07_results.sql                  Palmarès du personnel + félicitations/encouragements/projets de classe
+│   ├── migration_08_content_terms.sql            Corrige des articles publiés qui employaient des termes à éviter
+│   └── migration_09_remove_demo_blog_posts.sql   Supprime les articles de démonstration installés par schema.sql
 ├── tailwind.config.js
 ├── netlify.toml
 └── package.json
@@ -96,7 +98,7 @@ Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 
 1. **Créer le projet** : sur [supabase.com](https://supabase.com), créez un compte puis un nouveau projet (gratuit).
 2. **Créer les tables** : dans le dashboard Supabase → *SQL Editor* → *New query* (un **onglet neuf et vide**, pour éviter d'accumuler d'anciens essais), collez tout le contenu de [`supabase/schema.sql`](supabase/schema.sql) et exécutez-le. Cela crée les 6 tables (`testimonials`, `blog_posts`, `teachers`, `inscriptions`, `page_views`, `gallery_items`), le bucket de stockage `gallery`, active la sécurité (RLS) et insère les contenus déjà présents sur le site en données de départ.
-   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql), [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql), [`migration_05_gallery_storage.sql`](supabase/migration_05_gallery_storage.sql), [`migration_06_blog_image.sql`](supabase/migration_06_blog_image.sql) puis [`migration_07_results.sql`](supabase/migration_07_results.sql) — sans dupliquer vos données déjà en place.
+   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql), [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql), [`migration_05_gallery_storage.sql`](supabase/migration_05_gallery_storage.sql), [`migration_06_blog_image.sql`](supabase/migration_06_blog_image.sql), [`migration_07_results.sql`](supabase/migration_07_results.sql), [`migration_08_content_terms.sql`](supabase/migration_08_content_terms.sql) puis [`migration_09_remove_demo_blog_posts.sql`](supabase/migration_09_remove_demo_blog_posts.sql) — sans dupliquer vos données déjà en place.
 3. **Créer votre compte admin** : *Authentication → Users → Add user*, renseignez l'email et le mot de passe qui serviront à vous connecter sur `/admin/login.html`. C'est la seule "porte" : sans compte créé ici, personne ne peut modifier le contenu, même en connaissant les clés du site. Vous pourrez changer ce mot de passe à tout moment depuis l'onglet *Mon compte* du tableau de bord.
 4. **Récupérer les identifiants** : *Project Settings → API*, copiez **Project URL** et la clé **anon / public**.
 5. **Configurer le site** : ouvrez [`js/supabase-config.js`](js/supabase-config.js) et remplacez les deux valeurs par celles de votre projet.
@@ -105,7 +107,7 @@ Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 
 **Sécurité** : la clé "anon" est publique par conception (visible dans le code du navigateur) — ce n'est pas un secret. La vraie protection vient des règles *Row Level Security* définies dans `schema.sql` : le grand public peut *lire* le contenu publié, *déposer* une pré-inscription et *enregistrer sa propre visite* (statistiques), mais seule une personne connectée avec un compte que vous avez créé peut lire les dossiers des familles, consulter les statistiques ou gérer le blog/témoignages/enseignants/galerie.
 
-**Repli automatique** : tant que `supabase-config.js` contient les valeurs par défaut, le site fonctionne comme avant (contenu statique, formulaire d'inscription qui n'enregistre que via Netlify) — aucune dépendance bloquante.
+**Repli automatique** : tant que `supabase-config.js` contient les valeurs par défaut, le formulaire d'inscription continue de fonctionner (il n'enregistre alors que via Netlify) — aucune dépendance bloquante. Le blog n'a volontairement aucun contenu de secours (géré à 100% depuis l'admin) : sans Supabase configuré, il affiche simplement "Aucun article publié" plutôt qu'un faux article de démonstration. La galerie, elle, garde quelques photos de secours pour les visiteurs sans JavaScript ; le temps de chargement des vraies photos est masqué par un indicateur discret, sans jamais laisser voir les anciennes vignettes.
 
 ### Galerie : ajouter vos vraies photos et vidéos
 

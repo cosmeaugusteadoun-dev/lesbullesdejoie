@@ -265,54 +265,5 @@ select * from (values
 ) as seed(author_name, author_role, quote, initial, color)
 where not exists (select 1 from public.testimonials);
 
-insert into public.blog_posts (title, excerpt, content, category, icon, published_date)
-select * from (values
-  ('Cultiver l''autonomie de votre enfant à la maison', 'Comment prolonger les apprentissages de l''école à la maison avec des activités simples et accessibles, adaptées à chaque âge.', 'L''autonomie ne s''arrête pas aux portes de la classe. À la maison, quelques ajustements simples suffisent pour prolonger cet esprit d''indépendance et de curiosité que nous cultivons chaque jour aux Bulles de Joie.
-
-La première étape consiste à adapter l''environnement à la taille de l''enfant : une étagère basse avec quelques jeux soigneusement choisis, un porte-manteau à sa hauteur, un marchepied devant le lavabo. Ces petits aménagements permettent à l''enfant de faire seul ce qu''il a envie de faire, sans dépendre systématiquement d''un adulte.
-
-Ensuite, privilégiez la qualité à la quantité : mieux vaut cinq activités que l''enfant peut choisir et ranger lui-même que vingt jouets entassés dans un bac. Les activités de vie pratique — verser de l''eau, plier du linge, préparer une collation — sont d''excellents points de départ, accessibles et valorisantes.
-
-Enfin, laissez du temps. L''enfant a besoin de répéter un geste plusieurs fois pour le maîtriser et en tirer une vraie satisfaction. Résister à l''envie de l''aider trop vite est souvent le plus grand défi... et le plus beau cadeau que l''on puisse lui faire.', 'Pédagogie', 'local_florist', date '2024-05-15'),
-
-  ('Journée Récréative : Retour en images', 'Une journée mémorable remplie de rires, de jeux coopératifs et d''ateliers créatifs en plein air.', 'Le soleil était au rendez-vous pour notre journée récréative, et les enfants n''ont pas boudé leur plaisir ! Toute la matinée a été rythmée par des ateliers en plein air : peinture géante, chasse aux couleurs dans le jardin, et un grand jeu de piste coopératif imaginé par nos enseignants.
-
-Les plus petits ont profité d''un coin sensoriel avec sable, eau et plantations, pendant que les classes de primaire s''affrontaient dans des jeux d''équipe autour de la motricité et de l''entraide plutôt que de la compétition.
-
-Un grand merci aux parents qui ont participé à l''organisation et à la préparation du goûter partagé qui a clôturé cette belle journée. Ces moments de vie collective sont précieux : ils permettent aux enfants de toutes les classes de se retrouver, de coopérer et de partager la joie simple d''une journée ensoleillée entre amis.
-
-Rendez-vous est déjà pris pour la prochaine édition !', 'Vie Scolaire', 'celebration', date '2024-05-02'),
-
-  ('Notre alimentation, pensée pour les enfants', 'Notre engagement pour une alimentation saine et équilibrée se renforce.', 'À la cantine des Bulles de Joie, nous portons une attention particulière à ce qui se retrouve dans l''assiette de vos enfants. Cette année, nos menus ont été retravaillés pour offrir une alimentation saine et équilibrée, pensée pour accompagner leur croissance et leur concentration tout au long de la journée.
-
-Chaque semaine, les menus alternent légumes de saison, céréales complètes et protéines variées, avec une attention particulière portée à la réduction du gaspillage alimentaire. Les portions sont adaptées à l''âge de chaque groupe, de la crèche au primaire.
-
-Nous travaillons également à sensibiliser les enfants au goût et à la provenance des aliments à travers de petits ateliers de découverte : reconnaître un légume, comprendre d''où vient le pain, ou participer à la préparation d''une collation simple. Manger devient ainsi un moment d''apprentissage autant que de plaisir.
-
-Le détail des menus de la semaine est disponible auprès du secrétariat pour toute question ou allergie alimentaire à signaler.', 'Nutrition', 'restaurant', date '2024-04-28'),
-
-  ('Portes ouvertes : notez la date !', 'Venez visiter nos locaux, rencontrer l''équipe pédagogique et découvrir notre projet éducatif en famille.', 'Vous hésitez encore sur l''école qui accompagnera votre enfant à la rentrée prochaine ? Notre journée portes ouvertes est l''occasion idéale de venir découvrir Les Bulles de Joie dans une ambiance conviviale et sans engagement.
-
-Au programme : visite libre de nos espaces (crèche, prématernelle, maternelle et primaire), rencontre avec les enseignants de chaque classe, présentation de notre projet pédagogique bilingue, et un temps d''échange convivial pour répondre à toutes vos questions sur les admissions et les tarifs.
-
-Les enfants seront aussi les bienvenus : plusieurs ateliers leur seront proposés pendant que vous échangez avec notre équipe, pour qu''ils se fassent une première idée de l''ambiance de l''école.
-
-Pour connaître la date exacte et vous inscrire, contactez notre secrétariat au 01 97 91 94 52 ou via notre page Contact. Nous avons hâte de vous accueillir !', 'Événements', 'event', date '2024-04-20'),
-
-  ('Le bilinguisme précoce, pourquoi ça marche', 'Les bénéfices cognitifs et sociaux d''un apprentissage bilingue dès le plus jeune âge, expliqués simplement.', 'Aux Bulles de Joie, toutes nos classes sont bilingues, et la prématernelle est même enseignée exclusivement en anglais. Une question revient souvent chez les parents : n''est-ce pas trop tôt pour le développement du langage de l''enfant ? La recherche est pourtant claire sur ce point : plus l''exposition à une seconde langue commence tôt, plus elle s''intègre naturellement, sans effort de traduction mentale.
-
-Les jeunes enfants disposent d''une plasticité cérébrale exceptionnelle qui leur permet d''absorber plusieurs systèmes linguistiques en parallèle, un peu comme ils apprennent à marcher ou à reconnaître les visages : par imprégnation et répétition, dans un cadre ludique et sécurisant.
-
-Au-delà de la langue elle-même, le bilinguisme précoce stimule des compétences transversales précieuses : la flexibilité cognitive, la capacité à résoudre des problèmes sous plusieurs angles, et une ouverture naturelle à d''autres cultures.
-
-Notre rôle est de créer un environnement où l''anglais et le français sont vécus comme des outils de communication vivants — à travers les chansons, les jeux, les histoires — plutôt que comme une matière scolaire abstraite. C''est ce qui fait, selon nous, toute la différence.', 'Pédagogie', 'psychology', date '2024-04-10'),
-
-  ('Une nouvelle salle de motricité pour les tout-petits', 'Retour sur l''aménagement de notre nouvel espace dédié au développement moteur des enfants de crèche.', 'Cette année, notre crèche s''est dotée d''une toute nouvelle salle de motricité, pensée spécifiquement pour les besoins des tout-petits de 2 mois à 3 ans. Tapis moelleux, structures à escalader sécurisées, tunnels et parcours d''équilibre : chaque élément a été choisi pour accompagner les grandes étapes du développement moteur, du premier retournement aux premiers pas assurés.
-
-Le mouvement libre est au cœur de notre approche : plutôt que d''installer un enfant dans une posture qu''il n''a pas encore acquise seul, nous préférons lui laisser le temps et l''espace nécessaires pour progresser à son propre rythme, en toute sécurité et sous le regard bienveillant de nos professionnels de la petite enfance.
-
-Cet espace est utilisé quotidiennement, en petits groupes, pour des séances encadrées qui favorisent aussi bien la confiance en soi que la socialisation entre les enfants.
-
-Nous sommes ravis de voir déjà les tout-petits s''y épanouir, rire et progresser un peu plus chaque jour !', 'Vie Scolaire', 'groups', date '2024-04-02')
-) as seed(title, excerpt, content, category, icon, published_date)
-where not exists (select 1 from public.blog_posts);
+-- Aucun article de démonstration n'est inséré ici : les articles de blog
+-- sont entièrement gérés depuis l'onglet Blog de l'espace admin.

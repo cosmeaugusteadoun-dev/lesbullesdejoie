@@ -1,9 +1,9 @@
 /**
- * Loads testimonials (index.html) and blog articles (blog.html) from
- * Supabase when configured, replacing the static seed content baked into
- * the HTML. If Supabase isn't configured yet, or the request fails, the
- * static markup already in the page is left untouched — the site never
- * depends on this succeeding.
+ * Loads testimonials (index.html) and blog articles (blog.html/index.html)
+ * from Supabase. Blog articles have no static fallback content in the HTML
+ * on purpose — they're managed entirely from the admin, so an empty/failed
+ * fetch simply shows "Aucun article publié pour le moment." rather than any
+ * hard-coded demo article.
  */
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { SUPABASE_URL, SUPABASE_ANON_KEY, isSupabaseConfigured } from "./supabase-config.js";
@@ -103,12 +103,12 @@ async function loadBlogPosts(supabase) {
   if (previewGrid && !fullGrid) query = query.limit(3);
 
   const { data, error } = await query;
-  if (error) return; // leave the static fallback untouched if we can't reach Supabase
-
-  if (!data || !data.length) {
-    // No published posts (e.g. everything was unpublished from the admin) —
-    // clear the static fallback instead of silently leaving it displayed.
+  if (error || !data || !data.length) {
+    // Rien à afficher (erreur réseau, ou aucun article publié) — pas de
+    // contenu statique de secours ici : les articles sont gérés entièrement
+    // depuis l'espace admin, jamais codés en dur dans le site.
     grid.innerHTML = `<p class="col-span-full font-body-md text-body-md text-on-surface-variant text-center py-12">Aucun article publié pour le moment.</p>`;
+    grid.classList.add("is-loaded");
     return;
   }
 
@@ -141,6 +141,7 @@ async function loadBlogPosts(supabase) {
     })
     .join("");
 
+  grid.classList.add("is-loaded");
   grid.querySelectorAll("[data-reveal]").forEach((el, i) => {
     el.style.transitionDelay = `${(i % 3) * 100}ms`;
     window.__observeReveal ? window.__observeReveal(el) : el.classList.add("is-revealed");

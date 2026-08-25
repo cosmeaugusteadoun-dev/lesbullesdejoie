@@ -68,9 +68,16 @@ async function loadGallery(supabase) {
     .eq("published", true)
     .order("created_at", { ascending: false });
 
-  if (error || !data || !data.length) return;
+  // Que ce soit un succès, une erreur ou une réponse vide, la grille (statique
+  // de secours, ou fraîchement remplie ci-dessous) doit redevenir visible —
+  // sinon elle resterait cachée derrière le chargement indéfiniment.
+  if (error || !data || !data.length) {
+    grid.classList.add("is-loaded");
+    return;
+  }
 
   grid.innerHTML = data.map((item, i) => renderTile(item, TILE_SPANS[i % TILE_SPANS.length], true)).join("");
+  grid.classList.add("is-loaded");
   activateReveal(grid);
 }
 
@@ -88,9 +95,13 @@ async function loadJoyPreview(supabase) {
     .order("created_at", { ascending: false })
     .limit(4);
 
-  if (error || !data || !data.length) return;
+  if (error || !data || !data.length) {
+    grid.classList.add("is-loaded");
+    return;
+  }
 
   grid.innerHTML = data.map((item, i) => renderTile(item, TILE_SPANS[i % TILE_SPANS.length], false)).join("");
+  grid.classList.add("is-loaded");
   activateReveal(grid);
 }
 

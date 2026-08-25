@@ -80,7 +80,8 @@ Galerie
 
 <!-- ===== Grid ===== -->
 <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="gallery-grid">
+<div class="relative">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="gallery-grid" data-gallery-dynamic>
 
 <div class="gallery-item col-span-2 row-span-2 rounded-xl shadow-sm" data-category="maternelle" data-lightbox-src="assets/images/hero-classroom.jpg" data-lightbox-alt="Salle de classe, ateliers en autonomie" data-reveal>
 <img alt="Salle de classe, ateliers en autonomie" class="w-full h-full min-h-[300px] object-cover rounded-xl" src="assets/images/hero-classroom.jpg" />
@@ -122,6 +123,11 @@ Galerie
 <img alt="Moment calme et lecture à la crèche" class="w-full h-48 object-cover rounded-xl" src="assets/images/hero-nursery.jpg" />
 </div>
 
+</div>
+<div class="absolute inset-0 items-center justify-center gap-3 bg-surface" data-gallery-loading>
+<span class="material-symbols-outlined animate-spin text-primary text-3xl">progress_activity</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Chargement de la galerie…</span>
+</div>
 </div>
 </section>
 

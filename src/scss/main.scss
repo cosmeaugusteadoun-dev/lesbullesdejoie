@@ -267,6 +267,21 @@ textarea.form-field {
   }
 }
 
+// ---- Gallery loading state --------------------------------------------
+// Hides the static fallback tiles the instant JS is active (synchronous,
+// before first paint — same technique as [data-reveal]) so visitors never
+// see the old demo photos flash before the real ones load from Supabase.
+// Without JS, none of this applies and the static tiles show normally.
+[data-gallery-loading] {
+  display: none;
+}
+.js [data-gallery-dynamic]:not(.is-loaded) {
+  visibility: hidden;
+}
+.js [data-gallery-dynamic]:not(.is-loaded) ~ [data-gallery-loading] {
+  display: flex;
+}
+
 // ---- Gallery / lightbox ---------------------------------------------------
 .gallery-item {
   cursor: zoom-in;
