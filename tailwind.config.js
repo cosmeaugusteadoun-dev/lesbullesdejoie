@@ -19,6 +19,11 @@ module.exports = {
         // ponctuellement (ex. bilinguisme/international).
         sky: "#1E88C0",
         "on-sky": "#ffffff",
+        // Bleu nuit — fond du pied de page sur tout le site.
+        navy: "#0f1b3d",
+        "on-navy": "#ffffff",
+        "on-navy-variant": "#aab2c8",
+        "navy-border": "#26315a",
         "on-error": "#ffffff",
         "surface-container-low": "#f8f2fa",
         "outline-variant": "#cbc4d2",

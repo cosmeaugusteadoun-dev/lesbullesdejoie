@@ -1,8 +1,9 @@
 /**
  * Les Bulles de Joie — site JS
  * Vanilla JS, no dependencies. Handles: mobile nav, scroll effects,
- * reveal-on-scroll, gallery lightbox, back-to-top and Netlify form
- * submissions (progressive enhancement — forms work fine without JS too).
+ * reveal-on-scroll, gallery lightbox, back-to-top and the inscription
+ * pricing/step flow. Form submissions themselves (Netlify + Supabase) are
+ * handled per-form in js/contact.js and js/inscription.js.
  */
 (function () {
   "use strict";
@@ -15,7 +16,6 @@
     initGalleryLightbox();
     initGalleryFilters();
     initBackToTop();
-    initNetlifyForms();
     initInscriptionPricing();
     initCounters();
   });
@@ -355,18 +355,23 @@
       `;
     }
 
-    // Formulaire en 2 étapes : (1) informations, (2) frais + validation.
-    // Le détail des frais n'apparaît qu'à l'étape 2, une fois l'étape 1
-    // validée — jamais avant, et jamais sur une simple sélection de classe.
-    const step1 = document.querySelector('[data-step="1"]');
-    const step2 = document.querySelector('[data-step="2"]');
-    const nextBtn = document.querySelector("[data-step1-next]");
-    const backBtn = document.querySelector("[data-step2-back]");
-    if (!step1 || !step2 || !nextBtn) return;
+    // Formulaire en 3 étapes : (1) classe, (2) informations, (3) frais +
+    // validation. Le détail des frais n'apparaît qu'à l'étape 3, une fois
+    // les étapes 1 et 2 validées — jamais avant, et jamais sur une simple
+    // sélection de classe.
+    const steps = {
+      1: document.querySelector('[data-step="1"]'),
+      2: document.querySelector('[data-step="2"]'),
+      3: document.querySelector('[data-step="3"]'),
+    };
+    const step1NextBtn = document.querySelector("[data-step1-next]");
+    const step2NextBtn = document.querySelector("[data-step2-next]");
+    const step2BackBtn = document.querySelector("[data-step2-back]");
+    const step3BackBtn = document.querySelector("[data-step3-back]");
+    if (!steps[1] || !steps[2] || !steps[3] || !step1NextBtn || !step2NextBtn) return;
 
     function setStep(step) {
-      step1.classList.toggle("hidden", step !== 1);
-      step2.classList.toggle("hidden", step !== 2);
+      Object.entries(steps).forEach(([key, el]) => el.classList.toggle("hidden", Number(key) !== step));
       document.querySelectorAll("[data-step-indicator-badge]").forEach((badge) => {
         const active = Number(badge.getAttribute("data-step-indicator-badge")) === step;
         badge.classList.toggle("bg-primary", active);
@@ -379,64 +384,38 @@
         label.classList.toggle("text-primary", active);
         label.classList.toggle("text-on-surface-variant", !active);
       });
-      (step === 1 ? step1 : step2).scrollIntoView({ behavior: "smooth", block: "start" });
+      steps[step].scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    nextBtn.addEventListener("click", () => {
-      const fields = step1.querySelectorAll("input, select, textarea");
+    function validateStep(stepEl) {
+      const fields = stepEl.querySelectorAll("input, select, textarea");
       for (const field of fields) {
         if (!field.checkValidity()) {
           field.reportValidity();
-          return;
+          return false;
         }
       }
-      const checked = document.querySelector("[data-pricing-trigger]:checked");
-      panel.innerHTML = checked.value === "creche" ? renderCreche() : renderSchool(checked.value);
+      return true;
+    }
+
+    step1NextBtn.addEventListener("click", () => {
+      if (!validateStep(steps[1])) return;
       setStep(2);
     });
 
-    if (backBtn) {
-      backBtn.addEventListener("click", () => setStep(1));
+    step2NextBtn.addEventListener("click", () => {
+      if (!validateStep(steps[2])) return;
+      const checked = document.querySelector("[data-pricing-trigger]:checked");
+      panel.innerHTML = checked.value === "creche" ? renderCreche() : renderSchool(checked.value);
+      setStep(3);
+    });
+
+    if (step2BackBtn) {
+      step2BackBtn.addEventListener("click", () => setStep(1));
+    }
+    if (step3BackBtn) {
+      step3BackBtn.addEventListener("click", () => setStep(2));
     }
   }
 
-  // Progressive enhancement for Netlify Forms: submit via fetch so the
-  // visitor gets inline feedback instead of a full page reload. If JS
-  // fails to load, the native form submission (action="/merci.html")
-  // still works exactly as Netlify expects.
-  function initNetlifyForms() {
-    document.querySelectorAll("form[data-netlify-ajax]").forEach((form) => {
-      const status = form.parentElement.querySelector("[data-form-status]");
-
-      form.addEventListener("submit", (e) => {
-        const requiredInvalid = form.querySelector(":invalid");
-        if (requiredInvalid) return; // let native validation UI show
-
-        e.preventDefault();
-        const data = new FormData(form);
-
-        fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(data).toString(),
-        })
-          .then(() => {
-            form.reset();
-            form.hidden = true;
-            if (status) {
-              status.classList.add("is-visible");
-              status.setAttribute("data-form-status", "success");
-            }
-          })
-          .catch(() => {
-            if (status) {
-              status.classList.add("is-visible");
-              status.setAttribute("data-form-status", "error");
-              status.textContent =
-                "Une erreur est survenue. Merci de réessayer ou de nous écrire directement par email.";
-            }
-          });
-      });
-    });
-  }
 })();

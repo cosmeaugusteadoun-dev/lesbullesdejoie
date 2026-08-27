@@ -95,6 +95,15 @@ function initials(name) {
   return (name || "?").trim().charAt(0).toUpperCase();
 }
 
+const WHATSAPP_ICON_SVG = `<svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884M20.463 3.488A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"></path></svg>`;
+
+// Numéro Bénin -> format wa.me (mêmes règles que le lien WhatsApp du footer :
+// on ne garde que les chiffres, et on préfixe par l'indicatif 229 s'il est absent).
+function toWhatsAppNumber(phone) {
+  const digits = (phone || "").replace(/\D/g, "");
+  return digits.startsWith("229") ? digits : `229${digits}`;
+}
+
 // Classes Tailwind écrites en toutes lettres (le scanner de Tailwind ne
 // détecte pas les noms de classes construits par interpolation).
 const AVATAR_CLASSES = {
@@ -407,6 +416,17 @@ function formatDateTimeFr(iso) {
   }
 }
 
+function inscriptionEmailLink(d, classLabel) {
+  const subject = `Votre pré-inscription — ${d.child_first_name} ${d.child_last_name}`;
+  const body = `Bonjour ${d.parent_first_name},\n\nNous avons bien reçu la demande de pré-inscription de ${d.child_first_name} ${d.child_last_name} en ${classLabel} aux Bulles de Joie.\n\nNous serions ravis de vous accueillir pour une visite et un entretien. Quelles seraient vos disponibilités ?\n\nÀ très bientôt,\nL'équipe des Bulles de Joie`;
+  return `mailto:${encodeURIComponent(d.parent_email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function inscriptionWhatsAppLink(d, classLabel) {
+  const text = `Bonjour ${d.parent_first_name} ! Ici Les Bulles de Joie 🎈 Nous avons bien reçu la demande de pré-inscription de ${d.child_first_name} en ${classLabel}. Quand seriez-vous disponible pour une visite de l'école ?`;
+  return `https://wa.me/${toWhatsAppNumber(d.parent_phone)}?text=${encodeURIComponent(text)}`;
+}
+
 async function loadInscriptions() {
   inscriptionsList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>`;
   let query = supabase.from("inscriptions").select("*").order("created_at", { ascending: false });
@@ -433,12 +453,14 @@ async function loadInscriptions() {
         )
         .join("");
 
+      const classLabel = CLASS_LABELS[d.cycle] || d.cycle;
+
       return `
-    <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm">
+    <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm max-w-3xl">
       <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
         <div class="min-w-0">
           <div class="flex flex-wrap items-center gap-2 mb-2">
-            <span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px]">${escapeHtml(CLASS_LABELS[d.cycle] || d.cycle)}</span>
+            <span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px]">${escapeHtml(classLabel)}</span>
             <span class="font-body-md text-[13px] text-on-surface-variant">${formatDateTimeFr(d.created_at)}</span>
           </div>
           <p class="font-label-md text-label-md text-on-surface">Enfant : ${escapeHtml(d.child_first_name)} ${escapeHtml(d.child_last_name)}${d.child_birth_date ? ` — né(e) le ${escapeHtml(d.child_birth_date)}` : ""}</p>
@@ -446,7 +468,17 @@ async function loadInscriptions() {
           ${d.entry_term ? `<p class="font-body-md text-[14px] text-on-surface-variant mt-1">Rentrée souhaitée : ${escapeHtml(d.entry_term)}</p>` : ""}
           ${d.message ? `<p class="font-body-md text-[14px] text-on-surface-variant italic mt-2">"${escapeHtml(d.message)}"</p>` : ""}
         </div>
-        <button class="px-4 py-2 rounded-full border border-error/40 text-error font-label-md text-[13px] hover:bg-error-container shrink-0" data-delete-inscription="${d.id}" type="button">Supprimer</button>
+        <div class="flex items-center gap-2 shrink-0">
+          <a aria-label="Envoyer un email au parent" class="w-10 h-10 rounded-full border border-outline-variant/50 flex items-center justify-center text-on-surface-variant hover:bg-surface hover:text-primary" href="${inscriptionEmailLink(d, classLabel)}" title="Envoyer un email au parent">
+            <span class="material-symbols-outlined text-[20px]">mail</span>
+          </a>
+          <a aria-label="Envoyer un message WhatsApp au parent" class="w-10 h-10 rounded-full border border-outline-variant/50 flex items-center justify-center text-on-surface-variant hover:bg-surface hover:text-secondary" href="${inscriptionWhatsAppLink(d, classLabel)}" rel="noopener" target="_blank" title="Envoyer un message WhatsApp au parent">
+            ${WHATSAPP_ICON_SVG}
+          </a>
+          <button aria-label="Supprimer ce dossier" class="w-10 h-10 rounded-full border border-error/40 text-error flex items-center justify-center hover:bg-error-container" data-delete-inscription="${d.id}" title="Supprimer ce dossier" type="button">
+            <span class="material-symbols-outlined text-[20px]">delete</span>
+          </button>
+        </div>
       </div>
       <div class="flex flex-wrap items-center gap-2 pt-4 border-t border-outline-variant/30">
         <span class="font-label-md text-[12px] text-on-surface-variant mr-1">Statut :</span>
@@ -469,6 +501,93 @@ async function loadInscriptions() {
       if (!confirm("Supprimer définitivement ce dossier ?")) return;
       await supabase.from("inscriptions").delete().eq("id", d.id);
       loadInscriptions();
+    });
+  });
+}
+
+// ---- Messages de contact -----------------------------------------------------
+const contactMessagesList = document.getElementById("contact-messages-list");
+
+function contactMessageEmailLink(m) {
+  const subject = "Votre message — Les Bulles de Joie";
+  const body = `Bonjour ${m.first_name},\n\nMerci pour votre message ! Nous avons bien reçu votre demande et revenons vers vous rapidement.\n\nÀ très bientôt,\nL'équipe des Bulles de Joie`;
+  return `mailto:${encodeURIComponent(m.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function contactMessageWhatsAppLink(m) {
+  const text = `Bonjour ${m.first_name} ! Ici Les Bulles de Joie 🎈 Merci pour votre message, nous revenons vers vous très vite.`;
+  return `https://wa.me/${toWhatsAppNumber(m.phone)}?text=${encodeURIComponent(text)}`;
+}
+
+function contactMessageVisitLink(m) {
+  const text = `Bonjour ${m.first_name} ! Ici Les Bulles de Joie 🎈 Nous serions ravis de vous accueillir pour une visite de l'école. Quel jour et quelle heure vous conviendraient ?`;
+  return `https://wa.me/${toWhatsAppNumber(m.phone)}?text=${encodeURIComponent(text)}`;
+}
+
+async function loadContactMessages() {
+  contactMessagesList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>`;
+  const { data, error } = await supabase.from("contact_messages").select("*").order("created_at", { ascending: false });
+
+  if (error) {
+    contactMessagesList.innerHTML = `<p class="font-body-md text-body-md text-error">Erreur de chargement : ${escapeHtml(error.message)}</p>`;
+    return;
+  }
+  if (!data.length) {
+    contactMessagesList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Aucun message pour le moment.</p>`;
+    return;
+  }
+
+  contactMessagesList.innerHTML = data
+    .map(
+      (m) => `
+    <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm max-w-3xl">
+      <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+        <div class="min-w-0">
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="inline-block px-3 py-1 rounded-full text-[12px] font-label-md ${m.handled ? "bg-secondary-container text-on-secondary-container" : "bg-primary-container text-on-primary-container"}">${m.handled ? "Traité" : "Nouveau"}</span>
+            <span class="font-body-md text-[13px] text-on-surface-variant">${formatDateTimeFr(m.created_at)}</span>
+          </div>
+          <p class="font-label-md text-label-md text-on-surface">${escapeHtml(m.first_name)} ${escapeHtml(m.last_name)}</p>
+          <p class="font-body-md text-[14px] text-on-surface-variant mt-1"><a class="hover:text-primary" href="tel:${escapeHtml(m.phone)}">${escapeHtml(m.phone)}</a>${m.email ? ` · <a class="hover:text-primary" href="mailto:${escapeHtml(m.email)}">${escapeHtml(m.email)}</a>` : ""}</p>
+          <p class="font-body-md text-[14px] text-on-surface-variant italic mt-2">"${escapeHtml(m.message)}"</p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          ${
+            m.email
+              ? `<a aria-label="Répondre par email" class="w-10 h-10 rounded-full border border-outline-variant/50 flex items-center justify-center text-on-surface-variant hover:bg-surface hover:text-primary" href="${contactMessageEmailLink(m)}" title="Répondre par email">
+            <span class="material-symbols-outlined text-[20px]">mail</span>
+          </a>`
+              : ""
+          }
+          <a aria-label="Répondre par WhatsApp" class="w-10 h-10 rounded-full border border-outline-variant/50 flex items-center justify-center text-on-surface-variant hover:bg-surface hover:text-secondary" href="${contactMessageWhatsAppLink(m)}" rel="noopener" target="_blank" title="Répondre par WhatsApp">
+            ${WHATSAPP_ICON_SVG}
+          </a>
+          <button aria-label="Supprimer ce message" class="w-10 h-10 rounded-full border border-error/40 text-error flex items-center justify-center hover:bg-error-container" data-delete-contact-message="${m.id}" title="Supprimer ce message" type="button">
+            <span class="material-symbols-outlined text-[20px]">delete</span>
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 pt-4 border-t border-outline-variant/30">
+        <a class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-outline-variant/50 font-label-md text-[13px] hover:bg-surface" href="${contactMessageVisitLink(m)}" rel="noopener" target="_blank">
+          <span class="material-symbols-outlined text-[16px]">event</span>Planifier une visite (WhatsApp)
+        </a>
+        <button class="px-4 py-2 rounded-full border border-outline-variant/50 font-label-md text-[13px] hover:bg-surface" data-toggle-contact-message="${m.id}" data-handled="${m.handled}" type="button">${m.handled ? "Marquer non traité" : "Marquer traité"}</button>
+      </div>
+    </div>`
+    )
+    .join("");
+
+  data.forEach((m) => {
+    document.querySelector(`[data-toggle-contact-message="${m.id}"]`).addEventListener("click", async (e) => {
+      const nowHandled = e.currentTarget.getAttribute("data-handled") !== "true";
+      await supabase.from("contact_messages").update({ handled: nowHandled }).eq("id", m.id);
+      loadContactMessages();
+    });
+
+    document.querySelector(`[data-delete-contact-message="${m.id}"]`).addEventListener("click", async () => {
+      if (!confirm("Supprimer définitivement ce message ?")) return;
+      await supabase.from("contact_messages").delete().eq("id", m.id);
+      loadContactMessages();
     });
   });
 }
@@ -742,169 +861,6 @@ galleryForm.addEventListener("submit", async (e) => {
   loadGallery();
 });
 
-// ---- Résultats & Distinctions : palmarès du personnel ----------------------
-const staffDistinctionForm = document.getElementById("staff-distinction-form");
-const staffDistinctionsList = document.getElementById("staff-distinctions-list");
-const staffPhotoUrlInput = document.getElementById("staff-distinction-photo-url");
-const staffPhotoFileInput = document.getElementById("staff-distinction-photo-file");
-const staffPhotoPreview = document.getElementById("staff-distinction-photo-preview");
-const staffPhotoRemoveBtn = document.querySelector("[data-remove-staff-photo]");
-const staffPhotoUploadStatus = document.getElementById("staff-distinction-upload-status");
-
-function setStaffPhotoPreview(url) {
-  staffPhotoUrlInput.value = url;
-  staffPhotoFileInput.value = "";
-  if (url) {
-    staffPhotoPreview.src = url;
-    staffPhotoPreview.classList.remove("hidden");
-    staffPhotoRemoveBtn.classList.remove("hidden");
-  } else {
-    staffPhotoPreview.src = "";
-    staffPhotoPreview.classList.add("hidden");
-    staffPhotoRemoveBtn.classList.add("hidden");
-  }
-}
-
-staffPhotoFileInput.addEventListener("change", () => {
-  const file = staffPhotoFileInput.files[0];
-  if (!file) return;
-  staffPhotoPreview.src = URL.createObjectURL(file);
-  staffPhotoPreview.classList.remove("hidden");
-  staffPhotoRemoveBtn.classList.remove("hidden");
-});
-
-staffPhotoRemoveBtn.addEventListener("click", () => setStaffPhotoPreview(""));
-
-async function deleteStaffStorageFile(publicUrl) {
-  const path = extractGalleryStoragePath(publicUrl);
-  if (!path || !path.startsWith("staff/")) return;
-  await supabase.storage.from("gallery").remove([path]);
-}
-
-document.querySelector("[data-add-staff-distinction]").addEventListener("click", () => {
-  staffDistinctionForm.reset();
-  document.getElementById("staff-distinction-id").value = "";
-  document.getElementById("staff-distinction-published").checked = true;
-  setStaffPhotoPreview("");
-  staffDistinctionForm.classList.remove("hidden");
-  staffDistinctionForm.scrollIntoView({ behavior: "smooth", block: "center" });
-});
-
-async function loadStaffDistinctions() {
-  staffDistinctionsList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>`;
-  const { data, error } = await supabase.from("staff_distinctions").select("*").order("rank", { ascending: true });
-
-  if (error) {
-    staffDistinctionsList.innerHTML = `<p class="font-body-md text-body-md text-error">Erreur de chargement : ${escapeHtml(error.message)}</p>`;
-    return;
-  }
-  if (!data.length) {
-    staffDistinctionsList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Aucune distinction pour le moment.</p>`;
-    return;
-  }
-
-  staffDistinctionsList.innerHTML = data
-    .map(
-      (s) => `
-    <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-center gap-4">
-      ${
-        s.photo_url
-          ? `<img alt="" class="w-12 h-12 shrink-0 rounded-full object-cover" src="${escapeHtml(s.photo_url)}" />`
-          : `<div class="w-12 h-12 shrink-0 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center"><span class="material-symbols-outlined">person</span></div>`
-      }
-      <div class="flex-grow min-w-0">
-        <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-[12px]">Prix n°${s.rank}</span>
-        <p class="font-label-md text-label-md text-on-surface mt-2">${escapeHtml(s.staff_name)}</p>
-        <p class="font-body-md text-[14px] text-on-surface-variant mt-1">${escapeHtml(s.role_label)}</p>
-        <span class="inline-block mt-2 px-3 py-1 rounded-full text-[12px] font-label-md ${s.published ? "bg-secondary-container text-on-secondary-container" : "bg-surface-variant text-on-surface-variant"}">${s.published ? "Publié" : "Brouillon"}</span>
-      </div>
-      <div class="flex md:flex-col gap-2 shrink-0">
-        <button class="px-4 py-2 rounded-full border border-outline-variant/50 font-label-md text-[13px] hover:bg-surface" data-edit-staff-distinction="${s.id}" type="button">Modifier</button>
-        <button class="px-4 py-2 rounded-full border border-error/40 text-error font-label-md text-[13px] hover:bg-error-container" data-delete-staff-distinction="${s.id}" type="button">Supprimer</button>
-      </div>
-    </div>`
-    )
-    .join("");
-
-  data.forEach((s) => {
-    document.querySelector(`[data-edit-staff-distinction="${s.id}"]`).addEventListener("click", () => {
-      document.getElementById("staff-distinction-id").value = s.id;
-      document.getElementById("staff-distinction-rank").value = s.rank;
-      document.getElementById("staff-distinction-name").value = s.staff_name;
-      document.getElementById("staff-distinction-role").value = s.role_label;
-      document.getElementById("staff-distinction-published").checked = s.published;
-      setStaffPhotoPreview(s.photo_url || "");
-      staffDistinctionForm.classList.remove("hidden");
-      staffDistinctionForm.scrollIntoView({ behavior: "smooth", block: "center" });
-    });
-
-    document.querySelector(`[data-delete-staff-distinction="${s.id}"]`).addEventListener("click", async () => {
-      if (!confirm("Supprimer définitivement cette distinction ?")) return;
-      await supabase.from("staff_distinctions").delete().eq("id", s.id);
-      if (s.photo_url) await deleteStaffStorageFile(s.photo_url);
-      loadStaffDistinctions();
-    });
-  });
-}
-
-staffDistinctionForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const id = document.getElementById("staff-distinction-id").value;
-  const file = staffPhotoFileInput.files[0];
-  const existingUrl = staffPhotoUrlInput.value;
-  const submitBtn = staffDistinctionForm.querySelector('button[type="submit"]');
-
-  if (file && file.size > MAX_IMAGE_BYTES) {
-    alert("Photo trop volumineuse (max 10 Mo).");
-    return;
-  }
-
-  submitBtn.disabled = true;
-  let photoUrl = existingUrl || null;
-
-  if (file) {
-    staffPhotoUploadStatus.classList.remove("hidden");
-    staffPhotoUploadStatus.classList.add("flex");
-    const storagePath = `staff/${Date.now()}-${sanitizeFileName(file.name)}`;
-    const { error: uploadError } = await supabase.storage.from("gallery").upload(storagePath, file, { upsert: false });
-    staffPhotoUploadStatus.classList.add("hidden");
-    staffPhotoUploadStatus.classList.remove("flex");
-
-    if (uploadError) {
-      submitBtn.disabled = false;
-      alert("Erreur d'envoi de la photo : " + uploadError.message);
-      return;
-    }
-    const { data: publicUrlData } = supabase.storage.from("gallery").getPublicUrl(storagePath);
-    photoUrl = publicUrlData.publicUrl;
-  }
-
-  const payload = {
-    rank: parseInt(document.getElementById("staff-distinction-rank").value, 10),
-    staff_name: document.getElementById("staff-distinction-name").value.trim(),
-    role_label: document.getElementById("staff-distinction-role").value.trim(),
-    photo_url: photoUrl,
-    published: document.getElementById("staff-distinction-published").checked,
-  };
-
-  const query = id ? supabase.from("staff_distinctions").update(payload).eq("id", id) : supabase.from("staff_distinctions").insert(payload);
-  const { error } = await query;
-  submitBtn.disabled = false;
-
-  if (error) {
-    alert("Erreur : " + error.message);
-    if (file) await deleteStaffStorageFile(photoUrl);
-    return;
-  }
-
-  if (id && existingUrl && existingUrl !== photoUrl) {
-    await deleteStaffStorageFile(existingUrl);
-  }
-
-  staffDistinctionForm.classList.add("hidden");
-  loadStaffDistinctions();
-});
-
 // ---- Résultats & Distinctions : félicitations, encouragements, projets ----
 const CLASS_RECOGNITION_CATEGORY_LABELS = {
   felicitation: "Félicitation",
@@ -915,15 +871,51 @@ const CLASS_RECOGNITION_CATEGORY_LABELS = {
 const classRecognitionForm = document.getElementById("class-recognition-form");
 const classRecognitionsList = document.getElementById("class-recognitions-list");
 const classRecognitionClassSelect = document.getElementById("class-recognition-class");
+const recognitionPhotoUrlInput = document.getElementById("class-recognition-photo-url");
+const recognitionPhotoFileInput = document.getElementById("class-recognition-photo-file");
+const recognitionPhotoPreview = document.getElementById("class-recognition-photo-preview");
+const recognitionPhotoRemoveBtn = document.querySelector("[data-remove-class-recognition-photo]");
+const recognitionPhotoUploadStatus = document.getElementById("class-recognition-upload-status");
 
 classRecognitionClassSelect.innerHTML = Object.entries(CLASS_LABELS)
   .map(([value, label]) => `<option value="${value}">${label}</option>`)
   .join("");
 
+function setRecognitionPhotoPreview(url) {
+  recognitionPhotoUrlInput.value = url;
+  recognitionPhotoFileInput.value = "";
+  if (url) {
+    recognitionPhotoPreview.src = url;
+    recognitionPhotoPreview.classList.remove("hidden");
+    recognitionPhotoRemoveBtn.classList.remove("hidden");
+  } else {
+    recognitionPhotoPreview.src = "";
+    recognitionPhotoPreview.classList.add("hidden");
+    recognitionPhotoRemoveBtn.classList.add("hidden");
+  }
+}
+
+recognitionPhotoFileInput.addEventListener("change", () => {
+  const file = recognitionPhotoFileInput.files[0];
+  if (!file) return;
+  recognitionPhotoPreview.src = URL.createObjectURL(file);
+  recognitionPhotoPreview.classList.remove("hidden");
+  recognitionPhotoRemoveBtn.classList.remove("hidden");
+});
+
+recognitionPhotoRemoveBtn.addEventListener("click", () => setRecognitionPhotoPreview(""));
+
+async function deleteRecognitionStorageFile(publicUrl) {
+  const path = extractGalleryStoragePath(publicUrl);
+  if (!path || !path.startsWith("students/")) return;
+  await supabase.storage.from("gallery").remove([path]);
+}
+
 document.querySelector("[data-add-class-recognition]").addEventListener("click", () => {
   classRecognitionForm.reset();
   document.getElementById("class-recognition-id").value = "";
   document.getElementById("class-recognition-published").checked = true;
+  setRecognitionPhotoPreview("");
   classRecognitionForm.classList.remove("hidden");
   classRecognitionForm.scrollIntoView({ behavior: "smooth", block: "center" });
 });
@@ -950,6 +942,11 @@ async function loadClassRecognitions() {
     .map(
       (r) => `
     <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-center gap-4">
+      ${
+        r.photo_url
+          ? `<img alt="" class="w-12 h-12 shrink-0 rounded-full object-cover" src="${escapeHtml(r.photo_url)}" />`
+          : `<div class="w-12 h-12 shrink-0 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center"><span class="material-symbols-outlined">person</span></div>`
+      }
       <div class="flex-grow min-w-0">
         <div class="flex flex-wrap items-center gap-2">
           <span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-md text-[12px]">${escapeHtml(CLASS_LABELS[r.class_key] || r.class_key)}</span>
@@ -975,6 +972,7 @@ async function loadClassRecognitions() {
       document.getElementById("class-recognition-rank").value = r.rank;
       document.getElementById("class-recognition-name").value = r.student_name;
       document.getElementById("class-recognition-published").checked = r.published;
+      setRecognitionPhotoPreview(r.photo_url || "");
       classRecognitionForm.classList.remove("hidden");
       classRecognitionForm.scrollIntoView({ behavior: "smooth", block: "center" });
     });
@@ -982,6 +980,7 @@ async function loadClassRecognitions() {
     document.querySelector(`[data-delete-class-recognition="${r.id}"]`).addEventListener("click", async () => {
       if (!confirm("Supprimer définitivement cette entrée ?")) return;
       await supabase.from("class_recognitions").delete().eq("id", r.id);
+      if (r.photo_url) await deleteRecognitionStorageFile(r.photo_url);
       loadClassRecognitions();
     });
   });
@@ -990,20 +989,58 @@ async function loadClassRecognitions() {
 classRecognitionForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const id = document.getElementById("class-recognition-id").value;
+  const file = recognitionPhotoFileInput.files[0];
+  const existingUrl = recognitionPhotoUrlInput.value;
+  const submitBtn = classRecognitionForm.querySelector('button[type="submit"]');
+
+  if (file && file.size > MAX_IMAGE_BYTES) {
+    alert("Photo trop volumineuse (max 10 Mo).");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  let photoUrl = existingUrl || null;
+
+  if (file) {
+    recognitionPhotoUploadStatus.classList.remove("hidden");
+    recognitionPhotoUploadStatus.classList.add("flex");
+    const storagePath = `students/${Date.now()}-${sanitizeFileName(file.name)}`;
+    const { error: uploadError } = await supabase.storage.from("gallery").upload(storagePath, file, { upsert: false });
+    recognitionPhotoUploadStatus.classList.add("hidden");
+    recognitionPhotoUploadStatus.classList.remove("flex");
+
+    if (uploadError) {
+      submitBtn.disabled = false;
+      alert("Erreur d'envoi de la photo : " + uploadError.message);
+      return;
+    }
+    const { data: publicUrlData } = supabase.storage.from("gallery").getPublicUrl(storagePath);
+    photoUrl = publicUrlData.publicUrl;
+  }
+
   const payload = {
     class_key: document.getElementById("class-recognition-class").value,
     category: document.getElementById("class-recognition-category").value,
     rank: parseInt(document.getElementById("class-recognition-rank").value, 10),
     student_name: document.getElementById("class-recognition-name").value.trim(),
+    photo_url: photoUrl,
     published: document.getElementById("class-recognition-published").checked,
   };
 
   const query = id ? supabase.from("class_recognitions").update(payload).eq("id", id) : supabase.from("class_recognitions").insert(payload);
   const { error } = await query;
+  submitBtn.disabled = false;
+
   if (error) {
     alert("Erreur : " + error.message);
+    if (file) await deleteRecognitionStorageFile(photoUrl);
     return;
   }
+
+  if (id && existingUrl && existingUrl !== photoUrl) {
+    await deleteRecognitionStorageFile(existingUrl);
+  }
+
   classRecognitionForm.classList.add("hidden");
   loadClassRecognitions();
 });
@@ -1183,9 +1220,9 @@ document.querySelectorAll("[data-cancel-form]").forEach((btn) => {
 
 loadStats();
 loadInscriptions();
+loadContactMessages();
 loadTestimonials();
 loadBlogPosts();
 loadTeachers();
 loadGallery();
-loadStaffDistinctions();
 loadClassRecognitions();

@@ -49,7 +49,7 @@ function render(article) {
     const img = document.createElement("img");
     img.src = article.imageUrl;
     img.alt = article.title;
-    img.className = "absolute inset-0 w-full h-full object-cover";
+    img.className = "absolute inset-0 w-full h-full object-contain";
     banner.prepend(img);
   } else {
     document.querySelector("[data-article-gradient]").classList.add(from, to);

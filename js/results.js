@@ -1,20 +1,17 @@
 /**
- * Charge la page "Résultats & Distinctions" depuis Supabase : palmarès du
- * personnel (staff_distinctions) et tableaux de félicitations/encouragements/
- * projets de classe par classe (class_recognitions). Si Supabase n'est pas
- * configuré, ou si la requête échoue/est vide, un message "à venir" est
- * affiché — il n'y a pas de contenu statique de repli ici (données propres à
- * chaque année scolaire).
+ * Charge la page "Résultats & Distinctions" depuis Supabase : tableaux de
+ * félicitations/encouragements/projets de classe par classe
+ * (class_recognitions). Si Supabase n'est pas configuré, ou si la requête
+ * échoue/est vide, un message "à venir" est affiché — il n'y a pas de
+ * contenu statique de repli ici (données propres à chaque année scolaire).
  */
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { SUPABASE_URL, SUPABASE_ANON_KEY, isSupabaseConfigured } from "./supabase-config.js";
 
 if (isSupabaseConfigured) {
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  loadStaffDistinctions(supabase);
   loadClassRecognitions(supabase);
 } else {
-  showEmpty("staff-distinctions", "Le palmarès sera bientôt disponible.");
   showEmpty("class-tableaux", "Les tableaux de félicitations seront bientôt disponibles.");
   showEmpty("class-projects", "Les projets de classe seront bientôt disponibles.");
 }
@@ -51,44 +48,6 @@ function showEmpty(containerId, message) {
   el.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant text-center py-8 col-span-full">${escapeHtml(message)}</p>`;
 }
 
-async function loadStaffDistinctions(supabase) {
-  const container = document.getElementById("staff-distinctions");
-  if (!container) return;
-
-  const { data, error } = await supabase
-    .from("staff_distinctions")
-    .select("*")
-    .eq("published", true)
-    .order("rank", { ascending: true });
-
-  if (error || !data || !data.length) {
-    showEmpty("staff-distinctions", "Le palmarès du personnel sera bientôt disponible.");
-    return;
-  }
-
-  container.innerHTML = data
-    .map((s, i) => {
-      const accent = RANK_ACCENTS[i % RANK_ACCENTS.length];
-      const avatar = s.photo_url
-        ? `<img alt="${escapeHtml(s.staff_name)}" class="w-14 h-14 rounded-full object-cover shrink-0" src="${escapeHtml(s.photo_url)}" />`
-        : `<div class="w-14 h-14 rounded-full ${accent.chip} flex items-center justify-center shrink-0"><span class="material-symbols-outlined">person</span></div>`;
-      return `
-      <div class="bg-surface rounded-2xl p-6 shadow-ambient border-t-4 ${accent.border} flex items-center gap-4" data-reveal>
-        ${avatar}
-        <div class="min-w-0">
-          <span class="font-label-md text-[12px] ${accent.badgeBg} text-on-surface-variant px-2 py-0.5 rounded-full inline-block mb-1">Prix n°${i + 1}</span>
-          <p class="font-headline-sm text-headline-sm text-on-surface truncate">${escapeHtml(s.staff_name)}</p>
-          <p class="font-body-md text-[14px] text-on-surface-variant">${escapeHtml(s.role_label)}</p>
-        </div>
-      </div>`;
-    })
-    .join("");
-
-  container.querySelectorAll("[data-reveal]").forEach((el) => {
-    window.__observeReveal ? window.__observeReveal(el) : el.classList.add("is-revealed");
-  });
-}
-
 function groupByClass(items) {
   const groups = {};
   items.forEach((item) => {
@@ -105,13 +64,16 @@ const CATEGORY_META = {
 
 function renderStudentList(items) {
   return items
-    .map(
-      (item, i) => `
-    <div class="flex items-center gap-3 bg-surface-container-low rounded-full pl-2 pr-4 py-2">
-      <span class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md text-[12px] shrink-0">${i + 1}</span>
+    .map((item, i) => {
+      const avatar = item.photo_url
+        ? `<img alt="${escapeHtml(item.student_name)}" class="w-20 h-20 rounded-xl object-cover shrink-0" src="${escapeHtml(item.photo_url)}" />`
+        : `<span class="w-20 h-20 rounded-xl bg-primary text-on-primary flex items-center justify-center font-headline-sm text-headline-sm shrink-0">${i + 1}</span>`;
+      return `
+    <div class="flex items-center gap-4 bg-surface-container-low rounded-2xl pl-3 pr-5 py-3">
+      ${avatar}
       <span class="font-body-md text-body-md text-on-surface">${escapeHtml(item.student_name)}</span>
-    </div>`
-    )
+    </div>`;
+    })
     .join("");
 }
 

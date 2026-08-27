@@ -136,6 +136,44 @@ create policy "Authenticated delete inscriptions"
   on public.inscriptions for delete
   using (auth.role() = 'authenticated');
 
+-- ---- Messages de contact -----------------------------------------------------
+-- Messages envoyés depuis le formulaire de contact.html, en plus de l'envoi
+-- Netlify Forms (email de notification), pour qu'ils apparaissent aussi dans
+-- l'espace admin.
+create table if not exists public.contact_messages (
+  id uuid primary key default gen_random_uuid(),
+  first_name text not null,
+  last_name text not null,
+  phone text not null,
+  email text,
+  message text not null,
+  handled boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+alter table public.contact_messages enable row level security;
+
+drop policy if exists "Public can submit contact_messages" on public.contact_messages;
+create policy "Public can submit contact_messages"
+  on public.contact_messages for insert
+  with check (true);
+
+drop policy if exists "Authenticated read contact_messages" on public.contact_messages;
+create policy "Authenticated read contact_messages"
+  on public.contact_messages for select
+  using (auth.role() = 'authenticated');
+
+drop policy if exists "Authenticated update contact_messages" on public.contact_messages;
+create policy "Authenticated update contact_messages"
+  on public.contact_messages for update
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+drop policy if exists "Authenticated delete contact_messages" on public.contact_messages;
+create policy "Authenticated delete contact_messages"
+  on public.contact_messages for delete
+  using (auth.role() = 'authenticated');
+
 -- ---- Visites du site --------------------------------------------------------
 create table if not exists public.page_views (
   id uuid primary key default gen_random_uuid(),
@@ -205,17 +243,6 @@ create policy "Authenticated delete gallery bucket"
   using (bucket_id = 'gallery' and auth.role() = 'authenticated');
 
 -- ---- Résultats & Distinctions ----------------------------------------------
--- Palmarès du personnel (page résultats.html, section "Distinctions du personnel").
-create table if not exists public.staff_distinctions (
-  id uuid primary key default gen_random_uuid(),
-  rank int not null,
-  staff_name text not null,
-  role_label text not null,
-  photo_url text,
-  published boolean not null default true,
-  created_at timestamptz not null default now()
-);
-
 -- Tableaux de félicitations / encouragements / projets de classe, par classe.
 create table if not exists public.class_recognitions (
   id uuid primary key default gen_random_uuid(),
@@ -223,23 +250,12 @@ create table if not exists public.class_recognitions (
   category text not null check (category in ('felicitation', 'encouragement', 'projet_classe')),
   rank int not null,
   student_name text not null,
+  photo_url text,
   published boolean not null default true,
   created_at timestamptz not null default now()
 );
 
-alter table public.staff_distinctions enable row level security;
 alter table public.class_recognitions enable row level security;
-
-drop policy if exists "Public reads published staff_distinctions" on public.staff_distinctions;
-create policy "Public reads published staff_distinctions"
-  on public.staff_distinctions for select
-  using (published = true);
-
-drop policy if exists "Authenticated manage staff_distinctions" on public.staff_distinctions;
-create policy "Authenticated manage staff_distinctions"
-  on public.staff_distinctions for all
-  using (auth.role() = 'authenticated')
-  with check (auth.role() = 'authenticated');
 
 drop policy if exists "Public reads published class_recognitions" on public.class_recognitions;
 create policy "Public reads published class_recognitions"

@@ -28,8 +28,9 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 │   └── scss/main.scss            Styles custom (bulles, marquee, animations, formulaires…)
 ├── css/                          CSS compilé (généré, ne pas éditer à la main)
 ├── js/
-│   ├── main.js                    Menu mobile, scroll reveal, lightbox (photo + vidéo), formulaires, tarifs d'inscription
+│   ├── main.js                    Menu mobile, scroll reveal, lightbox (photo + vidéo), tarifs d'inscription (formulaire en 3 étapes)
 │   ├── inscription.js              Envoi du formulaire de pré-inscription (Netlify + Supabase + contact enseignant)
+│   ├── contact.js                  Envoi du formulaire de contact (Netlify + Supabase, visible dans l'admin)
 │   ├── article.js                  Charge et affiche un article complet depuis Supabase (aucun contenu codé en dur)
 │   ├── gallery.js                  Charge la galerie (photos/vidéos) depuis Supabase, dont "Vidéos par cycle"
 │   ├── results.js                  Charge la page Résultats & Distinctions depuis Supabase
@@ -46,7 +47,9 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 │   ├── migration_06_blog_image.sql               Photo de couverture des articles de blog
 │   ├── migration_07_results.sql                  Palmarès du personnel + félicitations/encouragements/projets de classe
 │   ├── migration_08_content_terms.sql            Corrige des articles publiés qui employaient des termes à éviter
-│   └── migration_09_remove_demo_blog_posts.sql   Supprime les articles de démonstration installés par schema.sql
+│   ├── migration_09_remove_demo_blog_posts.sql   Supprime les articles de démonstration installés par schema.sql
+│   ├── migration_10_class_recognition_photo.sql  Photo par élève sur les tableaux de résultats + suppression du palmarès du personnel
+│   └── migration_11_contact_messages.sql         Table des messages du formulaire de contact, visibles dans l'admin
 ├── tailwind.config.js
 ├── netlify.toml
 └── package.json
@@ -87,18 +90,19 @@ Pour recevoir un **email à chaque nouvelle pré-inscription** (en plus du dossi
 
 Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 - consulter les **statistiques** de fréquentation (visites du jour, des 7 derniers jours, graphique en barres, répartition des dossiers par statut en donut) ;
-- suivre et mettre à jour l'état des **dossiers de pré-inscription** (Nouveau → Contacté → Visite planifiée → Accepté/Refusé) ;
+- suivre et mettre à jour l'état des **dossiers de pré-inscription** (Nouveau → Contacté → Visite planifiée → Accepté/Refusé), avec des boutons pour **répondre directement par email ou WhatsApp** au parent (message prérempli) ;
+- consulter les **messages envoyés depuis le formulaire de contact** du site, avec les mêmes boutons de réponse rapide (email, WhatsApp, ou un message WhatsApp prérempli pour planifier une visite) ;
 - gérer les **témoignages** et les **articles de blog** (extrait affiché sur la carte + texte complet affiché sur `article.html`, avec une **photo de couverture optionnelle envoyée directement depuis l'appareil** — sinon une icône par défaut est affichée) ;
 - renseigner le **contact de l'enseignant de chaque classe** — automatiquement montré au parent juste après l'envoi de sa pré-inscription ;
 - gérer la **galerie** (ajouter/dépublier/supprimer des photos et vidéos) ;
-- gérer les **résultats** (palmarès du personnel, tableaux de félicitations/encouragements et projets de classe), affichés sur `resultats.html` ;
+- gérer les **résultats** (tableaux de félicitations/encouragements et projets de classe, chacun avec une **photo d'élève optionnelle**), affichés sur `resultats.html` ;
 - **changer son mot de passe** à tout moment (onglet *Mon compte*).
 
 ### Mise en place (une seule fois, ~10 minutes)
 
 1. **Créer le projet** : sur [supabase.com](https://supabase.com), créez un compte puis un nouveau projet (gratuit).
 2. **Créer les tables** : dans le dashboard Supabase → *SQL Editor* → *New query* (un **onglet neuf et vide**, pour éviter d'accumuler d'anciens essais), collez tout le contenu de [`supabase/schema.sql`](supabase/schema.sql) et exécutez-le. Cela crée les 6 tables (`testimonials`, `blog_posts`, `teachers`, `inscriptions`, `page_views`, `gallery_items`), le bucket de stockage `gallery`, active la sécurité (RLS) et insère les contenus déjà présents sur le site en données de départ.
-   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql), [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql), [`migration_05_gallery_storage.sql`](supabase/migration_05_gallery_storage.sql), [`migration_06_blog_image.sql`](supabase/migration_06_blog_image.sql), [`migration_07_results.sql`](supabase/migration_07_results.sql), [`migration_08_content_terms.sql`](supabase/migration_08_content_terms.sql) puis [`migration_09_remove_demo_blog_posts.sql`](supabase/migration_09_remove_demo_blog_posts.sql) — sans dupliquer vos données déjà en place.
+   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql), [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql), [`migration_05_gallery_storage.sql`](supabase/migration_05_gallery_storage.sql), [`migration_06_blog_image.sql`](supabase/migration_06_blog_image.sql), [`migration_07_results.sql`](supabase/migration_07_results.sql), [`migration_08_content_terms.sql`](supabase/migration_08_content_terms.sql), [`migration_09_remove_demo_blog_posts.sql`](supabase/migration_09_remove_demo_blog_posts.sql), [`migration_10_class_recognition_photo.sql`](supabase/migration_10_class_recognition_photo.sql) puis [`migration_11_contact_messages.sql`](supabase/migration_11_contact_messages.sql) — sans dupliquer vos données déjà en place.
 3. **Créer votre compte admin** : *Authentication → Users → Add user*, renseignez l'email et le mot de passe qui serviront à vous connecter sur `/admin/login.html`. C'est la seule "porte" : sans compte créé ici, personne ne peut modifier le contenu, même en connaissant les clés du site. Vous pourrez changer ce mot de passe à tout moment depuis l'onglet *Mon compte* du tableau de bord.
 4. **Récupérer les identifiants** : *Project Settings → API*, copiez **Project URL** et la clé **anon / public**.
 5. **Configurer le site** : ouvrez [`js/supabase-config.js`](js/supabase-config.js) et remplacez les deux valeurs par celles de votre projet.
@@ -124,7 +128,7 @@ Pour supprimer un média : bouton **Supprimer** dans l'admin — retire à la fo
 
 ### Résultats & Distinctions
 
-Depuis l'onglet **Résultats** de l'admin, gérez le palmarès du personnel (rang, nom, fonction, photo facultative) et les félicitations/encouragements/projets de classe (classe, catégorie, rang, nom complet de l'élève). Ces éléments s'affichent publiquement sur `resultats.html` avec le nom complet des élèves, tel que validé par l'école — pensez à vous assurer que les familles ont bien été informées avant publication.
+Depuis l'onglet **Résultats** de l'admin, gérez les félicitations/encouragements/projets de classe (classe, catégorie, rang, nom complet de l'élève, photo facultative). Ces éléments s'affichent publiquement sur `resultats.html` avec le nom complet (et la photo, si envoyée) des élèves, tel que validé par l'école — pensez à vous assurer que les familles ont bien été informées avant publication.
 
 ## Informations à finaliser
 
