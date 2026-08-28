@@ -16,7 +16,7 @@
 <body class="bg-background text-on-background font-body-md min-h-screen flex items-center justify-center px-margin-mobile antialiased relative overflow-hidden">
 
 <div class="decorative-bubble bg-primary w-96 h-96 -top-20 -left-20"></div>
-<div class="decorative-bubble bg-secondary w-64 h-64 bottom-0 -right-10" style="opacity:.08;"></div>
+<div class="decorative-bubble bg-secondary w-64 h-64 bottom-0 -right-10 opacity-[0.08]"></div>
 
 <div class="relative z-10 w-full max-w-md">
 <div class="flex flex-col items-center gap-3 mb-8">
@@ -59,50 +59,6 @@
 </div>
 </div>
 
-<script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { SUPABASE_URL, SUPABASE_ANON_KEY, isSupabaseConfigured } from "../js/supabase-config.js";
-import { initPasswordToggles } from "../js/password-toggle.js";
-
-initPasswordToggles();
-
-const form = document.getElementById("login-form");
-const errorBox = document.getElementById("login-error");
-const errorText = document.getElementById("login-error-text");
-const submitBtn = document.getElementById("login-submit");
-const setupNotice = document.getElementById("setup-notice");
-
-if (!isSupabaseConfigured) {
-  setupNotice.classList.remove("hidden");
-  setupNotice.classList.add("flex");
-  form.querySelectorAll("input, button").forEach((el) => (el.disabled = true));
-} else {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  supabase.auth.getSession().then(({ data }) => {
-    if (data.session) window.location.href = "dashboard.html";
-  });
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    errorBox.classList.add("hidden");
-    submitBtn.disabled = true;
-
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-    submitBtn.disabled = false;
-    if (error) {
-      errorText.textContent = "Connexion impossible : email ou mot de passe incorrect.";
-      errorBox.classList.remove("hidden");
-      errorBox.classList.add("flex");
-      return;
-    }
-    window.location.href = "dashboard.html";
-  });
-}
-</script>
+<script type="module" src="login.js"></script>
 </body>
 </html>

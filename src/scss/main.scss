@@ -27,13 +27,25 @@ $transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // ---- Base niceties ---------------------------------------------------------
+// overflow-x doit être posé sur <html> ET <body>, en préférant overflow-x:
+// clip à hidden : sur certains navigateurs mobiles, un élément positionné en
+// absolute directement enfant du <body> (ex. les bulles décoratives) reste
+// scriptable/glissable en horizontal malgré overflow-x:hidden — clip empêche
+// structurellement tout défilement. hidden reste en repli pour les anciens
+// navigateurs qui ne connaissent pas clip.
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 ::selection {
@@ -116,14 +128,16 @@ body {
 }
 
 // ---- Hero image carousel ---------------------------------------------------
+// 15 images partagent un même cycle de 60s (4s par image, avec un léger
+// fondu enchaîné à chaque transition).
 @keyframes carousel {
   0%,
-  20% {
+  5.17% {
     opacity: 1;
     visibility: visible;
   }
-  25%,
-  95% {
+  6.67%,
+  98.5% {
     opacity: 0;
     visibility: hidden;
   }
@@ -132,20 +146,13 @@ body {
     visibility: visible;
   }
 }
-.carousel-img-1 {
-  animation: carousel 20s infinite;
-}
-.carousel-img-2 {
-  animation: carousel 20s infinite -5s;
-  opacity: 0;
-}
-.carousel-img-3 {
-  animation: carousel 20s infinite -10s;
-  opacity: 0;
-}
-.carousel-img-4 {
-  animation: carousel 20s infinite -15s;
-  opacity: 0;
+@for $i from 1 through 15 {
+  .carousel-img-#{$i} {
+    animation: carousel 60s infinite #{($i - 1) * -4}s;
+    @if $i > 1 {
+      opacity: 0;
+    }
+  }
 }
 
 // ---- Nav ---------------------------------------------------------------
@@ -335,15 +342,27 @@ textarea.form-field {
   }
 }
 
+// ---- WhatsApp flottant --------------------------------------------------
+.whatsapp-float {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 40;
+}
+
 // ---- Bottom nav (mobile only) ----------------------------------------------
 // Reserves space so fixed content (footer, back-to-top, form toasts) never
-// hides behind the bar, and lifts the back-to-top button above it.
+// hides behind the bar, and lifts the back-to-top / WhatsApp buttons above it.
 @media (max-width: 767px) {
   body {
     padding-bottom: calc(64px + env(safe-area-inset-bottom));
   }
   .back-to-top {
     bottom: calc(64px + 16px + env(safe-area-inset-bottom));
+  }
+  .whatsapp-float {
+    bottom: calc(64px + 16px + env(safe-area-inset-bottom));
+    left: 16px;
   }
 }
 

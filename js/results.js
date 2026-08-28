@@ -65,13 +65,14 @@ const CATEGORY_META = {
 function renderStudentList(items) {
   return items
     .map((item, i) => {
+      const accent = RANK_ACCENTS[i % RANK_ACCENTS.length];
       const avatar = item.photo_url
-        ? `<img alt="${escapeHtml(item.student_name)}" class="w-20 h-20 rounded-xl object-cover shrink-0" src="${escapeHtml(item.photo_url)}" />`
-        : `<span class="w-20 h-20 rounded-xl bg-primary text-on-primary flex items-center justify-center font-headline-sm text-headline-sm shrink-0">${i + 1}</span>`;
+        ? `<img alt="${escapeHtml(item.student_name)}" class="w-16 h-16 rounded-xl object-cover shrink-0 border-2 border-white/40" src="${escapeHtml(item.photo_url)}" />`
+        : `<span class="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center font-headline-sm text-headline-sm shrink-0">${i + 1}</span>`;
       return `
-    <div class="flex items-center gap-4 bg-surface-container-low rounded-2xl pl-3 pr-5 py-3">
+    <div class="flex items-center gap-4 ${accent.chip} rounded-2xl pl-3 pr-5 py-3">
       ${avatar}
-      <span class="font-body-md text-body-md text-on-surface">${escapeHtml(item.student_name)}</span>
+      <span class="font-body-md text-body-md">${escapeHtml(item.student_name)}</span>
     </div>`;
     })
     .join("");

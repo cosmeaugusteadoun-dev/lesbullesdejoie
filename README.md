@@ -10,6 +10,7 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 ├── vie-scolaire.html         Journée type, activités extrascolaires, photos
 ├── activites-parascolaires.html  Détail de chaque activité parascolaire (texte + photos)
 ├── admissions.html           Étapes d'admission + pièces à fournir
+├── tarifs.html                Accès aux tarifs (formulaire nom + téléphone) puis détail complet des frais par classe
 ├── contact.html               Formulaire de contact, adresse, téléphone, horaires
 ├── galerie.html                Galerie photo filtrable + lightbox
 ├── resultats.html               Résultats & Distinctions (palmarès, félicitations, projets de classe)
@@ -20,7 +21,7 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 ├── 404.html                      Page d'erreur personnalisée
 ├── admin/
 │   ├── login.html                 Connexion (email/mot de passe Supabase, œil afficher/masquer)
-│   ├── dashboard.html              Statistiques, dossiers, témoignages, blog, enseignants, galerie, résultats, compte
+│   ├── dashboard.html              Statistiques, dossiers, messages, demandes tarifs, témoignages, blog, enseignants, galerie, résultats, compte
 │   └── admin.js
 ├── assets/images/               Logo + photos du site (optimisées pour le web)
 ├── src/
@@ -31,6 +32,7 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 │   ├── main.js                    Menu mobile, scroll reveal, lightbox (photo + vidéo), tarifs d'inscription (formulaire en 3 étapes)
 │   ├── inscription.js              Envoi du formulaire de pré-inscription (Netlify + Supabase + contact enseignant)
 │   ├── contact.js                  Envoi du formulaire de contact (Netlify + Supabase, visible dans l'admin)
+│   ├── tarifs.js                   Formulaire d'accès aux tarifs (Netlify + Supabase) puis révèle le détail des frais
 │   ├── article.js                  Charge et affiche un article complet depuis Supabase (aucun contenu codé en dur)
 │   ├── gallery.js                  Charge la galerie (photos/vidéos) depuis Supabase, dont "Vidéos par cycle"
 │   ├── results.js                  Charge la page Résultats & Distinctions depuis Supabase
@@ -49,7 +51,8 @@ Site HTML / Tailwind CSS / SCSS / JS vanilla pour l'école Les Bulles de Joie (c
 │   ├── migration_08_content_terms.sql            Corrige des articles publiés qui employaient des termes à éviter
 │   ├── migration_09_remove_demo_blog_posts.sql   Supprime les articles de démonstration installés par schema.sql
 │   ├── migration_10_class_recognition_photo.sql  Photo par élève sur les tableaux de résultats + suppression du palmarès du personnel
-│   └── migration_11_contact_messages.sql         Table des messages du formulaire de contact, visibles dans l'admin
+│   ├── migration_11_contact_messages.sql         Table des messages du formulaire de contact, visibles dans l'admin
+│   └── migration_12_pricing_requests.sql         Table des demandes d'accès aux tarifs, visibles dans l'admin
 ├── tailwind.config.js
 ├── netlify.toml
 └── package.json
@@ -92,6 +95,7 @@ Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 - consulter les **statistiques** de fréquentation (visites du jour, des 7 derniers jours, graphique en barres, répartition des dossiers par statut en donut) ;
 - suivre et mettre à jour l'état des **dossiers de pré-inscription** (Nouveau → Contacté → Visite planifiée → Accepté/Refusé), avec des boutons pour **répondre directement par email ou WhatsApp** au parent (message prérempli) ;
 - consulter les **messages envoyés depuis le formulaire de contact** du site, avec les mêmes boutons de réponse rapide (email, WhatsApp, ou un message WhatsApp prérempli pour planifier une visite) ;
+- consulter les **demandes d'accès aux tarifs** (nom + téléphone laissés sur `tarifs.html`), avec un bouton pour relancer directement par WhatsApp ;
 - gérer les **témoignages** et les **articles de blog** (extrait affiché sur la carte + texte complet affiché sur `article.html`, avec une **photo de couverture optionnelle envoyée directement depuis l'appareil** — sinon une icône par défaut est affichée) ;
 - renseigner le **contact de l'enseignant de chaque classe** — automatiquement montré au parent juste après l'envoi de sa pré-inscription ;
 - gérer la **galerie** (ajouter/dépublier/supprimer des photos et vidéos) ;
@@ -102,7 +106,7 @@ Depuis `/admin/login.html`, sans toucher au code, l'école peut :
 
 1. **Créer le projet** : sur [supabase.com](https://supabase.com), créez un compte puis un nouveau projet (gratuit).
 2. **Créer les tables** : dans le dashboard Supabase → *SQL Editor* → *New query* (un **onglet neuf et vide**, pour éviter d'accumuler d'anciens essais), collez tout le contenu de [`supabase/schema.sql`](supabase/schema.sql) et exécutez-le. Cela crée les 6 tables (`testimonials`, `blog_posts`, `teachers`, `inscriptions`, `page_views`, `gallery_items`), le bucket de stockage `gallery`, active la sécurité (RLS) et insère les contenus déjà présents sur le site en données de départ.
-   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql), [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql), [`migration_05_gallery_storage.sql`](supabase/migration_05_gallery_storage.sql), [`migration_06_blog_image.sql`](supabase/migration_06_blog_image.sql), [`migration_07_results.sql`](supabase/migration_07_results.sql), [`migration_08_content_terms.sql`](supabase/migration_08_content_terms.sql), [`migration_09_remove_demo_blog_posts.sql`](supabase/migration_09_remove_demo_blog_posts.sql), [`migration_10_class_recognition_photo.sql`](supabase/migration_10_class_recognition_photo.sql) puis [`migration_11_contact_messages.sql`](supabase/migration_11_contact_messages.sql) — sans dupliquer vos données déjà en place.
+   - *Si vous avez déjà exécuté une version précédente de ce script* : exécutez plutôt, dans l'ordre et chacun dans un onglet neuf, [`migration_02_inscriptions_teachers.sql`](supabase/migration_02_inscriptions_teachers.sql), [`migration_03_blog_content.sql`](supabase/migration_03_blog_content.sql), [`migration_04_stats_gallery.sql`](supabase/migration_04_stats_gallery.sql), [`migration_05_gallery_storage.sql`](supabase/migration_05_gallery_storage.sql), [`migration_06_blog_image.sql`](supabase/migration_06_blog_image.sql), [`migration_07_results.sql`](supabase/migration_07_results.sql), [`migration_08_content_terms.sql`](supabase/migration_08_content_terms.sql), [`migration_09_remove_demo_blog_posts.sql`](supabase/migration_09_remove_demo_blog_posts.sql), [`migration_10_class_recognition_photo.sql`](supabase/migration_10_class_recognition_photo.sql), [`migration_11_contact_messages.sql`](supabase/migration_11_contact_messages.sql) puis [`migration_12_pricing_requests.sql`](supabase/migration_12_pricing_requests.sql) — sans dupliquer vos données déjà en place.
 3. **Créer votre compte admin** : *Authentication → Users → Add user*, renseignez l'email et le mot de passe qui serviront à vous connecter sur `/admin/login.html`. C'est la seule "porte" : sans compte créé ici, personne ne peut modifier le contenu, même en connaissant les clés du site. Vous pourrez changer ce mot de passe à tout moment depuis l'onglet *Mon compte* du tableau de bord.
 4. **Récupérer les identifiants** : *Project Settings → API*, copiez **Project URL** et la clé **anon / public**.
 5. **Configurer le site** : ouvrez [`js/supabase-config.js`](js/supabase-config.js) et remplacez les deux valeurs par celles de votre projet.

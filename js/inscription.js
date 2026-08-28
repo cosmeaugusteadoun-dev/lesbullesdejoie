@@ -25,6 +25,12 @@ const CLASS_LABELS = {
   cm1: "CM1",
 };
 
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str ?? "";
+  return div.innerHTML;
+}
+
 const form = document.querySelector("[data-inscription-form]");
 if (form) {
   const status = form.parentElement.querySelector("[data-form-status]");
@@ -85,11 +91,11 @@ if (form) {
     if (teacher && (teacher.phone || teacher.email)) {
       teacherBox.innerHTML = `
         <p class="font-label-md text-label-md text-primary mb-1">Contact de l'enseignant(e) — ${CLASS_LABELS[cycle] || ""}</p>
-        <p class="font-body-md text-body-md text-on-surface">${teacher.teacher_name}</p>
+        <p class="font-body-md text-body-md text-on-surface">${escapeHtml(teacher.teacher_name)}</p>
         <p class="font-body-md text-[14px] text-on-surface-variant mt-1">
-          ${teacher.phone ? `<a class="hover:text-primary" href="tel:${teacher.phone.replace(/\s+/g, "")}">${teacher.phone}</a>` : ""}
+          ${teacher.phone ? `<a class="hover:text-primary" href="tel:${escapeHtml(teacher.phone.replace(/\s+/g, ""))}">${escapeHtml(teacher.phone)}</a>` : ""}
           ${teacher.phone && teacher.email ? " · " : ""}
-          ${teacher.email ? `<a class="hover:text-primary" href="mailto:${teacher.email}">${teacher.email}</a>` : ""}
+          ${teacher.email ? `<a class="hover:text-primary" href="mailto:${escapeHtml(teacher.email)}">${escapeHtml(teacher.email)}</a>` : ""}
         </p>
         <p class="font-body-md text-[13px] text-on-surface-variant mt-2">N'hésitez pas à le/la contacter pour toute question sur cette classe.</p>`;
       teacherBox.classList.remove("hidden");

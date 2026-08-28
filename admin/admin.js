@@ -592,6 +592,71 @@ async function loadContactMessages() {
   });
 }
 
+// ---- Demandes tarifs ---------------------------------------------------------
+const pricingRequestsList = document.getElementById("pricing-requests-list");
+
+function pricingRequestWhatsAppLink(r) {
+  const text = `Bonjour ${r.full_name} ! Ici Les Bulles de Joie 🎈 Merci pour votre demande d'informations sur nos tarifs. Voici le détail : ${window.location.origin}/tarifs.html — n'hésitez pas si vous avez des questions.`;
+  return `https://wa.me/${toWhatsAppNumber(r.phone)}?text=${encodeURIComponent(text)}`;
+}
+
+async function loadPricingRequests() {
+  pricingRequestsList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>`;
+  const { data, error } = await supabase.from("pricing_requests").select("*").order("created_at", { ascending: false });
+
+  if (error) {
+    pricingRequestsList.innerHTML = `<p class="font-body-md text-body-md text-error">Erreur de chargement : ${escapeHtml(error.message)}</p>`;
+    return;
+  }
+  if (!data.length) {
+    pricingRequestsList.innerHTML = `<p class="font-body-md text-body-md text-on-surface-variant">Aucune demande pour le moment.</p>`;
+    return;
+  }
+
+  pricingRequestsList.innerHTML = data
+    .map(
+      (r) => `
+    <div class="bg-surface-container-low rounded-2xl p-6 shadow-sm max-w-3xl">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="min-w-0">
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span class="inline-block px-3 py-1 rounded-full text-[12px] font-label-md ${r.handled ? "bg-secondary-container text-on-secondary-container" : "bg-primary-container text-on-primary-container"}">${r.handled ? "Traité" : "Nouveau"}</span>
+            <span class="font-body-md text-[13px] text-on-surface-variant">${formatDateTimeFr(r.created_at)}</span>
+          </div>
+          <p class="font-label-md text-label-md text-on-surface">${escapeHtml(r.full_name)}</p>
+          <p class="font-body-md text-[14px] text-on-surface-variant mt-1"><a class="hover:text-primary" href="tel:${escapeHtml(r.phone)}">${escapeHtml(r.phone)}</a></p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <a aria-label="Relancer par WhatsApp" class="w-10 h-10 rounded-full border border-outline-variant/50 flex items-center justify-center text-on-surface-variant hover:bg-surface hover:text-secondary" href="${pricingRequestWhatsAppLink(r)}" rel="noopener" target="_blank" title="Relancer par WhatsApp">
+            ${WHATSAPP_ICON_SVG}
+          </a>
+          <button aria-label="Supprimer cette demande" class="w-10 h-10 rounded-full border border-error/40 text-error flex items-center justify-center hover:bg-error-container" data-delete-pricing-request="${r.id}" title="Supprimer cette demande" type="button">
+            <span class="material-symbols-outlined text-[20px]">delete</span>
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 pt-4 mt-4 border-t border-outline-variant/30">
+        <button class="px-4 py-2 rounded-full border border-outline-variant/50 font-label-md text-[13px] hover:bg-surface" data-toggle-pricing-request="${r.id}" data-handled="${r.handled}" type="button">${r.handled ? "Marquer non traité" : "Marquer traité"}</button>
+      </div>
+    </div>`
+    )
+    .join("");
+
+  data.forEach((r) => {
+    document.querySelector(`[data-toggle-pricing-request="${r.id}"]`).addEventListener("click", async (e) => {
+      const nowHandled = e.currentTarget.getAttribute("data-handled") !== "true";
+      await supabase.from("pricing_requests").update({ handled: nowHandled }).eq("id", r.id);
+      loadPricingRequests();
+    });
+
+    document.querySelector(`[data-delete-pricing-request="${r.id}"]`).addEventListener("click", async () => {
+      if (!confirm("Supprimer définitivement cette demande ?")) return;
+      await supabase.from("pricing_requests").delete().eq("id", r.id);
+      loadPricingRequests();
+    });
+  });
+}
+
 // ---- Enseignants --------------------------------------------------------
 const teacherForm = document.getElementById("teacher-form");
 const teachersList = document.getElementById("teachers-list");
@@ -1221,6 +1286,7 @@ document.querySelectorAll("[data-cancel-form]").forEach((btn) => {
 loadStats();
 loadInscriptions();
 loadContactMessages();
+loadPricingRequests();
 loadTestimonials();
 loadBlogPosts();
 loadTeachers();

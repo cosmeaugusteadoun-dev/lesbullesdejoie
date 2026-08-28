@@ -62,6 +62,9 @@ Déconnexion
 <button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="messages" type="button">
 <span class="material-symbols-outlined text-[18px] align-middle mr-1">mail</span>Messages
 </button>
+<button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="pricing-requests" type="button">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1">request_quote</span>Demandes tarifs
+</button>
 <button class="admin-tab-btn px-6 py-3 rounded-full font-label-md text-label-md bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200" data-tab="testimonials" type="button">
 <span class="material-symbols-outlined text-[18px] align-middle mr-1">format_quote</span>Témoignages
 </button>
@@ -140,6 +143,15 @@ Déconnexion
 <h2 class="font-headline-md text-headline-md text-on-surface mb-2">Messages de contact</h2>
 <p class="font-body-md text-body-md text-on-surface-variant mb-8">Messages envoyés depuis le formulaire de contact du site.</p>
 <div class="grid grid-cols-1 gap-4" id="contact-messages-list" data-loading>
+<p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
+</div>
+</section>
+
+<!-- ===== Demandes tarifs ===== -->
+<section class="admin-tab-panel hidden" data-tab-panel="pricing-requests">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Demandes tarifs</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Personnes ayant rempli le formulaire d'accès aux tarifs sur la page "Tarifs" du site.</p>
+<div class="grid grid-cols-1 gap-4" id="pricing-requests-list" data-loading>
 <p class="font-body-md text-body-md text-on-surface-variant">Chargement…</p>
 </div>
 </section>
