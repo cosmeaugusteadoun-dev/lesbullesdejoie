@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /design/
 
-Sitemap: https://www.lesbullesdejoies.com/sitemap.xml
+Sitemap: https://lesbullesdejoie-benin.com/sitemap.xml
